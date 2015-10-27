@@ -18,6 +18,10 @@ public abstract class Entity {
     int _width, _height;
     static Random _rand;
 
+    public Entity () {
+        _position = new Vector2(0, 0);
+    }
+
     public Entity (Vector2 position, int width, int height) {
         _position = position;
         _width = width;
@@ -26,6 +30,31 @@ public abstract class Entity {
 
     public Entity (int x, int y, int width, int height) {
         this(new Vector2(x, y), width, height);
+    }
+
+    public int getWidth () {
+        return _width;
+    }
+
+    public int getHeight () {
+        return _height;
+    }
+
+    public Vector2 getPosition () {
+        return _position;
+    }
+
+    public boolean moveToPosition (Vector2 position, float deltaTime) {
+        _position.lerp(position, 0.1f * deltaTime);
+        if (_position.equals(position)){
+            return false;
+        }
+        return true;
+    }
+
+    public void moveToPosition (Vector2 position)
+    {
+        _position.set(position);
     }
 
     public abstract void update (float deltaTime);
