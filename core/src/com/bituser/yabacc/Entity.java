@@ -26,6 +26,7 @@ public abstract class Entity {
         _position = position;
         _width = width;
         _height = height;
+        _rect = new Rectangle(_position.x, _position.y, _width, _height);
     }
 
     public Entity (int x, int y, int width, int height) {
@@ -52,6 +53,10 @@ public abstract class Entity {
         return true;
     }
 
+    public void moveToPosition (float x, float y) {
+        _position.set(x, y);
+    }
+
     public void moveToPosition (Vector2 position)
     {
         _position.set(position);
@@ -60,4 +65,6 @@ public abstract class Entity {
     public abstract void update (float deltaTime);
 
     public abstract void render (ShapeRenderer shapeRenderer);
+
+    public abstract void render (SpriteBatch batch);
 }
