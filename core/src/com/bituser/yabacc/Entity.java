@@ -22,6 +22,11 @@ public abstract class Entity {
         _position = new Vector2(0, 0);
     }
 
+    public Entity (float x, float y) {
+        this();
+        _position.set(x, y);
+    }
+
     public Entity (Vector2 position, int width, int height) {
         _position = position;
         _width = width;
@@ -46,7 +51,7 @@ public abstract class Entity {
     }
 
     public boolean moveToPosition (Vector2 position, float deltaTime) {
-        _position.lerp(position, 0.1f * deltaTime);
+        _position.lerp(position, 8f *  deltaTime);
         if (_position.equals(position)){
             return false;
         }

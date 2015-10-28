@@ -14,7 +14,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 
 public class Card extends Entity {
-    int _cardValue = 1;
+    int _value = 1;
 
     boolean _isActive = false, _isSelected = false, _isPlayed = false;
 
@@ -22,23 +22,29 @@ public class Card extends Entity {
 
     BitmapFont _font = null;
 
-    public Card () {
-        this(new Vector2(0, 0));
+    public Card (int value, BitmapFont font) {
+        this(new Vector2(0, 0), value, font);
     }
 
     // Main constructor
-    public Card (Vector2 position) {
+    public Card (Vector2 position, int value, BitmapFont font) {
         super(position, 100, 150);
         _color.a = 0.5f;
         _colorActive.a = 0.5f;
+        _value = value;
+        _font = font;
     }
 
-    public Card (int x, int y) {
-        this(new Vector2(x, y));
+    public Card (float x, float y, int value, BitmapFont font) {
+        this(new Vector2(x, y), value, font);
     }
 
     public int getValue () {
-        return _cardValue;
+        return _value;
+    }
+
+    public boolean isSelected () {
+        return _isSelected;
     }
 
     public void setFont (BitmapFont font) {
@@ -73,14 +79,11 @@ public class Card extends Entity {
        if (_isSelected) { 
            moveToPosition(x, y); 
        }
-
-       System.out.println(_isSelected + " " + button);
    }
 
    public void touchUp (float x, float y, int pointer, int button) {
        if(button == 0) {
            _isSelected = false;
-           System.out.println(_isSelected + " " + button);
        }
    }
 
@@ -122,7 +125,7 @@ public class Card extends Entity {
     public void render (SpriteBatch batch) {
         if(_font != null)
         {
-            _font.draw(batch, String.valueOf(_cardValue), _position.x - 6, _position.y + 9);
+            _font.draw(batch, String.valueOf(_value), _position.x - 6, _position.y + 9);
         }
     }
 }

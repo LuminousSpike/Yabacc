@@ -18,7 +18,7 @@ public class Yabacc extends ApplicationAdapter {
 	ShapeRenderer shapeRenderer;
 	OrthographicCamera camera;
 	Texture img;
-	Card card;
+	Hand hand;
 	
 	@Override
 	public void create () {
@@ -26,8 +26,6 @@ public class Yabacc extends ApplicationAdapter {
 		shapeRenderer = new ShapeRenderer();
 		camera= new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		img = new Texture("badlogic.jpg");
-		card = new Card(0, 0);
-		card.moveToPosition(200, 200);
 
 		// font
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Folks-Normal.ttf"));
@@ -38,7 +36,10 @@ public class Yabacc extends ApplicationAdapter {
 		parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS;
 		BitmapFont cyrillicFont = generator.generateFont(parameter);
 		generator.dispose();
-		card.setFont(cyrillicFont);
+		hand = new Hand(200, 200);
+		hand.addCard(new Card(1, cyrillicFont));
+		hand.addCard(new Card(5, cyrillicFont));
+		hand.addCard(new Card(13, cyrillicFont));
 		
 
 		Gdx.input.setInputProcessor(new InputAdapter () {
@@ -46,7 +47,7 @@ public class Yabacc extends ApplicationAdapter {
 		    public boolean touchDown (int x, int y, int pointer, int button) {
 		        Vector3 input = new Vector3(x, y, 0);
 		        camera.unproject(input);
-		        card.touchDown(input.x, input.y, pointer, button);
+		        hand.touchDown(input.x, input.y, pointer, button);
 		        return true;
             }
 
@@ -54,14 +55,14 @@ public class Yabacc extends ApplicationAdapter {
             public boolean touchUp (int x, int y, int pointer, int button) {
 		        Vector3 input = new Vector3(x, y, 0);
 		        camera.unproject(input);
-		        card.touchUp(input.x, input.y, pointer, button);
+		        hand.touchUp(input.x, input.y, pointer, button);
 		        return true;
             }
             @Override
             public boolean touchDragged (int x, int y, int pointer) {
 		        Vector3 input = new Vector3(x, y, 0);
 		        camera.unproject(input);
-                card.touchDragged(input.x, input.y, pointer);
+                hand.touchDragged(input.x, input.y, pointer);
                 return true;
             }
 
@@ -69,7 +70,7 @@ public class Yabacc extends ApplicationAdapter {
 		    public boolean mouseMoved (int x, int y) {
 		        Vector3 input = new Vector3(x, y, 0);
 		        camera.unproject(input);
-		        card.mouseMoved(input.x, input.y);
+		        hand.mouseMoved(input.x, input.y);
 		        return true;
             }
     	} );
@@ -77,6 +78,7 @@ public class Yabacc extends ApplicationAdapter {
 
 	@Override
 	public void render () {
+	    hand.update(Gdx.graphics.getDeltaTime());
 	    camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		// Fills the screen with corn flour blue
 		Gdx.gl.glClearColor(0.392156863f, 0.584313725f, 0.929411765f, 1f);
@@ -85,10 +87,10 @@ public class Yabacc extends ApplicationAdapter {
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-		card.render(shapeRenderer);
+		hand.render(shapeRenderer);
 		shapeRenderer.end();
 		batch.begin();
-		card.render(batch);
+		hand.render(batch);
 		batch.end();
 	}
 }
