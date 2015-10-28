@@ -43,9 +43,6 @@ public class Card extends Entity {
         return _value;
     }
 
-    public boolean isSelected () {
-        return _isSelected;
-    }
 
     public void setFont (BitmapFont font) {
         _font = font;
@@ -74,16 +71,18 @@ public class Card extends Entity {
         return _rect.contains(x, y);
    }
 
-   public void touchDown (float x, float y, int pointer, int button) {
+   public boolean touchDown (float x, float y, int pointer, int button) {
        _isSelected = (contains(x, y) && button == 0);
        if (_isSelected) { 
            moveToPosition(x, y); 
        }
+       return _isSelected;
    }
 
    public void touchUp (float x, float y, int pointer, int button) {
        if(button == 0) {
            _isSelected = false;
+           _isActive = false;
        }
    }
 
@@ -93,8 +92,9 @@ public class Card extends Entity {
        }
    }
 
-   public void mouseMoved (float x, float y) {
+   public boolean mouseMoved (float x, float y) {
        _isActive = contains(x, y);
+       return _isActive;
    }
 
     @Override

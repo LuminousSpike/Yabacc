@@ -17,9 +17,11 @@ import java.util.*;
 public class Hand extends Entity {
     List<Card> _heldCards = new ArrayList<Card>();
 
-    Card _currentCard = null, _selectedCard = null;
+    Card _activeCard = null, _selectedCard = null;
 
-    boolean _mouseLeft = false, _repositionCards = false;
+    boolean _repositionCards = false;
+
+    Vector2 _mousePos = new Vector2(0,0);
 
     final int CARD_SPACING = 10;
 
@@ -52,12 +54,9 @@ public class Hand extends Entity {
     }
 
     public void touchDown (float x, float y, int pointer, int button) {
-        for (Card card : _heldCards) {
-            card.touchDown(x, y, pointer, button);
-            if (card.isSelected()) {
-                _selectedCard = card;
-                break;
-            }
+        if (_activeCard != null) {
+            _selectedCard = _activeCard;
+            _selectedCard.touchDown(x, y, pointer, button);
         }
    }
 
@@ -70,15 +69,14 @@ public class Hand extends Entity {
      }
 
      public void touchDragged (float x, float y, int pointer) {
-        for (Card card : _heldCards) {
-            card.touchDragged(x, y, pointer);
+        _mousePos.set(x, y);
+        if (_selectedCard != null) {
+            _selectedCard.touchDragged(x, y, pointer);
         }
      }
 
      public void mouseMoved (float x, float y) {
-        for (Card card : _heldCards) {
-            card.mouseMoved(x, y);
-        }
+        _mousePos.set(x, y);
      }
 
     private Vector2 calculateCardPosition (Card card, int placeInHand) {
@@ -113,6 +111,17 @@ public class Hand extends Entity {
     public void update (float deltaTime) {
         if(_repositionCards) {
             _repositionCards = repositionCards(deltaTime);
+        }
+        
+        for (Card card : _heldCards) {
+            if (_selectedCard == null) {
+                if (_activeCard == null && card.mouseMoved(_mousePos.x, _mousePos.y)) {
+                    _activeCard = card;
+                }
+                else if (_activeCard != null && _activeCard.mouseMoved(_mousePos.x, _mousePos.y) == false) {
+                    _activeCard = null;
+                }
+            }
         }
     }
 

@@ -89,6 +89,7 @@ public class Yabacc extends ApplicationAdapter {
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 		hand.render(shapeRenderer);
 		shapeRenderer.end();
+		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		hand.render(batch);
 		batch.end();
