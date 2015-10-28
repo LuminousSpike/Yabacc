@@ -54,6 +54,7 @@ public class Hand extends Entity {
     }
 
     public void touchDown (float x, float y, int pointer, int button) {
+         setActiveCard(x, y);
         if (_activeCard != null) {
             _selectedCard = _activeCard;
             _selectedCard.touchDown(x, y, pointer, button);
@@ -61,6 +62,7 @@ public class Hand extends Entity {
    }
 
      public void touchUp (float x, float y, int pointer, int button) {
+         setActiveCard(x, y);
         for (Card card : _heldCards) {
             card.touchUp(x, y, pointer, button);
         }
@@ -107,22 +109,26 @@ public class Hand extends Entity {
         return cardsMoved;
     }
 
+    private void setActiveCard (float x, float y) {
+        for (Card card : _heldCards) {
+            if (_selectedCard == null) {
+                if (_activeCard == null && card.mouseMoved(x, y)) {
+                    _activeCard = card;
+                }
+                else if (_activeCard != null && _activeCard.mouseMoved(x, y) == false) {
+                    _activeCard = null;
+                }
+            }
+        }
+    }   
+
     @Override
     public void update (float deltaTime) {
         if(_repositionCards) {
             _repositionCards = repositionCards(deltaTime);
         }
-        
-        for (Card card : _heldCards) {
-            if (_selectedCard == null) {
-                if (_activeCard == null && card.mouseMoved(_mousePos.x, _mousePos.y)) {
-                    _activeCard = card;
-                }
-                else if (_activeCard != null && _activeCard.mouseMoved(_mousePos.x, _mousePos.y) == false) {
-                    _activeCard = null;
-                }
-            }
-        }
+       
+        setActiveCard(_mousePos.x, _mousePos.y);
     }
 
     @Override
