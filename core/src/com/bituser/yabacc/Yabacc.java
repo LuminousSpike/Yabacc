@@ -37,8 +37,8 @@ public class Yabacc extends ApplicationAdapter {
 		parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS;
 		BitmapFont cyrillicFont = generator.generateFont(parameter);
 		generator.dispose();
-		hand = new Hand(200, 200);
-		deck = new DropletDeck(500, 400, cyrillicFont);
+		hand = new Hand(Gdx.graphics.getWidth() / 2 - (50 * 8), 85);
+		deck = new DropletDeck(Gdx.graphics.getWidth() - 60, Gdx.graphics.getHeight() / 2, cyrillicFont);
 		
 		for (int i = 0; i < 8; i++) {
 		    hand.addCard(deck.getCard());
