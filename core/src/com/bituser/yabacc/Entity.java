@@ -27,14 +27,14 @@ public abstract class Entity {
         _position.set(x, y);
     }
 
-    public Entity (Vector2 position, int width, int height) {
+    public Entity (Vector2 position, float width, float height) {
         _position = position;
         _width = width;
         _height = height;
         _rect = new Rectangle(_position.x, _position.y, _width, _height);
     }
 
-    public Entity (int x, int y, int width, int height) {
+    public Entity (float x, float y, float width, float height) {
         this(new Vector2(x, y), width, height);
     }
 
