@@ -22,21 +22,22 @@ public class Card extends Entity {
 
     BitmapFont _font = null;
 
-    public Card (int value, BitmapFont font) {
-        this(new Vector2(0, 0), value, font);
+    public Card (int value, Color suite, BitmapFont font) {
+        this(new Vector2(0, 0), suite, value, font);
     }
 
     // Main constructor
-    public Card (Vector2 position, int value, BitmapFont font) {
+    public Card (Vector2 position, Color suite, int value, BitmapFont font) {
         super(position, 100, 150);
+        _color = suite;
         _color.a = 0.5f;
         _colorActive.a = 0.5f;
         _value = value;
         _font = font;
     }
 
-    public Card (float x, float y, int value, BitmapFont font) {
-        this(new Vector2(x, y), value, font);
+    public Card (float x, float y, Color suite, int value, BitmapFont font) {
+        this(new Vector2(x, y), suite, value, font);
     }
 
     public int getValue () {
@@ -95,6 +96,11 @@ public class Card extends Entity {
    public boolean mouseMoved (float x, float y) {
        _isActive = contains(x, y);
        return _isActive;
+   }
+
+   @Override
+   public String toString () {
+       return "Color: " + _color.toString() + ", Value: " + _value;
    }
 
     @Override

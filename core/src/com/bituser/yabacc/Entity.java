@@ -16,7 +16,7 @@ public abstract class Entity {
     Rectangle _rect;
     Color _color = Color.BLACK;
     float _width, _height;
-    static Random _rand;
+    static Random _rand = new Random();
 
     public Entity () {
         _position = new Vector2(0, 0);

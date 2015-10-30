@@ -19,6 +19,7 @@ public class Yabacc extends ApplicationAdapter {
 	OrthographicCamera camera;
 	Texture img;
 	Hand hand;
+	DropletDeck deck;
 	
 	@Override
 	public void create () {
@@ -37,10 +38,11 @@ public class Yabacc extends ApplicationAdapter {
 		BitmapFont cyrillicFont = generator.generateFont(parameter);
 		generator.dispose();
 		hand = new Hand(200, 200);
-		hand.addCard(new Card(1, cyrillicFont));
-		hand.addCard(new Card(5, cyrillicFont));
-		hand.addCard(new Card(13, cyrillicFont));
+		deck = new DropletDeck(500, 400, cyrillicFont);
 		
+		for (int i = 0; i < 8; i++) {
+		    hand.addCard(deck.getCard());
+        }
 
 		Gdx.input.setInputProcessor(new InputAdapter () {
 		    @Override
@@ -78,6 +80,7 @@ public class Yabacc extends ApplicationAdapter {
 
 	@Override
 	public void render () {
+	    deck.update(Gdx.graphics.getDeltaTime());
 	    hand.update(Gdx.graphics.getDeltaTime());
 	    camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		// Fills the screen with corn flour blue
@@ -87,10 +90,12 @@ public class Yabacc extends ApplicationAdapter {
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+		deck.render(shapeRenderer);
 		hand.render(shapeRenderer);
 		shapeRenderer.end();
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
+		deck.render(batch);
 		hand.render(batch);
 		batch.end();
 	}
