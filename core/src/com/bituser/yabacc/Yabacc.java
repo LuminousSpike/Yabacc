@@ -20,6 +20,7 @@ public class Yabacc extends ApplicationAdapter {
 	Texture img;
 	Hand hand;
 	DropletDeck deck;
+	Bag bag;
 	
 	@Override
 	public void create () {
@@ -37,8 +38,13 @@ public class Yabacc extends ApplicationAdapter {
 		parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS;
 		BitmapFont cyrillicFont = generator.generateFont(parameter);
 		generator.dispose();
-		hand = new Hand(Gdx.graphics.getWidth() / 2 - (50 * 8), 85);
-		deck = new DropletDeck(Gdx.graphics.getWidth() - 60, Gdx.graphics.getHeight() / 2, cyrillicFont);
+
+		float width = Gdx.graphics.getWidth();
+		float height = Gdx.graphics.getHeight();
+
+		hand = new Hand(width / 2 - (50 * 8), 85);
+		deck = new DropletDeck(width - 60, height / 2, cyrillicFont);
+		bag = new Bag(width - 200, height / 2, cyrillicFont);
 		
 		for (int i = 0; i < 8; i++) {
 		    hand.addCard(deck.getCard());
@@ -91,11 +97,13 @@ public class Yabacc extends ApplicationAdapter {
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 		deck.render(shapeRenderer);
+		bag.render(shapeRenderer);
 		hand.render(shapeRenderer);
 		shapeRenderer.end();
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		deck.render(batch);
+		bag.render(batch);
 		hand.render(batch);
 		batch.end();
 	}

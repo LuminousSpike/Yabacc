@@ -17,6 +17,10 @@ public class Token extends Entity {
         _color = color;
     }
 
+    public Token (Vector2 position, Color color) {
+        this(position.x, position.y, color);
+    }
+
     @Override
     public void update (float deltaTime) {
 
