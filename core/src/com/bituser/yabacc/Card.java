@@ -49,10 +49,6 @@ public class Card extends Entity {
         _font = font;
     }
 
-   public boolean compareColor (Color color) {
-       return _color == color;
-   }
-
    public void placeDown () {
        _isSelected = false;
        _isActive = false;

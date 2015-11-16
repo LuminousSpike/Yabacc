@@ -50,6 +50,10 @@ public abstract class Entity {
         return _position;
     }
 
+   public boolean compareColor (Color color) {
+       return _color == color;
+   }
+
     public boolean moveToPosition (Vector2 position, float deltaTime) {
         _position.lerp(position, 8f *  deltaTime);
         if (_position.equals(position)){
