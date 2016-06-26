@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2; 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Color;
@@ -44,7 +44,6 @@ public class Card extends Entity {
         return _value;
     }
 
-
     public void setFont (BitmapFont font) {
         _font = font;
     }
@@ -70,8 +69,8 @@ public class Card extends Entity {
 
    public boolean touchDown (float x, float y, int pointer, int button) {
        _isSelected = (contains(x, y) && button == 0);
-       if (_isSelected) { 
-           moveToPosition(x, y); 
+       if (_isSelected) {
+           moveToPosition(x, y);
        }
        return _isSelected;
    }
