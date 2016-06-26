@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import java.util.*;
 
 public class Tile extends EntityCollection {
@@ -19,9 +20,11 @@ public class Tile extends EntityCollection {
 
     Bag _bag;
 
+    BitmapFont _font;
+
     ArrayList<Token> _tokens = new ArrayList<Token>(), _newTokens = new ArrayList<Token>();
 
-    public Tile (float x, float y, Color color, int tileNumber, Bag bagOfTokens) {
+    public Tile (float x, float y, Color color, int tileNumber, Bag bagOfTokens, BitmapFont font) {
         super(x, y, 100, 100);
         _color = color;
 
@@ -32,6 +35,8 @@ public class Tile extends EntityCollection {
         _rightSide = new TileSide(_position.x + _width, _position.y, Color.RED, this, TileSide.TileSide_Side.Right);
 
         _bag = bagOfTokens;
+
+        _font = font;
 
         getTokensFromBag(_bag);
     }
@@ -98,13 +103,35 @@ public class Tile extends EntityCollection {
 
     @Override
     public void render (ShapeRenderer shapeRenderer) {
+        if (_isFlipped) {
+            _color = Color.BLUE;
+        }
+
         shapeRenderer.setColor(_color);
         shapeRenderer.rect(_rect.x, _rect.y, _width, _height);
+
+        _leftSide.render(shapeRenderer);
+        _rightSide.render(shapeRenderer);
+
+        for(Token token : _tokens) {
+            token.render(shapeRenderer);
+        }
     }
 
     @Override
     public void render (SpriteBatch batch) {
+        if(_font != null)
+        {
+            float textPosX = 0;
 
+            if (_tileNumber % 2 == 0) {
+                textPosX = _position.x;
+            }
+            else {
+                textPosX = _position.x + _width - _width / 6;
+            }
+            _font.draw(batch, String.valueOf(_tileNumber), textPosX - 5, _position.y + 25);
+        }
     }
 
     private boolean getTokensFromBag(Bag bag) {
@@ -127,7 +154,7 @@ public class Tile extends EntityCollection {
             int nextX = (int)_position.x + 5 + (int)((token.getWidth() + 5) * tokenPostition);
             int nextY = (int)_position.y + (int)(_height / 3);
 
-            if (token.moveToPosition(new Vector2(nextX, nextY), deltaTime)) {
+            if (!token.moveToPosition(new Vector2(nextX, nextY), deltaTime)) {
                 tokenPlaced = token;
             }
         }
