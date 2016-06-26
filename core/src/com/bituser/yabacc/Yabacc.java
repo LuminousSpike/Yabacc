@@ -8,10 +8,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Vector3; 
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.graphics.Color;
 
 public class Yabacc extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -21,7 +22,8 @@ public class Yabacc extends ApplicationAdapter {
 	Hand hand;
 	DropletDeck deck;
 	Bag bag;
-	
+	Tile tile;
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -45,7 +47,8 @@ public class Yabacc extends ApplicationAdapter {
 		hand = new Hand(width / 2 - (50 * 8), 85);
 		deck = new DropletDeck(width - 60, height / 2, cyrillicFont);
 		bag = new Bag(width - 200, height / 2, cyrillicFont);
-		
+		tile = new Tile(width / 2, height / 2, Color.WHITE, 3, bag, cyrillicFont);
+
 		for (int i = 0; i < 8; i++) {
 		    hand.addCard(deck.getCard());
         }
@@ -87,6 +90,7 @@ public class Yabacc extends ApplicationAdapter {
 	@Override
 	public void render () {
 	    deck.update(Gdx.graphics.getDeltaTime());
+	    tile.update(Gdx.graphics.getDeltaTime());
 	    hand.update(Gdx.graphics.getDeltaTime());
 	    camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		// Fills the screen with corn flour blue
@@ -98,12 +102,14 @@ public class Yabacc extends ApplicationAdapter {
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 		deck.render(shapeRenderer);
 		bag.render(shapeRenderer);
+		tile.render(shapeRenderer);
 		hand.render(shapeRenderer);
 		shapeRenderer.end();
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		deck.render(batch);
 		bag.render(batch);
+		tile.render(batch);
 		hand.render(batch);
 		batch.end();
 	}
