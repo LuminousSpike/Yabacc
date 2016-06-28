@@ -58,6 +58,8 @@ public class TileSide extends EntityCollection {
         return cards;
     }
 
+    public Rectangle getRect () { return _rect; }
+
     public boolean addCard (Card card) {
         if (_parent.cardMatchesColor(card) && !haveCardsOfWantedColor(card.getColor())) {
             _cards.add(card);

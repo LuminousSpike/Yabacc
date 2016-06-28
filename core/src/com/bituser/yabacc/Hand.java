@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2; 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Color;
@@ -33,41 +33,51 @@ public class Hand extends Entity {
         return _heldCards.size();
     }
 
+    public Card getSelectedCard () { return _selectedCard; }
+
     public void addCard (Card card) {
         _heldCards.add(card);
         _repositionCards = true;
     }
 
-    public void addCards (Card[] cards) {
+    public void addCards (ArrayList<Card> cards) {
         for (Card card : cards) {
             addCard(card);
         }
     }
 
-    public Card playCard () { 
+    public void remove (Card card) {
+        _heldCards.remove(card);
+        _selectedCard = null;
+        _repositionCards = true;
+    }
+
+    public Card playCard () {
         Card card = _selectedCard;
         _heldCards.remove(card);
         _selectedCard = null;
         _repositionCards = true;
-        
+
         return card;
     }
 
-    public void touchDown (float x, float y, int pointer, int button) {
+    public Card touchDown (float x, float y, int pointer, int button) {
          setActiveCard(x, y);
         if (_activeCard != null) {
             _selectedCard = _activeCard;
             _selectedCard.touchDown(x, y, pointer, button);
         }
+        return _activeCard;
    }
 
-     public void touchUp (float x, float y, int pointer, int button) {
+     public Card touchUp (float x, float y, int pointer, int button) {
          setActiveCard(x, y);
         for (Card card : _heldCards) {
             card.touchUp(x, y, pointer, button);
         }
         _repositionCards = true;
         _selectedCard = null;
+        return _activeCard;
      }
 
      public void touchDragged (float x, float y, int pointer) {
@@ -120,14 +130,14 @@ public class Hand extends Entity {
                 }
             }
         }
-    }   
+    }
 
     @Override
     public void update (float deltaTime) {
         if(_repositionCards) {
             _repositionCards = repositionCards(deltaTime);
         }
-       
+
         setActiveCard(_mousePos.x, _mousePos.y);
     }
 

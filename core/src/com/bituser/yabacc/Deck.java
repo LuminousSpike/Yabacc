@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2; 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Color;
@@ -18,7 +18,7 @@ public abstract class Deck extends Entity {
     List<Card> _cards = new ArrayList<Card>();
 
     public Deck (float x, float y, float width, float height) {
-        super(x, y, width, height); 
+        super(x, y, width, height);
         _color = Color.GREEN;
     }
 
@@ -44,7 +44,7 @@ public abstract class Deck extends Entity {
         _cards.add(card);
     }
 
-    public void addCards (Card[] cards) {
+    public void addCards (ArrayList<Card> cards) {
         for(Card card : cards) {
             addCard(card);
         }

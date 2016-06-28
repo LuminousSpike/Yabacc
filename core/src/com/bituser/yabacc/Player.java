@@ -36,6 +36,8 @@ public class Player extends Entity {
 
     public int getTropyCardCount () { return _trophyHand.getCardCount(); }
 
+    public Card getSelectedCard () { return _hand.getSelectedCard(); }
+
     public void add (Card card) {
         _hand.addCard(card);
     }

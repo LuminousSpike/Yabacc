@@ -44,6 +44,8 @@ public class Card extends Entity {
         return _value;
     }
 
+    public boolean isPlayed () { return _isPlayed; }
+
     public void setFont (BitmapFont font) {
         _font = font;
     }
