@@ -28,7 +28,7 @@ public class Card extends Entity {
 
     // Main constructor
     public Card (Vector2 position, Color suite, int value, BitmapFont font) {
-        super(position, 100, 150);
+        super(position, 60, 90);
         _color = suite;
         _color.a = 0.5f;
         _colorActive.a = 0.5f;

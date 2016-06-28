@@ -97,7 +97,9 @@ public class Table extends EntityCollection {
 
     @Override
     public void render (SpriteBatch batch) {
-        super.render(batch);
+        for (Entity entity : _entities) {
+            entity.render(batch);
+        }
     }
 
     private void createTrophyCards (int height) {
@@ -233,7 +235,7 @@ public class Table extends EntityCollection {
 
     public void touchDown (float x, float y, int pointer, int button, HumanPlayer player) {
         if (player.isCurrentTurn()) {
-            player.touchUp(x, y, pointer, button);
+            player.touchDown(x, y, pointer, button);
         }
     }
 
@@ -246,6 +248,7 @@ public class Table extends EntityCollection {
                 if (card != null && card.overlaps(side.getRect()) && card.isPlayed() == false) {
                     if (side.addCard(card)) {
                         player.playCard(card, _deck.getCard());
+                        break;
                     }
                 }
             }
@@ -254,10 +257,14 @@ public class Table extends EntityCollection {
     }
 
     public void touchDragged (int x, int y, int pointer, HumanPlayer player) {
-        player.touchDragged(x, y, pointer);
+        if (player.isCurrentTurn()) {
+            player.touchDragged(x, y, pointer);
+        }
     }
 
     public void mouseMoved (int x, int y, HumanPlayer player) {
-        player.mouseMoved(x, y);
+        if (player.isCurrentTurn()) {
+            player.mouseMoved(x, y);
+        }
     }
 }

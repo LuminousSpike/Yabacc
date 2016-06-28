@@ -98,11 +98,16 @@ public class TileSide extends EntityCollection {
     public void render (ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(_color);
         shapeRenderer.rect(_rect.x, _rect.y, _width, _height);
+        for (Card card : _cards) {
+            card.render(shapeRenderer);
+        }
     }
 
     @Override
     public void render (SpriteBatch batch) {
-
+        for (Card card : _cards) {
+            card.render(batch);
+        }
     }
 
     private void positionCards (float deltaTime) {
@@ -112,10 +117,10 @@ public class TileSide extends EntityCollection {
             if (positionCard(card, _cards.indexOf(card), deltaTime)) {
                 positionedCard = card;
             }
+        }
 
-            if (positionedCard != null) {
-                _movingCards.remove(positionedCard);
-            }
+        if (positionedCard != null) {
+            _movingCards.remove(positionedCard);
         }
     }
 
@@ -129,6 +134,6 @@ public class TileSide extends EntityCollection {
             nextX += 200;
         }
 
-        return card.moveToPosition(new Vector2(nextX, nextY), deltaTime);
+        return !card.moveToPosition(new Vector2(nextX, nextY), deltaTime);
     }
 }

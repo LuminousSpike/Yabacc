@@ -23,11 +23,11 @@ public class DropletGame {
         _screenWidth = screenWidth;
         _screenHeight = screenHeight;
 
-        Bag bag = new Bag(screenWidth - 130, screenHeight - 400, Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE, Color.GRAY, font);
-        DropletDeck deck = new DropletDeck(screenWidth - 230, screenHeight - 400, Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE, Color.GRAY, font);
+        Bag bag = new Bag(screenWidth - 60, screenHeight - 400, Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE, Color.GRAY, font);
+        DropletDeck deck = new DropletDeck(screenWidth - 170, screenHeight - 400, Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE, Color.GRAY, font);
         ArrayList<Player> players = new ArrayList<Player>();
-        players.add(new HumanPlayer((int)(screenWidth / 2 - 300), screenHeight - 150, Color.FOREST));
-        players.add(new HumanPlayer((int)(screenWidth / 2 - 300), -30, Color.MAROON));
+        players.add(new HumanPlayer((int)(screenWidth / 2 - 270), screenHeight - 50, Color.FOREST));
+        players.add(new HumanPlayer((int)(screenWidth / 2 - 270), 50, Color.MAROON));
         _table = new Table(screenWidth, screenHeight, bag, deck, players, font);
     }
 

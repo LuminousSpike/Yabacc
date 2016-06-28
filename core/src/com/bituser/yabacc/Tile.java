@@ -130,6 +130,8 @@ public class Tile extends EntityCollection {
             else {
                 textPosX = _position.x + _width - _width / 6;
             }
+            _leftSide.render(batch);
+            _rightSide.render(batch);
             _font.draw(batch, String.valueOf(_tileNumber), textPosX - 5, _position.y + 25);
         }
     }

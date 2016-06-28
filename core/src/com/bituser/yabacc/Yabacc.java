@@ -19,10 +19,7 @@ public class Yabacc extends ApplicationAdapter {
 	ShapeRenderer shapeRenderer;
 	OrthographicCamera camera;
 	Texture img;
-	Hand hand;
-	DropletDeck deck;
-	Bag bag;
-	Tile tile;
+    DropletGame dropletGame;
 
 	@Override
 	public void create () {
@@ -44,22 +41,14 @@ public class Yabacc extends ApplicationAdapter {
 		float width = Gdx.graphics.getWidth();
 		float height = Gdx.graphics.getHeight();
 
-		hand = new Hand(width / 2 - (50 * 8), 85);
-		//deck = new DropletDeck(width - 60, height / 2, cyrillicFont);
-        deck = new DropletDeck(width - 60, height / 2, Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE, Color.GRAY, cyrillicFont);
-		bag = new Bag(width - 200, height / 2, cyrillicFont);
-		tile = new Tile(width / 2, height / 2, Color.WHITE, 3, bag, cyrillicFont);
-
-		for (int i = 0; i < 8; i++) {
-		    hand.addCard(deck.getCard());
-        }
+        dropletGame = new DropletGame ((int)width, (int)height, cyrillicFont);
 
 		Gdx.input.setInputProcessor(new InputAdapter () {
 		    @Override
 		    public boolean touchDown (int x, int y, int pointer, int button) {
 		        Vector3 input = new Vector3(x, y, 0);
 		        camera.unproject(input);
-		        hand.touchDown(input.x, input.y, pointer, button);
+		        dropletGame.touchDown((int)input.x, (int)input.y, pointer, button);
 		        return true;
             }
 
@@ -67,14 +56,14 @@ public class Yabacc extends ApplicationAdapter {
             public boolean touchUp (int x, int y, int pointer, int button) {
 		        Vector3 input = new Vector3(x, y, 0);
 		        camera.unproject(input);
-		        hand.touchUp(input.x, input.y, pointer, button);
+		        dropletGame.touchUp((int)input.x, (int)input.y, pointer, button);
 		        return true;
             }
             @Override
             public boolean touchDragged (int x, int y, int pointer) {
 		        Vector3 input = new Vector3(x, y, 0);
 		        camera.unproject(input);
-                hand.touchDragged(input.x, input.y, pointer);
+                dropletGame.touchDragged((int)input.x, (int)input.y, pointer);
                 return true;
             }
 
@@ -82,7 +71,7 @@ public class Yabacc extends ApplicationAdapter {
 		    public boolean mouseMoved (int x, int y) {
 		        Vector3 input = new Vector3(x, y, 0);
 		        camera.unproject(input);
-		        hand.mouseMoved(input.x, input.y);
+		        dropletGame.mouseMoved((int)input.x, (int)input.y);
 		        return true;
             }
     	} );
@@ -90,9 +79,7 @@ public class Yabacc extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-	    deck.update(Gdx.graphics.getDeltaTime());
-	    tile.update(Gdx.graphics.getDeltaTime());
-	    hand.update(Gdx.graphics.getDeltaTime());
+	    dropletGame.update(Gdx.graphics.getDeltaTime());
 	    camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		// Fills the screen with corn flour blue
 		Gdx.gl.glClearColor(0.392156863f, 0.584313725f, 0.929411765f, 1f);
@@ -101,17 +88,11 @@ public class Yabacc extends ApplicationAdapter {
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-		deck.render(shapeRenderer);
-		bag.render(shapeRenderer);
-		tile.render(shapeRenderer);
-		hand.render(shapeRenderer);
+		dropletGame.render(shapeRenderer);
 		shapeRenderer.end();
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		deck.render(batch);
-		bag.render(batch);
-		tile.render(batch);
-		hand.render(batch);
+		dropletGame.render(batch);
 		batch.end();
 	}
 }

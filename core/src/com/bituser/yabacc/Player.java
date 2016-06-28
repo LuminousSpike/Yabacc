@@ -22,10 +22,12 @@ public class Player extends Entity {
     public boolean isCurrentTurn () { return _isCurrentTurn; }
 
     public Player (float x, float y, Color color) {
-        super(new Vector2(x, y), 550, 120);
+        super(new Vector2(x, y), 600, 120);
         _hand = new Hand(x, y);
         _trophyHand = new Hand(x, y);
-        _tokens = new TokenCollection(x, y, Color.GRAY);
+        _tokens = new TokenCollection(x - 350, y - 40,  Color.GRAY);
+        _color = color;
+        _color.a = 0.5f;
     }
 
     public boolean hasTokensOfColor (int amount, Color color) {
@@ -64,7 +66,7 @@ public class Player extends Entity {
     }
 
     public void playCard (Card card, Card cardFromDeck) {
-        card.placeDown();
+        _hand.playCard();
         endTurn(cardFromDeck);
     }
 
@@ -84,7 +86,7 @@ public class Player extends Entity {
     @Override
     public void render (ShapeRenderer shapeRenderer) {
         if (_isCurrentTurn) {
-            _rect.setX(_position.x - (_width / 2));
+            _rect.setX(_position.x - (_width / 2) / 5);
             _rect.setY(_position.y - (_height / 2));
 
             shapeRenderer.setColor(_color);
@@ -97,5 +99,8 @@ public class Player extends Entity {
 
     @Override
     public void render (SpriteBatch batch) {
+        _tokens.render(batch);
+        _trophyHand.render(batch);
+        _hand.render(batch);
     }
 }
