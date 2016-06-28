@@ -111,7 +111,7 @@ public class Card extends Entity {
         _rect.setY(_position.y - (_height / 2));
 
         if(_isPlayed) {
-            _color.a = 1f;
+            //_color.a = 1f;
         }
 
         shapeRenderer.setColor(_color);

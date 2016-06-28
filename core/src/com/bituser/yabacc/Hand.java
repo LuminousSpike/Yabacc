@@ -54,6 +54,7 @@ public class Hand extends Entity {
 
     public Card playCard () {
         Card card = _selectedCard;
+        _selectedCard.placeDown();
         _heldCards.remove(card);
         _selectedCard = null;
         _repositionCards = true;
