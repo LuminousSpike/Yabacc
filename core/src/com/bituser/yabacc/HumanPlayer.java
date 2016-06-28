@@ -37,7 +37,7 @@ public class HumanPlayer extends Player {
         super.render(batch);
     }
 
-   public void touchDown (float x, float y, int pointer, int button, HumanPlayer player) {
+   public void touchDown (float x, float y, int pointer, int button) {
        _selectedCard = _hand.touchDown(x, y, pointer, button);
    }
 
@@ -47,5 +47,9 @@ public class HumanPlayer extends Player {
 
    public void mouseMoved (float x, float y) {
         _mousePos.set(x, y);
+        _hand.mouseMoved(x, y);
      }
+    public void touchDragged (int x, int y, int pointer) {
+        _hand.touchDragged(x, y, pointer);
+    }
 }

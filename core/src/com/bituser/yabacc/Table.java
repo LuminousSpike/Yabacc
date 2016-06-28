@@ -252,4 +252,12 @@ public class Table extends EntityCollection {
             player.touchUp(x, y, pointer, button);
         }
     }
+
+    public void touchDragged (int x, int y, int pointer, HumanPlayer player) {
+        player.touchDragged(x, y, pointer);
+    }
+
+    public void mouseMoved (int x, int y, HumanPlayer player) {
+        player.mouseMoved(x, y);
+    }
 }

@@ -45,7 +45,8 @@ public class Yabacc extends ApplicationAdapter {
 		float height = Gdx.graphics.getHeight();
 
 		hand = new Hand(width / 2 - (50 * 8), 85);
-		deck = new DropletDeck(width - 60, height / 2, cyrillicFont);
+		//deck = new DropletDeck(width - 60, height / 2, cyrillicFont);
+        deck = new DropletDeck(width - 60, height / 2, Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE, Color.GRAY, cyrillicFont);
 		bag = new Bag(width - 200, height / 2, cyrillicFont);
 		tile = new Tile(width / 2, height / 2, Color.WHITE, 3, bag, cyrillicFont);
 

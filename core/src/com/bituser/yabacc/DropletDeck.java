@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2; 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Color;
@@ -18,15 +18,15 @@ public class DropletDeck extends Deck {
 
     BitmapFont _font;
 
-    public DropletDeck (float x, float y, BitmapFont font) {
-        super(x, y, 100, 150); 
+    public DropletDeck (float x, float y, Color color1, Color color2, Color color3, Color color4, Color color5, BitmapFont font) {
+        super(x, y, 100, 150);
         _font = font;
 
-        createCards(13, Color.RED);
-        createCards(11, Color.YELLOW);
-        createCards(9, Color.GREEN);
-        createCards(7, Color.BLUE);
-        createCards(5, Color.GRAY);
+        createCards(13, color1);
+        createCards(11, color2);
+        createCards(9, color3);
+        createCards(7, color4);
+        createCards(5, color5);
 
         for (Card card : _cards) {
             System.out.println(card.toString());
@@ -70,7 +70,7 @@ public class DropletDeck extends Deck {
 
         return value;
     }
-    
+
     @Override
     public void update (float deltaTime) {
         super.update(deltaTime);
