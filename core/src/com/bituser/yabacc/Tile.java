@@ -96,9 +96,15 @@ public class Tile extends EntityCollection {
 
     @Override
     public void update (float deltaTime) {
+        super.update(deltaTime);
+
         _leftSide.update(deltaTime);
         _rightSide.update(deltaTime);
         placeNewTokens(deltaTime);
+
+        for (Token token : _tokens) {
+            token.update(deltaTime);
+        }
     }
 
     @Override

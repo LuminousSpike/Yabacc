@@ -108,6 +108,8 @@ public class TokenCollection extends EntityCollection {
 
     @Override
     public void update (float deltaTime) {
+        super.update(deltaTime);
+
         if (!_newTokens.isEmpty()) {
             positionNewTokens(deltaTime);
         }
@@ -119,9 +121,7 @@ public class TokenCollection extends EntityCollection {
 
     @Override
     public void render (ShapeRenderer shapeRenderer) {
-        shapeRenderer.setColor(_color);
-        shapeRenderer.rect(_rect.x, _rect.y, _width, _height);
-
+        super.render(shapeRenderer);
         for (Token token : _tokens) {
             token.render(shapeRenderer);
         }
@@ -150,9 +150,11 @@ public class TokenCollection extends EntityCollection {
         int row = 0;
         row = index / 5;
 
-        int positionY = (int)(_position.y + (token.getHeight() + TOKEN_SPACING) * (row - 1));
-        int positionX = (int)(_position.x + ((token.getWidth() + TOKEN_SPACING) * (index - (row + 1) * 5)));
-        return token.moveToPosition (new Vector2(positionX, positionY), deltaTime);
+        //int positionY = (int)(_position.y + (token.getHeight() + TOKEN_SPACING) * (row - 1));
+        //int positionX = (int)(_position.x + ((token.getWidth() + TOKEN_SPACING) * (index - (row + 1) * 5)));
+        int positionX = (int)(_position.x + (token.getWidth() + TOKEN_SPACING) * index);
+        int positionY = (int)(_position.y);
+        return !token.moveToPosition (new Vector2(positionX, positionY), deltaTime);
     }
 
     private boolean repositionTokens (float deltaTime) {

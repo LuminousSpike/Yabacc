@@ -140,6 +140,10 @@ public class Hand extends Entity {
         }
 
         setActiveCard(_mousePos.x, _mousePos.y);
+
+        for (Card card : _heldCards) {
+            card.update(deltaTime);
+        }
     }
 
     @Override

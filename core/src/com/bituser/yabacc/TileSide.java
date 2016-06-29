@@ -91,7 +91,13 @@ public class TileSide extends EntityCollection {
 
     @Override
     public void update (float deltaTime) {
+        super.update(deltaTime);
+
         positionCards(deltaTime);
+
+        for (Card card : _cards) {
+            card.update(deltaTime);
+        }
     }
 
     @Override

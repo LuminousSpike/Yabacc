@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2; 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Color;
@@ -18,7 +18,7 @@ public abstract class EntityCollection extends Entity {
     List<Entity> _entities= new ArrayList<Entity>();
 
     public EntityCollection (float x, float y, float width, float height) {
-        super(x, y, width, height); 
+        super(x, y, width, height);
     }
 
     public int size () {
@@ -50,13 +50,16 @@ public abstract class EntityCollection extends Entity {
     }
 
     @Override
-    public void update (float deltaTime) { }
+    public void update (float deltaTime) {
+        _rect.setX(_position.x - (_width / 2));
+        _rect.setY(_position.y - (_height / 2));
+        for (Entity entity : _entities) {
+            entity.update(deltaTime);
+        }
+    }
 
     @Override
     public void render (ShapeRenderer shapeRenderer) {
-        _rect.setX(_position.x - (_width / 2));
-        _rect.setY(_position.y - (_height / 2));
-
         shapeRenderer.setColor(_color);
         shapeRenderer.rect(_rect.x, _rect.y, _width, _height);
     }

@@ -60,8 +60,6 @@ public abstract class Entity {
 
     public boolean moveToPosition (Vector2 position, float deltaTime) {
         _position.lerp(position, 8f *  deltaTime);
-        _rect.setX(_position.x);
-        _rect.setY(_position.y);
 
         if (_position.equals(position)){
             return false;

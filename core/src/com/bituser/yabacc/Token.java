@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2; 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Color;
@@ -23,7 +23,8 @@ public class Token extends Entity {
 
     @Override
     public void update (float deltaTime) {
-
+        _rect.setX(_position.x - (_width / 2));
+        _rect.setY(_position.y - (_height / 2));
     }
 
     @Override
