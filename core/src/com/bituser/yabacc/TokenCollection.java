@@ -15,12 +15,12 @@ import java.util.*;
 public class TokenCollection extends EntityCollection {
     ArrayList<Token> _tokens = new ArrayList<Token>(), _newTokens = new ArrayList<Token>();
 
-    static final int TOKEN_SPACING = 10;
+    static final int TOKEN_SPACING = 5;
 
     boolean _repositionTokens = false;
 
     public TokenCollection (float x, float y, Color color) {
-        super(x, y, 200, 100);
+        super(x, y, 190, 80);
         _color = color;
     }
 
@@ -117,6 +117,10 @@ public class TokenCollection extends EntityCollection {
         if (_repositionTokens) {
             repositionTokens(deltaTime);
         }
+
+        for (Token token : _tokens) {
+            token.update(deltaTime);
+        }
     }
 
     @Override
@@ -148,12 +152,14 @@ public class TokenCollection extends EntityCollection {
 
     private boolean positionToken (Token token, int index, float deltaTime) {
         int row = 0;
-        row = index / 5;
+        row = index / 9;
 
         //int positionY = (int)(_position.y + (token.getHeight() + TOKEN_SPACING) * (row - 1));
         //int positionX = (int)(_position.x + ((token.getWidth() + TOKEN_SPACING) * (index - (row + 1) * 5)));
-        int positionX = (int)(_position.x + (token.getWidth() + TOKEN_SPACING) * index);
-        int positionY = (int)(_position.y);
+        float positionX = _position.x + (token.getWidth() + TOKEN_SPACING) * (index % 9);
+        positionX -= _width / 2.25f;
+        float positionY = _position.y - (token.getHeight() + TOKEN_SPACING) * row;
+        positionY += _height / 2.5f;
         return !token.moveToPosition (new Vector2(positionX, positionY), deltaTime);
     }
 

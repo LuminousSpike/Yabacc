@@ -109,7 +109,7 @@ public class Table extends EntityCollection {
         _trophyCards.add(new TrophyCard(new Vector2(0, 0), Color.YELLOW, 6, _font));
         _trophyCards.add(new TrophyCard(new Vector2(0, 0), Color.RED, 7, _font));
 
-        _trophyHand = new Hand(0, height / 3, 200, 200);
+        _trophyHand = new Hand(120, height / 1.75f, 200, 200, 3);
         ArrayList<Card> cards = new ArrayList<Card>();
         cards.addAll(_trophyCards);
         _trophyHand.addCards(cards);

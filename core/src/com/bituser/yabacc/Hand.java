@@ -25,8 +25,11 @@ public class Hand extends Entity {
 
     final int CARD_SPACING = 10;
 
-    public Hand (float x, float y, float width, float height) {
+    int _columns;
+
+    public Hand (float x, float y, float width, float height, int columns) {
         super(new Vector2(x, y), width, height);
+        _columns = columns;
     }
 
     public int getCardCount () {
@@ -93,9 +96,10 @@ public class Hand extends Entity {
      }
 
     private Vector2 calculateCardPosition (Card card, int placeInHand) {
-        float xPos = _position.x + (card.getWidth() + CARD_SPACING) * placeInHand;
+        int row = placeInHand / _columns;
+        float xPos = _position.x + (card.getWidth() + CARD_SPACING) * (placeInHand % _columns);
         xPos -= _width / 2.5f;
-        float yPos = _position.y;
+        float yPos = _position.y - (card.getHeight() + CARD_SPACING) * row;
         return new Vector2(xPos, yPos);
     }
 

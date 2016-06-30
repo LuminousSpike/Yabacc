@@ -17,8 +17,6 @@ public class HumanPlayer extends Player {
 
     public HumanPlayer (float x, float y, Color color) {
         super(x, y, color);
-        // no idea
-        _tokens.moveToPosition(_position.x + 600, _position.y + 120);
     }
 
     @Override
