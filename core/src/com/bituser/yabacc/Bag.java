@@ -20,7 +20,7 @@ public class Bag extends EntityCollection {
     public Bag (float x, float y,
             Color token1, Color token2, Color token3, Color token4,
             Color token5, BitmapFont font) {
-        super(x, y, 100, 100);
+        super(x, y, 80, 80);
         _font = font;
 
         createTokens(13, token1);
@@ -55,13 +55,13 @@ public class Bag extends EntityCollection {
 
     @Override
     public void update (float deltaTime) {
-        _rect.setX(_rect.x - (_width / 2));
-        _rect.setY(_rect.y - (_height / 2));
+        _rect.setX(_position.x - (_width / 2));
+        _rect.setY(_position.y - (_height / 2));
     }
 
     @Override
     public void render (SpriteBatch batch) {
         super.render(batch);
-        _font.draw(batch, String.valueOf("Tokens:\n   " + size()), _rect.x, _rect.y);
+        _font.draw(batch, String.valueOf("Tokens:\n   " + size()), _position.x - (_width / 2.5f), _position.y + (_height / 4));
     }
 }

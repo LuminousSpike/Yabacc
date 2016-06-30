@@ -35,7 +35,7 @@ public class TileSide extends EntityCollection {
     }
 
     public TileSide (float x, float y, Color color, Tile parent, TileSide_Side sideOfTile) {
-        super(x, y, 200, 100);
+        super(x, y, 400, 100);
         _color = color;
         _parent = parent;
         _sideOfTile = sideOfTile;
@@ -131,14 +131,16 @@ public class TileSide extends EntityCollection {
     }
 
     private boolean positionCard (Card card, int cardPosition, float deltaTime) {
-        int nextX, nextY;
+        float nextX, nextY;
+        float offset = (card.getWidth() - 10) - ((10 + card.getWidth()) * cardPosition) + 10;
 
-        nextX = (int)_position.x + (int)((card.getWidth() / 2) + 10 + (card.getWidth() + 10) * cardPosition) * _sideOfTile.getIndex();
-        nextY = (int)_position.y + (int)(card.getHeight() / 2);
-
-        if (_sideOfTile == TileSide_Side.Left) {
-            nextX += 200;
+        if (_sideOfTile == TileSide_Side.Right) {
+            nextX = _position.x - offset;
         }
+        else {
+            nextX = _position.x + offset;
+        }
+        nextY = _position.y;
 
         return !card.moveToPosition(new Vector2(nextX, nextY), deltaTime);
     }

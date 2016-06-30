@@ -31,8 +31,8 @@ public class Tile extends EntityCollection {
         _tileNumber = tileNumber;
         _isFlipped = (tileNumber % 2) != 0;
 
-        _leftSide = new TileSide(_position.x - 200, _position.y, Color.GREEN, this, TileSide.TileSide_Side.Left);
-        _rightSide = new TileSide(_position.x + _width, _position.y, Color.RED, this, TileSide.TileSide_Side.Right);
+        _leftSide = new TileSide(_position.x - (_width * 1.5f), _position.y, Color.GREEN, this, TileSide.TileSide_Side.Left);
+        _rightSide = new TileSide(_position.x + (_width * 1.5f), _position.y, Color.RED, this, TileSide.TileSide_Side.Right);
 
         _bag = bagOfTokens;
 
@@ -131,14 +131,14 @@ public class Tile extends EntityCollection {
             float textPosX = 0;
 
             if (_tileNumber % 2 == 0) {
-                textPosX = _position.x;
+                textPosX = _position.x - (_width / 2) + 10;
             }
             else {
-                textPosX = _position.x + _width - _width / 6;
+                textPosX = _position.x + (_width / 2) - 15;
             }
             _leftSide.render(batch);
             _rightSide.render(batch);
-            _font.draw(batch, String.valueOf(_tileNumber), textPosX - 5, _position.y + 25);
+            _font.draw(batch, String.valueOf(_tileNumber), textPosX - 5, _position.y - 25);
         }
     }
 
@@ -159,8 +159,8 @@ public class Tile extends EntityCollection {
 
         for (Token token : _newTokens) {
             int tokenPostition = _tokens.indexOf(token);
-            int nextX = (int)_position.x + 5 + (int)((token.getWidth() + 5) * tokenPostition);
-            int nextY = (int)_position.y + (int)(_height / 3);
+            int nextX = (int)_position.x - (int)(_width / 2) + 10 + (int)((token.getWidth() + 5) * tokenPostition);
+            int nextY = (int)_position.y;
 
             if (!token.moveToPosition(new Vector2(nextX, nextY), deltaTime)) {
                 tokenPlaced = token;

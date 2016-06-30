@@ -109,7 +109,7 @@ public class Table extends EntityCollection {
         _trophyCards.add(new TrophyCard(new Vector2(0, 0), Color.YELLOW, 6, _font));
         _trophyCards.add(new TrophyCard(new Vector2(0, 0), Color.RED, 7, _font));
 
-        _trophyHand = new Hand(0, height / 3);
+        _trophyHand = new Hand(0, height / 3, 200, 200);
         ArrayList<Card> cards = new ArrayList<Card>();
         cards.addAll(_trophyCards);
         _trophyHand.addCards(cards);
@@ -129,12 +129,13 @@ public class Table extends EntityCollection {
 
     private void createTiles (int width, int height, Bag bagOfTokens) {
         int tableSixth = height / 6 + 4;
-        int centre = width / 2 - 75;
+        int centre = width / 2;
+        int offset = height / 14;
 
-        _entities.add(new Tile(centre, tableSixth, Color.YELLOW, 1, bagOfTokens, _font));
-        _entities.add(new Tile(centre, tableSixth * 2, Color.YELLOW, 2, bagOfTokens, _font));
-        _entities.add(new Tile(centre, tableSixth * 3, Color.YELLOW, 3, bagOfTokens, _font));
-        _entities.add(new Tile(centre, tableSixth * 4, Color.YELLOW, 4, bagOfTokens, _font));
+        _entities.add(new Tile(centre, tableSixth + offset, Color.YELLOW, 1, bagOfTokens, _font));
+        _entities.add(new Tile(centre, tableSixth * 2 + offset, Color.YELLOW, 2, bagOfTokens, _font));
+        _entities.add(new Tile(centre, tableSixth * 3 + offset, Color.YELLOW, 3, bagOfTokens, _font));
+        _entities.add(new Tile(centre, tableSixth * 4 + offset, Color.YELLOW, 4, bagOfTokens, _font));
     }
 
     private void playerLogic () {

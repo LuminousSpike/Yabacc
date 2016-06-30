@@ -19,7 +19,7 @@ public class DropletDeck extends Deck {
     BitmapFont _font;
 
     public DropletDeck (float x, float y, Color color1, Color color2, Color color3, Color color4, Color color5, BitmapFont font) {
-        super(x, y, 100, 150);
+        super(x, y, 60, 90);
         _font = font;
 
         createCards(13, color1);
@@ -84,6 +84,6 @@ public class DropletDeck extends Deck {
     @Override
     public void render (SpriteBatch batch) {
         super.render(batch);
-        _font.draw(batch, String.valueOf("Cards:\n  " + _cards.size()), _rect.x, _rect.y);
+        _font.draw(batch, String.valueOf("Cards:\n  " + _cards.size()), _position.x - (_width / 2.5f), _position.y + (_height / 4));
     }
 }

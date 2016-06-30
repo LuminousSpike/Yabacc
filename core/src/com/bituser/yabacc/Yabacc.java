@@ -32,7 +32,7 @@ public class Yabacc extends ApplicationAdapter {
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Folks-Normal.ttf"));
 
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-		parameter.size = 30;
+		parameter.size = 20;
 
 		parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS;
 		BitmapFont cyrillicFont = generator.generateFont(parameter);

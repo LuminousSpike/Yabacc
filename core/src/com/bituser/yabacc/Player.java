@@ -23,9 +23,9 @@ public class Player extends Entity {
 
     public Player (float x, float y, Color color) {
         super(new Vector2(x, y), 600, 120);
-        _hand = new Hand(x, y);
-        _trophyHand = new Hand(x, y);
-        _tokens = new TokenCollection(x - 350, y - 40,  Color.GRAY);
+        _hand = new Hand(x, y, _width, _height);
+        _trophyHand = new Hand(x, y, _width, _height);
+        _tokens = new TokenCollection(x, y,  Color.GRAY);
         _color = color;
         _color.a = 0.5f;
     }
@@ -78,6 +78,8 @@ public class Player extends Entity {
 
     @Override
     public void update (float deltaTime) {
+        _rect.setX(_position.x - (_width / 2));
+        _rect.setY(_position.y - (_height / 2));
         _tokens.update(deltaTime);
         _trophyHand.update(deltaTime);
         _tokens.update(deltaTime);
@@ -86,9 +88,6 @@ public class Player extends Entity {
     @Override
     public void render (ShapeRenderer shapeRenderer) {
         if (_isCurrentTurn) {
-            _rect.setX(_position.x - (_width / 2) / 5);
-            _rect.setY(_position.y - (_height / 2));
-
             shapeRenderer.setColor(_color);
             shapeRenderer.rect(_rect.x, _rect.y, _width, _height);
         }
