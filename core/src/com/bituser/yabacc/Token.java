@@ -29,6 +29,7 @@ public class Token extends Entity {
 
     @Override
     public void render (ShapeRenderer shapeRenderer) {
+        _color.a = 1f;
         shapeRenderer.setColor(_color);
         shapeRenderer.rect(_rect.x, _rect.y, _width, _height);
     }

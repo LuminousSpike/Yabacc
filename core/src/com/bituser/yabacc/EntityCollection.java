@@ -60,6 +60,7 @@ public abstract class EntityCollection extends Entity {
 
     @Override
     public void render (ShapeRenderer shapeRenderer) {
+        _color.a = 0.5f;
         shapeRenderer.setColor(_color);
         shapeRenderer.rect(_rect.x, _rect.y, _width, _height);
     }

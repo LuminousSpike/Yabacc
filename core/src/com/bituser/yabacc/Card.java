@@ -109,7 +109,10 @@ public class Card extends Entity {
     @Override
     public void render (ShapeRenderer shapeRenderer) {
         if(_isPlayed) {
-            //_color.a = 1f;
+            _color.a = 0.75f;
+        }
+        else {
+            _color.a = 0.5f;
         }
 
         shapeRenderer.setColor(_color);

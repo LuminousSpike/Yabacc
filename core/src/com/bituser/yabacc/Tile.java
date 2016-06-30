@@ -15,6 +15,7 @@ import java.util.*;
 public class Tile extends EntityCollection {
     int _tileNumber;
     boolean _isFlipped, _isActive = true;
+    Color _color1, _color2;
 
     TileSide _leftSide, _rightSide;
 
@@ -24,15 +25,17 @@ public class Tile extends EntityCollection {
 
     ArrayList<Token> _tokens = new ArrayList<Token>(), _newTokens = new ArrayList<Token>();
 
-    public Tile (float x, float y, Color color, int tileNumber, Bag bagOfTokens, BitmapFont font) {
+    public Tile (float x, float y, Color color1, Color color2, int tileNumber, Bag bagOfTokens, BitmapFont font) {
         super(x, y, 100, 100);
-        _color = color;
+        _color1 = color1;
+        _color2 = color2;
+        _color = _color1;
 
         _tileNumber = tileNumber;
         _isFlipped = (tileNumber % 2) != 0;
 
-        _leftSide = new TileSide(_position.x - (_width * 1.5f), _position.y, Color.GREEN, this, TileSide.TileSide_Side.Left);
-        _rightSide = new TileSide(_position.x + (_width * 1.5f), _position.y, Color.RED, this, TileSide.TileSide_Side.Right);
+        _leftSide = new TileSide(_position.x - (_width / 2 + 150), _position.y, Color.GREEN, this, TileSide.TileSide_Side.Left);
+        _rightSide = new TileSide(_position.x + (_width / 2 + 150), _position.y, Color.RED, this, TileSide.TileSide_Side.Right);
 
         _bag = bagOfTokens;
 
@@ -69,8 +72,7 @@ public class Tile extends EntityCollection {
     }
 
     public ArrayList getDiscardedCards () {
-        ArrayList<Card> _discardedCards = new ArrayList<Card>();
-        _discardedCards.addAll(_leftSide.getDiscardedCards());
+        ArrayList<Card> _discardedCards = new ArrayList<Card>(); _discardedCards.addAll(_leftSide.getDiscardedCards());
         _discardedCards.addAll(_rightSide.getDiscardedCards());
         return _discardedCards;
     }
@@ -110,8 +112,13 @@ public class Tile extends EntityCollection {
     @Override
     public void render (ShapeRenderer shapeRenderer) {
         if (_isFlipped) {
-            _color = Color.BLUE;
+            _color = _color2;
         }
+        else {
+            _color = _color1;
+        }
+
+        _color.a = 0.5f;
 
         shapeRenderer.setColor(_color);
         shapeRenderer.rect(_rect.x, _rect.y, _width, _height);

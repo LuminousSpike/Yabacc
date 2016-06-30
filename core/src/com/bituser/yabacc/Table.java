@@ -132,10 +132,10 @@ public class Table extends EntityCollection {
         int centre = width / 2;
         int offset = height / 14;
 
-        _entities.add(new Tile(centre, tableSixth + offset, Color.YELLOW, 1, bagOfTokens, _font));
-        _entities.add(new Tile(centre, tableSixth * 2 + offset, Color.YELLOW, 2, bagOfTokens, _font));
-        _entities.add(new Tile(centre, tableSixth * 3 + offset, Color.YELLOW, 3, bagOfTokens, _font));
-        _entities.add(new Tile(centre, tableSixth * 4 + offset, Color.YELLOW, 4, bagOfTokens, _font));
+        _entities.add(new Tile(centre, tableSixth + offset, Color.ORANGE, Color.BLUE, 1, bagOfTokens, _font));
+        _entities.add(new Tile(centre, tableSixth * 2 + offset, Color.ORANGE, Color.BLUE, 2, bagOfTokens, _font));
+        _entities.add(new Tile(centre, tableSixth * 3 + offset, Color.ORANGE, Color.BLUE, 3, bagOfTokens, _font));
+        _entities.add(new Tile(centre, tableSixth * 4 + offset, Color.ORANGE, Color.BLUE, 4, bagOfTokens, _font));
     }
 
     private void playerLogic () {

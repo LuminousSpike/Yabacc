@@ -35,7 +35,7 @@ public class TileSide extends EntityCollection {
     }
 
     public TileSide (float x, float y, Color color, Tile parent, TileSide_Side sideOfTile) {
-        super(x, y, 400, 100);
+        super(x, y, 300, 100);
         _color = color;
         _parent = parent;
         _sideOfTile = sideOfTile;
@@ -106,6 +106,7 @@ public class TileSide extends EntityCollection {
 
     @Override
     public void render (ShapeRenderer shapeRenderer) {
+        _color.a = 0.5f;
         shapeRenderer.setColor(_color);
         shapeRenderer.rect(_rect.x, _rect.y, _width, _height);
         for (Card card : _cards) {
@@ -136,7 +137,7 @@ public class TileSide extends EntityCollection {
 
     private boolean positionCard (Card card, int cardPosition, float deltaTime) {
         float nextX, nextY;
-        float offset = (card.getWidth() - 10) - ((10 + card.getWidth()) * cardPosition) + 10;
+        float offset = card.getWidth() - 10 + (card.getWidth() - 10) - ((10 + card.getWidth()) * cardPosition) + 10;
 
         if (_sideOfTile == TileSide_Side.Right) {
             nextX = _position.x - offset;
