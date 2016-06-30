@@ -52,17 +52,14 @@ public class Hand extends Entity {
     public void remove (Card card) {
         _heldCards.remove(card);
         _selectedCard = null;
+        _activeCard = null;
         _repositionCards = true;
     }
 
-    public Card playCard () {
-        Card card = _selectedCard;
+    public void playCard () {
         _selectedCard.placeDown();
-        _heldCards.remove(card);
-        _selectedCard = null;
+        remove(_selectedCard);
         _repositionCards = true;
-
-        return card;
     }
 
     public Card touchDown (float x, float y, int pointer, int button) {
@@ -81,7 +78,7 @@ public class Hand extends Entity {
         }
         _repositionCards = true;
         _selectedCard = null;
-        return _activeCard;
+        return _selectedCard;
      }
 
      public void touchDragged (float x, float y, int pointer) {

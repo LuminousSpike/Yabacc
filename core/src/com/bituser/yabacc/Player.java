@@ -65,7 +65,7 @@ public class Player extends Entity {
         _isCurrentTurn = false;
     }
 
-    public void playCard (Card card, Card cardFromDeck) {
+    public void playCard (Card cardFromDeck) {
         _hand.playCard();
         endTurn(cardFromDeck);
     }

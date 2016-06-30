@@ -248,7 +248,7 @@ public class Table extends EntityCollection {
             for (TileSide side : getTileSides()) {
                 if (card != null && card.overlaps(side.getRect()) && card.isPlayed() == false) {
                     if (side.addCard(card)) {
-                        player.playCard(card, _deck.getCard());
+                        player.playCard(_deck.getCard());
                         break;
                     }
                 }

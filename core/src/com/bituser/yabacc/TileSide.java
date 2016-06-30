@@ -85,6 +85,10 @@ public class TileSide extends EntityCollection {
     }
 
     public void discardCards () {
+        for (Card card : _cards) {
+            card.discard();
+        }
+
         _discardedCards.addAll(_cards);
         _cards.clear();
     }
