@@ -1,13 +1,14 @@
 package com.bituser.yabacc;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public abstract class EntityCollection extends Entity {
-    List<Entity> _entities= new ArrayList<Entity>();
+    private List<Entity> _entities= new ArrayList<Entity>();
 
     public EntityCollection (float x, float y, float width, float height) {
         super(x, y, width, height);
@@ -16,6 +17,8 @@ public abstract class EntityCollection extends Entity {
     public int size () {
         return _entities.size();
     }
+    
+    public Iterator<Entity> iterator () { return _entities.iterator(); }
 
     protected Entity get () {
         Entity entity = null;
@@ -39,6 +42,14 @@ public abstract class EntityCollection extends Entity {
         for(Entity entity : entities) {
             add(entity);
         }
+    }
+    
+    protected void addAll (ArrayList<Entity> entities) { 
+    	_entities.addAll(entities);
+    }
+    
+    protected void remove (Entity entity) {
+    	_entities.remove(entity);
     }
 
     @Override
