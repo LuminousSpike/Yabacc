@@ -6,12 +6,19 @@ import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 
 public abstract class EntityCollection extends Entity {
     private List<Entity> _entities= new ArrayList<Entity>();
+	private int _columns;
+	private float _spacing;
 
     public EntityCollection (float x, float y, float width, float height) {
         super(x, y, width, height);
+        
+        // Defaults for now
+        _columns = 8;
+        _spacing = 10;
     }
 
     public int size () {
@@ -70,5 +77,36 @@ public abstract class EntityCollection extends Entity {
 
     @Override
     public void render (SpriteBatch batch) {
+    }
+    
+    private Vector2 calculateEntityPosition (Entity entity, int placeInHand) {
+        int row = placeInHand / _columns;
+        float xPos = _position.x + (entity.getWidth() + _spacing) * (placeInHand % _columns);
+        
+        // This might need to be configurable rather than a magic number
+        xPos -= _width / 2.5f;
+        
+        float yPos = _position.y - (entity.getHeight() + _spacing) * row;
+        return new Vector2(xPos, yPos);
+    }
+
+    private void positionEntity (Entity entity, int placeInHand) {
+        entity.moveToPosition(calculateEntityPosition(entity, placeInHand));
+    }
+
+    private boolean positionEntity (Entity entity, int placeInHand, float deltaTime) {
+        return entity.moveToPosition(calculateEntityPosition(entity, placeInHand), deltaTime);
+    }
+    
+	private boolean repositionEntities (float deltaTime) {
+		boolean entitiesMoved = false;
+		int index = 0;
+		for (Entity entity : _entities) {
+			if (positionEntity(entity, index, deltaTime)) {
+				entitiesMoved = true;
+			}
+			index++;
+		}
+        return entitiesMoved;
     }
 }
