@@ -1,6 +1,7 @@
 package com.bituser.yabacc;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 import com.badlogic.gdx.graphics.Color;
@@ -34,8 +35,8 @@ public class Table extends EntityCollection {
         _deck = deckOfCards;
         _font = font;
 
-        _entities.add(_bag);
-        _entities.add(_deck);
+        add(_bag);
+        add(_deck);
 
         createTrophyCards(tableHeight);
         createTiles(tableWidth, tableHeight, bagOfTokens);
@@ -43,7 +44,12 @@ public class Table extends EntityCollection {
         _player1 = players.get(0);
         _player2 = players.get(1);
         _players.addAll(players);
-        _entities.addAll(players);
+        
+        // quick and dirty way of casting to parent class
+        ArrayList<Entity> entities = new ArrayList<Entity>();
+        entities.addAll(players);
+        
+        addAll(entities);
 
         if (_rand.nextInt(100) < 50) {
             _activePlayer = _player1;
@@ -63,7 +69,8 @@ public class Table extends EntityCollection {
     // Need to refactor this out
     public ArrayList<TileSide> getTileSides () {
         ArrayList<TileSide> sides = new ArrayList<TileSide>();
-        for (Entity entity : _entities) {
+        for (Iterator<Entity> it = iterator(); it.hasNext();) {
+    		Entity entity = it.next();
             if (entity instanceof Tile) {
                 Tile tile = (Tile)entity;
                 sides.add(tile.getLeftSide());
@@ -79,7 +86,7 @@ public class Table extends EntityCollection {
         deckLogic();
 
         if (tileToRemove != null) {
-            _entities.remove(tileToRemove);
+            remove(tileToRemove);
         }
 
         playerLogic();
@@ -87,14 +94,16 @@ public class Table extends EntityCollection {
 
     @Override
     public void render (ShapeRenderer shapeRenderer) {
-        for (Entity entity : _entities) {
+    	for (Iterator<Entity> it = iterator(); it.hasNext();) {
+    		Entity entity = it.next();
             entity.render(shapeRenderer);
         }
     }
 
     @Override
     public void render (SpriteBatch batch) {
-        for (Entity entity : _entities) {
+    	for (Iterator<Entity> it = iterator(); it.hasNext();) {
+    		Entity entity = it.next();
             entity.render(batch);
         }
     }
@@ -110,11 +119,12 @@ public class Table extends EntityCollection {
         ArrayList<Card> cards = new ArrayList<Card>();
         cards.addAll(_trophyCards);
         _trophyHand.addCards(cards);
-        _entities.add(_trophyHand);
+        add(_trophyHand);
     }
 
     private void drawStartingHandForEachPlayer () {
-        for (Entity entity : _entities) {
+    	for (Iterator<Entity> it = iterator(); it.hasNext();) {
+    		Entity entity = it.next();
             if (entity instanceof Player) {
                 Player player = (Player)entity;
                 for (int i = 0; i < 8; i++) {
@@ -129,10 +139,10 @@ public class Table extends EntityCollection {
         int centre = width / 2;
         int offset = height / 14;
 
-        _entities.add(new Tile(centre, tableSixth + offset, Color.ORANGE, Color.BLUE, 1, bagOfTokens, _font));
-        _entities.add(new Tile(centre, tableSixth * 2 + offset, Color.ORANGE, Color.BLUE, 2, bagOfTokens, _font));
-        _entities.add(new Tile(centre, tableSixth * 3 + offset, Color.ORANGE, Color.BLUE, 3, bagOfTokens, _font));
-        _entities.add(new Tile(centre, tableSixth * 4 + offset, Color.ORANGE, Color.BLUE, 4, bagOfTokens, _font));
+        add(new Tile(centre, tableSixth + offset, Color.ORANGE, Color.BLUE, 1, bagOfTokens, _font));
+        add(new Tile(centre, tableSixth * 2 + offset, Color.ORANGE, Color.BLUE, 2, bagOfTokens, _font));
+        add(new Tile(centre, tableSixth * 3 + offset, Color.ORANGE, Color.BLUE, 3, bagOfTokens, _font));
+        add(new Tile(centre, tableSixth * 4 + offset, Color.ORANGE, Color.BLUE, 4, bagOfTokens, _font));
     }
 
     private void playerLogic () {
@@ -164,7 +174,8 @@ public class Table extends EntityCollection {
     private Tile tileLogic (float deltaTime) {
         Tile tileToRemove = null;
 
-        for (Entity entity : _entities) {
+        for (Iterator<Entity> it = iterator(); it.hasNext();) {
+    		Entity entity = it.next();
             entity.update(deltaTime);
             if (entity instanceof Tile) {
                 Tile tile = (Tile)entity;
