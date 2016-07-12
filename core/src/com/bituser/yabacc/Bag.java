@@ -29,10 +29,6 @@ public class Bag extends EntityCollection {
         super.add(token);
     }
 
-    public void add (Token[] tokens) {
-        super.add(tokens);
-    }
-
     public Token get () {
         return (Token) super.get();
     }
