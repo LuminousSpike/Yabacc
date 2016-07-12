@@ -18,7 +18,6 @@ public class Yabacc extends ApplicationAdapter {
 	SpriteBatch batch;
 	ShapeRenderer shapeRenderer;
 	OrthographicCamera camera;
-	Texture img;
     DropletGame dropletGame;
 
 	@Override
@@ -26,8 +25,7 @@ public class Yabacc extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
 		camera= new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		img = new Texture("badlogic.jpg");
-
+		
 		// font
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Folks-Normal.ttf"));
 
