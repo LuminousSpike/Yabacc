@@ -6,13 +6,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
-public class TrophyCard extends Card {
+class TrophyCard extends Card {
     public TrophyCard (int value, Color suite, BitmapFont font) {
         this(new Vector2(0, 0), suite, value, font);
     }
 
     // Main constructor
-    public TrophyCard (Vector2 position, Color suite, int value, BitmapFont font) {
+    TrophyCard(Vector2 position, Color suite, int value, BitmapFont font) {
         super(position, suite, value, font);
     }
 
