@@ -7,11 +7,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public class DropletGame {
+class DropletGame {
     private int _screenWidth, _screenHeight;
-    Table _table;
+    private Table _table;
 
-    public DropletGame (int screenWidth, int screenHeight, BitmapFont font) {
+    DropletGame(int screenWidth, int screenHeight, BitmapFont font) {
         _screenWidth = screenWidth;
         _screenHeight = screenHeight;
 
@@ -37,7 +37,7 @@ public class DropletGame {
         _table.render(batch);
     }
 
-    public void touchDown (float x, float y, int pointer, int button) {
+    void touchDown(float x, float y, int pointer, int button) {
         for (Player player : _table.getPlayers()) {
             if (player instanceof HumanPlayer) {
                 _table.touchDown(x, y, pointer, button, (HumanPlayer)player);
@@ -45,7 +45,7 @@ public class DropletGame {
         }
     }
 
-    public void touchUp (float x, float y, int pointer, int button) {
+    void touchUp(float x, float y, int pointer, int button) {
         for (Player player : _table.getPlayers()) {
             if (player instanceof HumanPlayer) {
                 _table.touchUp(x, y, pointer, button, (HumanPlayer)player);
@@ -53,7 +53,7 @@ public class DropletGame {
         }
     }
 
-    public void touchDragged (int x, int y, int pointer) {
+    void touchDragged(int x, int y, int pointer) {
         for (Player player : _table.getPlayers()) {
             if (player instanceof HumanPlayer) {
                 _table.touchDragged(x, y, pointer, (HumanPlayer)player);
@@ -61,7 +61,7 @@ public class DropletGame {
         }
     }
 
-    public void mouseMoved (int x, int y) {
+    void mouseMoved(int x, int y) {
         for (Player player : _table.getPlayers()) {
             if (player instanceof HumanPlayer) {
                 _table.mouseMoved(x, y, (HumanPlayer)player);
