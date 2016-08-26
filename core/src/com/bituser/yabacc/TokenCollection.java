@@ -7,21 +7,21 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
-public class TokenCollection extends EntityCollection {
-    ArrayList<Token> _tokens = new ArrayList<Token>(), _newTokens = new ArrayList<Token>();
+class TokenCollection extends EntityCollection {
+    private ArrayList<Token> _tokens = new ArrayList<Token>(), _newTokens = new ArrayList<Token>();
 
-    static final int TOKEN_SPACING = 5;
+    private static final int TOKEN_SPACING = 5;
 
-    boolean _repositionTokens = false;
+    private boolean _repositionTokens = false;
 
-    public TokenCollection (float x, float y, Color color) {
+    TokenCollection(float x, float y, Color color) {
         super(x, y, 190, 80);
         _color = color;
     }
 
     public int getTokenCount () { return _tokens.size(); }
 
-    public boolean hasTokensOfColor (int amount, Color color) {
+    boolean hasTokensOfColor(int amount, Color color) {
         int have = amount;
         ArrayList<Token> tokens = new ArrayList<Token>();
 
@@ -43,7 +43,7 @@ public class TokenCollection extends EntityCollection {
         return false;
     }
 
-    public boolean threeForOneTokens (int amount, Color excludedColor, ArrayList<Token> tokens) {
+    private boolean threeForOneTokens(int amount, Color excludedColor, ArrayList<Token> tokens) {
         ArrayList<Color> colors = new ArrayList<Color>();
 
         for (Token token : _tokens) {
@@ -78,12 +78,12 @@ public class TokenCollection extends EntityCollection {
         _newTokens.add(token);
     }
 
-    public void addTokens (ArrayList<Token> tokens) {
+    void addTokens(ArrayList<Token> tokens) {
         _tokens.addAll(tokens);
         _newTokens.addAll(tokens);
     }
 
-    public void removeTokens (int amount, Color color) {
+    void removeTokens(int amount, Color color) {
         ArrayList<Token> tokens = new ArrayList<Token>();
 
         for (int i = 0; i < _tokens.size(); i++) {
