@@ -7,16 +7,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
-public class Player extends Entity {
-    protected Hand _hand, _trophyHand;
+class Player extends Entity {
+    Hand _hand, _trophyHand;
 
-    protected TokenCollection _tokens;
+    private TokenCollection _tokens;
 
-    boolean _isCurrentTurn = false;
+    private boolean _isCurrentTurn = false;
 
-    public boolean isCurrentTurn () { return _isCurrentTurn; }
+    boolean isCurrentTurn() { return _isCurrentTurn; }
 
-    public Player (float x, float y, Color color) {
+    Player(float x, float y, Color color) {
         super(new Vector2(x, y), 600, 120);
         _hand = new Hand(x, y, _width, _height, 8);
         _trophyHand = new Hand(x - _width / 2f, y, _width, _height, 3);
@@ -25,15 +25,15 @@ public class Player extends Entity {
         _color.a = 0.5f;
     }
 
-    public boolean hasTokensOfColor (int amount, Color color) {
+    boolean hasTokensOfColor(int amount, Color color) {
         return _tokens.hasTokensOfColor(amount, color);
     }
 
-    public int getHeldCards () { return _hand.getCardCount(); }
+    int getHeldCards() { return _hand.getCardCount(); }
 
-    public int getTropyCardCount () { return _trophyHand.getCardCount(); }
+    int getTropyCardCount() { return _trophyHand.getCardCount(); }
 
-    public Card getSelectedCard () { return _hand.getSelectedCard(); }
+    Card getSelectedCard() { return _hand.getSelectedCard(); }
 
     public void add (Card card) {
         _hand.addCard(card);
@@ -47,20 +47,20 @@ public class Player extends Entity {
         _tokens.addTokens(tokens);
     }
 
-    public void removeTokens (int amount, Color color) {
+    void removeTokens(int amount, Color color) {
         _tokens.removeTokens(amount, color);
     }
 
-    public void startTurn () {
+    void startTurn() {
         _isCurrentTurn = true;
     }
 
-    public void endTurn (Card card) {
+    void endTurn(Card card) {
         add(card);
         _isCurrentTurn = false;
     }
 
-    public void playCard (Card cardFromDeck) {
+    void playCard(Card cardFromDeck) {
         _hand.playCard();
         endTurn(cardFromDeck);
     }
