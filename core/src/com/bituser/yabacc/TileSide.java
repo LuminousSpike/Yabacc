@@ -9,15 +9,15 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class TileSide extends EntityCollection {
-    Tile _parent;
-    TileSide_Side _sideOfTile;
+class TileSide extends EntityCollection {
+    private Tile _parent;
+    private TileSide_Side _sideOfTile;
 
-    List<Card> _cards = new ArrayList<Card>();
-    List<Card> _discardedCards = new ArrayList<Card>();
-    List<Card> _movingCards = new ArrayList<Card>();
+    private List<Card> _cards = new ArrayList<Card>();
+    private List<Card> _discardedCards = new ArrayList<Card>();
+    private List<Card> _movingCards = new ArrayList<Card>();
 
-    public enum TileSide_Side {
+    enum TileSide_Side {
         Left (-1),
         Right (1);
 
@@ -32,14 +32,14 @@ public class TileSide extends EntityCollection {
         }
     }
 
-    public TileSide (float x, float y, Color color, Tile parent, TileSide_Side sideOfTile) {
+    TileSide(float x, float y, Color color, Tile parent, TileSide_Side sideOfTile) {
         super(x, y, 300, 100);
         _color = color;
         _parent = parent;
         _sideOfTile = sideOfTile;
     }
 
-    public int getValue () {
+    int getValue() {
         int total = 0;
         for (Card card : _cards) {
             total += card.getValue();
@@ -49,16 +49,16 @@ public class TileSide extends EntityCollection {
 
     public Tile getParent () { return _parent; }
 
-    public ArrayList getDiscardedCards () {
+    ArrayList getDiscardedCards() {
         ArrayList<Card> cards = new ArrayList<Card>();
         cards.addAll(_discardedCards);
         _discardedCards.clear();
         return cards;
     }
 
-    public Rectangle getRect () { return _rect; }
+    Rectangle getRect() { return _rect; }
 
-    public boolean addCard (Card card) {
+    boolean addCard(Card card) {
         if (_parent.cardMatchesColor(card) && !haveCardsOfWantedColor(card.getColor())) {
             _cards.add(card);
             _movingCards.add(card);
@@ -67,7 +67,7 @@ public class TileSide extends EntityCollection {
         return false;
     }
 
-    public boolean haveCardsOfWantedColor (Color color) {
+    boolean haveCardsOfWantedColor(Color color) {
         int needed = _parent.getTotalTokensOfColor(color);
         int have = 0;
 
@@ -82,7 +82,7 @@ public class TileSide extends EntityCollection {
         return false;
     }
 
-    public void discardCards () {
+    void discardCards() {
         for (Card card : _cards) {
             card.discard();
         }
