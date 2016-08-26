@@ -8,20 +8,20 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
-public class Tile extends EntityCollection {
-    int _tileNumber;
-    boolean _isFlipped, _isActive = true;
-    Color _color1, _color2;
+class Tile extends EntityCollection {
+    private int _tileNumber;
+    private boolean _isFlipped, _isActive = true;
+    private Color _color1, _color2;
 
-    TileSide _leftSide, _rightSide;
+    private TileSide _leftSide, _rightSide;
 
-    Bag _bag;
+    private Bag _bag;
 
-    BitmapFont _font;
+    private BitmapFont _font;
 
-    ArrayList<Token> _tokens = new ArrayList<Token>(), _newTokens = new ArrayList<Token>();
+    private ArrayList<Token> _tokens = new ArrayList<Token>(), _newTokens = new ArrayList<Token>();
 
-    public Tile (float x, float y, Color color1, Color color2, int tileNumber, Bag bagOfTokens, BitmapFont font) {
+    Tile(float x, float y, Color color1, Color color2, int tileNumber, Bag bagOfTokens, BitmapFont font) {
         super(x, y, 100, 100);
         _color1 = color1;
         _color2 = color2;
@@ -40,15 +40,15 @@ public class Tile extends EntityCollection {
         getTokensFromBag(_bag);
     }
 
-    public TileSide getLeftSide () { return _leftSide; }
+    TileSide getLeftSide() { return _leftSide; }
 
-    public TileSide getRightSide () { return _rightSide; }
+    TileSide getRightSide() { return _rightSide; }
 
-    public boolean getFlipped () { return _isFlipped; }
+    boolean getFlipped() { return _isFlipped; }
 
-    public boolean getActive () { return _isActive; }
+    boolean getActive() { return _isActive; }
 
-    public boolean cardMatchesColor (Card card) {
+    boolean cardMatchesColor(Card card) {
         for(Token token : _tokens) {
             if (card.getColor() == token.getColor()) {
                 return true;
@@ -57,7 +57,7 @@ public class Tile extends EntityCollection {
         return false;
     }
 
-    public int getTotalTokensOfColor (Color color) {
+    int getTotalTokensOfColor(Color color) {
         int amount = 0;
         for(Token token : _tokens) {
             if (token.getColor() == color) {
@@ -67,13 +67,13 @@ public class Tile extends EntityCollection {
         return amount;
     }
 
-    public ArrayList getDiscardedCards () {
+    ArrayList getDiscardedCards() {
         ArrayList<Card> _discardedCards = new ArrayList<Card>(); _discardedCards.addAll(_leftSide.getDiscardedCards());
         _discardedCards.addAll(_rightSide.getDiscardedCards());
         return _discardedCards;
     }
 
-    public boolean isFull() {
+    boolean isFull() {
         for(Token token : _tokens) {
             if (_leftSide.haveCardsOfWantedColor(token.getColor()) && _rightSide.haveCardsOfWantedColor(token.getColor())) {
                 continue;
@@ -85,7 +85,7 @@ public class Tile extends EntityCollection {
         return true;
     }
 
-    public ArrayList claimTokens() {
+    ArrayList claimTokens() {
         ArrayList<Token> _tokensToSend = new ArrayList<Token>();
         _tokensToSend.addAll(_tokens);
         flipTile();
