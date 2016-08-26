@@ -41,7 +41,6 @@ public abstract class EntityCollection extends Entity {
     }
 
     protected void add (Entity entity) {
-        entity.moveToPosition(_position.x, _position.y);
         _entities.add(entity);
     }
 
