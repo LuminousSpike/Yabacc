@@ -5,11 +5,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public class DropletDeck extends Deck {
+class DropletDeck extends Deck {
 
-    BitmapFont _font;
+    private BitmapFont _font;
 
-    public DropletDeck (float x, float y, Color color1, Color color2, Color color3, Color color4, Color color5, BitmapFont font) {
+    DropletDeck(float x, float y, Color color1, Color color2, Color color3, Color color4, Color color5, BitmapFont font) {
         super(x, y, 60, 90);
         _font = font;
 
