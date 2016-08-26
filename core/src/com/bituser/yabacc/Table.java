@@ -10,26 +10,26 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
-public class Table extends EntityCollection {
-    ArrayList<Player> _players = new ArrayList<Player>();
-    ArrayList<TrophyCard> _trophyCards = new ArrayList<TrophyCard>();
-    ArrayList<Card> _discardedCards = new ArrayList<Card>();
+class Table extends EntityCollection {
+    private ArrayList<Player> _players = new ArrayList<Player>();
+    private ArrayList<TrophyCard> _trophyCards = new ArrayList<TrophyCard>();
+    private ArrayList<Card> _discardedCards = new ArrayList<Card>();
 
-    Hand _trophyHand;
-    Bag _bag;
-    Deck _deck;
+    private Hand _trophyHand;
+    private Bag _bag;
+    private Deck _deck;
 
-    Player _player1, _player2, _activePlayer, _winnerPlayer;
-    Random _rand = new Random();
+    private Player _player1, _player2, _activePlayer, _winnerPlayer;
+    private Random _rand = new Random();
 
-    BitmapFont _font;
+    private BitmapFont _font;
 
     // Does this need to exist?
-    public Table (float x, float y, float width, float height) {
+    private Table(float x, float y, float width, float height) {
         super(x, y, width, height);
     }
 
-    public Table (int tableWidth, int tableHeight, Bag bagOfTokens, Deck deckOfCards, ArrayList<Player> players, BitmapFont font) {
+    Table(int tableWidth, int tableHeight, Bag bagOfTokens, Deck deckOfCards, ArrayList<Player> players, BitmapFont font) {
         this (0, 0, tableWidth, tableHeight);
         _bag = bagOfTokens;
         _deck = deckOfCards;
@@ -62,12 +62,12 @@ public class Table extends EntityCollection {
     }
 
     // Need to refactor this out
-    public ArrayList<Player> getPlayers () { return _players; }
+    ArrayList<Player> getPlayers() { return _players; }
 
-    public Player getWinner () { return _winnerPlayer; }
+    Player getWinner() { return _winnerPlayer; }
 
     // Need to refactor this out
-    public ArrayList<TileSide> getTileSides () {
+    private ArrayList<TileSide> getTileSides() {
         ArrayList<TileSide> sides = new ArrayList<TileSide>();
         for (Iterator<Entity> it = iterator(); it.hasNext();) {
     		Entity entity = it.next();
@@ -242,13 +242,13 @@ public class Table extends EntityCollection {
         }
     }
 
-    public void touchDown (float x, float y, int pointer, int button, HumanPlayer player) {
+    void touchDown(float x, float y, int pointer, int button, HumanPlayer player) {
         if (player.isCurrentTurn()) {
             player.touchDown(x, y, pointer, button);
         }
     }
 
-    public void touchUp (float x, float y, int pointer, int button, HumanPlayer player) {
+    void touchUp(float x, float y, int pointer, int button, HumanPlayer player) {
         if (player.isCurrentTurn()) {
             Card card = player.getSelectedCard();
 
@@ -265,13 +265,13 @@ public class Table extends EntityCollection {
         }
     }
 
-    public void touchDragged (int x, int y, int pointer, HumanPlayer player) {
+    void touchDragged(int x, int y, int pointer, HumanPlayer player) {
         if (player.isCurrentTurn()) {
             player.touchDragged(x, y, pointer);
         }
     }
 
-    public void mouseMoved (int x, int y, HumanPlayer player) {
+    void mouseMoved(int x, int y, HumanPlayer player) {
         if (player.isCurrentTurn()) {
             player.mouseMoved(x, y);
         }
