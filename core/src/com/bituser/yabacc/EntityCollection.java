@@ -13,18 +13,22 @@ public abstract class EntityCollection extends Entity {
 	private int _columns;
 	private float _spacing;
 
-    public EntityCollection (float x, float y, float width, float height) {
-        super(x, y, width, height);
-        
+    public EntityCollection (Vector2 position, float width, float height) {
+        super(position, width, height);
+
         // Defaults for now
         _columns = 8;
         _spacing = 10;
     }
 
+    public EntityCollection (float x, float y, float width, float height) {
+        super(new Vector2(x, y), width, height);
+    }
+
     public int size () {
         return _entities.size();
     }
-    
+
     public Iterator<Entity> iterator () { return _entities.iterator(); }
 
     protected Entity get () {
@@ -49,11 +53,11 @@ public abstract class EntityCollection extends Entity {
             add(entity);
         }
     }
-    
-    protected void addAll (ArrayList<Entity> entities) { 
+
+    protected void addAll (ArrayList<Entity> entities) {
     	_entities.addAll(entities);
     }
-    
+
     protected void remove (Entity entity) {
     	_entities.remove(entity);
     }
@@ -77,14 +81,14 @@ public abstract class EntityCollection extends Entity {
     @Override
     public void render (SpriteBatch batch) {
     }
-    
+
     private Vector2 calculateEntityPosition (Entity entity, int placeInHand) {
         int row = placeInHand / _columns;
         float xPos = _position.x + (entity.getWidth() + _spacing) * (placeInHand % _columns);
-        
+
         // This might need to be configurable rather than a magic number
         xPos -= _width / 2.5f;
-        
+
         float yPos = _position.y - (entity.getHeight() + _spacing) * row;
         return new Vector2(xPos, yPos);
     }
@@ -96,7 +100,7 @@ public abstract class EntityCollection extends Entity {
     private boolean positionEntity (Entity entity, int placeInHand, float deltaTime) {
         return entity.moveToPosition(calculateEntityPosition(entity, placeInHand), deltaTime);
     }
-    
+
 	private boolean repositionEntities (float deltaTime) {
 		boolean entitiesMoved = false;
 		int index = 0;
