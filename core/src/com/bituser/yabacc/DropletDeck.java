@@ -18,10 +18,6 @@ class DropletDeck extends Deck {
         createCards(9, color3);
         createCards(7, color4);
         createCards(5, color5);
-
-        for (Card card : _cards) {
-            System.out.println(card.toString());
-        }
     }
 
     private void createCards (int amount, Color suite) {
