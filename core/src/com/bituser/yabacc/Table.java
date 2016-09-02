@@ -120,6 +120,7 @@ class Table extends EntityCollection {
         Array<TrophyCard> cards = new Array<TrophyCard>();
         cards.addAll(_trophyCards);
         _trophyHand.addAll(cards);
+        _trophyHand.setColumns(3);
         add(_trophyHand);
     }
 

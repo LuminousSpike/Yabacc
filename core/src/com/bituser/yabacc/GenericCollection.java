@@ -36,6 +36,8 @@ public GenericCollection (float x, float y, float width, float height) {
 
     protected void setSelectedEntity (T selectedEntity) { _selectedEntity = selectedEntity; }
 
+    protected void setColumns (int columns) { _columns = columns;}
+
     protected void repositionEntities() {
         _repositionEntities = true;
     }
