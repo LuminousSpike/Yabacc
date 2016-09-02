@@ -5,8 +5,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
-// TODO refactor out repositionCards and instead use the GenericCollection's method.
-// TODO refactor out all collection logic to use GenericCollection's.
 public class GenericHand extends GenericCollection<Card> {
     Card _activeCard = null, _selectedCard = null;
 
