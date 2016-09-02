@@ -6,26 +6,23 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
-class TokenCollection extends EntityCollection {
-    private ArrayList<Token> _tokens = new ArrayList<Token>(), _newTokens = new ArrayList<Token>();
-
-    private static final int TOKEN_SPACING = 5;
-
-    private boolean _repositionTokens = false;
-
+class TokenCollection extends GenericCollection<Token> {
     TokenCollection(float x, float y, Color color) {
-        super(x, y, 190, 80);
+        super(new Vector2(x, y), 190, 80);
         _color = color;
+        setColumns(5);
+        setSpacing(5);
     }
 
-    public int getTokenCount () { return _tokens.size(); }
+    public int getTokenCount () { return _entities.size; }
 
     boolean hasTokensOfColor(int amount, Color color) {
         int have = amount;
         ArrayList<Token> tokens = new ArrayList<Token>();
 
-        for (Token token : _tokens) {
+        for (Token token : _entities) {
             if (token.getColor() == color) {
                 have--;
             }
@@ -35,7 +32,7 @@ class TokenCollection extends EntityCollection {
         else if (have < amount) {
             if (threeForOneTokens(have, color, tokens)) {
                 for (Token token : tokens) {
-                    _tokens.remove(token);
+                    remove(token);
                 }
                 return true;
             }
@@ -46,7 +43,7 @@ class TokenCollection extends EntityCollection {
     private boolean threeForOneTokens(int amount, Color excludedColor, ArrayList<Token> tokens) {
         ArrayList<Color> colors = new ArrayList<Color>();
 
-        for (Token token : _tokens) {
+        for (Token token : _entities) {
             Color tokenColor = token.getColor();
             if (tokenColor != excludedColor && !colors.contains(tokenColor)) {
                 colors.add(tokenColor);
@@ -56,7 +53,7 @@ class TokenCollection extends EntityCollection {
         for (Color color : colors) {
             ArrayList<Token> tokenSet = new ArrayList<Token>();
             if (amount > 0) {
-                for (Token token : _tokens) {
+                for (Token token : _entities) {
                     if (token.getColor() == color) {
                         if (tokenSet.size() < 3) {
                             tokenSet.add(token);
@@ -74,20 +71,18 @@ class TokenCollection extends EntityCollection {
     }
 
     public void addToken (Token token) {
-        _tokens.add(token);
-        _newTokens.add(token);
+        add(token);
     }
 
-    void addTokens(ArrayList<Token> tokens) {
-        _tokens.addAll(tokens);
-        _newTokens.addAll(tokens);
+    void addTokens(Array<Token> tokens) {
+        addAll(tokens);
     }
 
     void removeTokens(int amount, Color color) {
-        ArrayList<Token> tokens = new ArrayList<Token>();
+        Array<Token> tokens = new Array<Token>();
 
-        for (int i = 0; i < _tokens.size(); i++) {
-            Token token = _tokens.get(i);
+        for (int i = 0; i < _entities.size; i++) {
+            Token token = _entities.get(i);
             if (token.getColor() == color) {
                 tokens.add(token);
                 amount--;
@@ -97,31 +92,18 @@ class TokenCollection extends EntityCollection {
             }
         }
 
-        _tokens.removeAll(tokens);
-        _repositionTokens = true;
+        removeAll(tokens);
     }
 
     @Override
     public void update (float deltaTime) {
         super.update(deltaTime);
-
-        if (!_newTokens.isEmpty()) {
-            positionNewTokens(deltaTime);
-        }
-
-        if (_repositionTokens) {
-            repositionTokens(deltaTime);
-        }
-
-        for (Token token : _tokens) {
-            token.update(deltaTime);
-        }
     }
 
     @Override
     public void render (ShapeRenderer shapeRenderer) {
         super.render(shapeRenderer);
-        for (Token token : _tokens) {
+        for (Token token : _entities) {
             token.render(shapeRenderer);
         }
     }
@@ -129,44 +111,5 @@ class TokenCollection extends EntityCollection {
     @Override
     public void render (SpriteBatch batch) {
 
-    }
-
-    private void positionNewTokens (float deltaTime) {
-        Token tokenToRemove = null;
-
-        for (Token token : _newTokens) {
-            if (positionToken(token, _tokens.indexOf(token), deltaTime)) {
-                tokenToRemove = token;
-            }
-        }
-
-        if (tokenToRemove != null) {
-            _newTokens.remove(tokenToRemove);
-        }
-    }
-
-    private boolean positionToken (Token token, int index, float deltaTime) {
-        int row = 0;
-        row = index / 9;
-
-        //int positionY = (int)(_position.y + (token.getHeight() + TOKEN_SPACING) * (row - 1));
-        //int positionX = (int)(_position.x + ((token.getWidth() + TOKEN_SPACING) * (index - (row + 1) * 5)));
-        float positionX = _position.x + (token.getWidth() + TOKEN_SPACING) * (index % 9);
-        positionX -= _width / 2.25f;
-        float positionY = _position.y - (token.getHeight() + TOKEN_SPACING) * row;
-        positionY += _height / 2.5f;
-        return !token.moveToPosition (new Vector2(positionX, positionY), deltaTime);
-    }
-
-    private boolean repositionTokens (float deltaTime) {
-        boolean finished = true;
-
-        for (int i = 0; i < _tokens.size(); i++) {
-            Token token = _tokens.get(i);
-            if (!positionToken(token, i, deltaTime)) {
-                finished = false;
-            }
-        }
-        return finished;
     }
 }
