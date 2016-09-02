@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
-public class GenericHand extends GenericCollection<Card> {
+public class GenericHand<T extends Card> extends GenericCollection<Card> {
     Card _activeCard = null, _selectedCard = null;
 
     Vector2 _mousePos = new Vector2(0,0);

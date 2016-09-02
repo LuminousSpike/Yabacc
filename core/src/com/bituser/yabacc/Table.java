@@ -9,13 +9,14 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
 class Table extends EntityCollection {
     private ArrayList<Player> _players = new ArrayList<Player>();
-    private ArrayList<TrophyCard> _trophyCards = new ArrayList<TrophyCard>();
+    private Array<TrophyCard> _trophyCards = new Array<TrophyCard>();
     private ArrayList<Card> _discardedCards = new ArrayList<Card>();
 
-    private Hand _trophyHand;
+    private GenericHand _trophyHand;
     private Bag _bag;
     private Deck _deck;
 
@@ -115,10 +116,10 @@ class Table extends EntityCollection {
         _trophyCards.add(new TrophyCard(new Vector2(0, 0), Color.YELLOW, 6, _font));
         _trophyCards.add(new TrophyCard(new Vector2(0, 0), Color.RED, 7, _font));
 
-        _trophyHand = new Hand(120, height / 1.75f, 200, 200, 3);
-        ArrayList<Card> cards = new ArrayList<Card>();
+        _trophyHand = new GenericHand<TrophyCard>(120, height / 1.75f, 200, 200, 3);
+        Array<TrophyCard> cards = new Array<TrophyCard>();
         cards.addAll(_trophyCards);
-        _trophyHand.addCards(cards);
+        _trophyHand.addAll(cards);
         add(_trophyHand);
     }
 
@@ -211,7 +212,7 @@ class Table extends EntityCollection {
         }
 
         if (cardToRemove != null) {
-            _trophyCards.remove(cardToRemove);
+            _trophyCards.removeValue(cardToRemove, true);
             _trophyHand.remove(cardToRemove);
         }
     }
