@@ -22,21 +22,14 @@ public class GenericHand extends GenericCollection<Card> {
     }
 
     public int getCardCount () {
-        return _entities.size();
+        return _entities.size;
     }
 
     public Card getSelectedCard () { return _selectedCard; }
 
-    public void addCard (Card card) {
-        add(card);
-    }
-
-    public void addCards (Array<Card> cards) {
-        addAll(cards);
-    }
-
+    @Override
     public void remove (Card card) {
-        remove(card);
+        super.remove(card);
         _selectedCard = null;
         _activeCard = null;
     }
@@ -50,6 +43,7 @@ public class GenericHand extends GenericCollection<Card> {
          setActiveCard(x, y);
         if (_activeCard != null) {
             _selectedCard = _activeCard;
+            setSelectedEntity(_selectedCard);
             _selectedCard.touchDown(x, y, pointer, button);
         }
         return _activeCard;
@@ -61,6 +55,8 @@ public class GenericHand extends GenericCollection<Card> {
             card.touchUp(x, y, pointer, button);
         }
         _selectedCard = null;
+        setSelectedEntity(_selectedCard);
+        repositionEntities();
         return _selectedCard;
      }
 
