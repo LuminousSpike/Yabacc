@@ -9,9 +9,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class GenericCollection <T extends Entity> extends Entity {
-    private Array<T> _entities, _newEntites;
+    protected Array<T> _entities;
 	private int _columns;
 	private float _spacing;
+	private boolean _repositionEntities = false;
+	private T _selectedEntity;
 
     public GenericCollection (Vector2 position, float width, float height) {
         super(position, width, height);
@@ -21,10 +23,8 @@ public abstract class GenericCollection <T extends Entity> extends Entity {
         _spacing = 10;
 
         _entities = new Array<T>();
-        _newEntites = new Array<T>();
     }
-
-    public GenericCollection (float x, float y, float width, float height) {
+public GenericCollection (float x, float y, float width, float height) {
         super(new Vector2(x, y), width, height);
     }
 
@@ -34,6 +34,13 @@ public abstract class GenericCollection <T extends Entity> extends Entity {
 
     public Iterator<T> iterator () { return _entities.iterator(); }
 
+    protected void setSelectedEntity (T selectedEntity) { _selectedEntity = selectedEntity; }
+
+    protected void repositionEntities() {
+        _repositionEntities = true;
+    }
+
+    // TODO remove this method.
     protected T get () {
         T entity = null;
 
@@ -49,6 +56,7 @@ public abstract class GenericCollection <T extends Entity> extends Entity {
 
     protected void add (T entity) {
         _entities.add(entity);
+        _repositionEntities = true;
     }
 
     protected void add (T[] entities) {
@@ -59,16 +67,22 @@ public abstract class GenericCollection <T extends Entity> extends Entity {
 
     protected void addAll (Array<T> entities) {
     	_entities.addAll(entities);
+        _repositionEntities = true;
     }
 
     protected void remove (T entity) {
     	_entities.removeValue(entity, true);
+        _repositionEntities = true;
     }
 
     @Override
     public void update (float deltaTime) {
         _rect.setX(_position.x - (_width / 2));
         _rect.setY(_position.y - (_height / 2));
+        if (_repositionEntities) {
+            _repositionEntities = repositionEntities(deltaTime);
+        }
+
         for (T entity : _entities) {
             entity.update(deltaTime);
         }
@@ -108,9 +122,11 @@ public abstract class GenericCollection <T extends Entity> extends Entity {
 		boolean entitiesMoved = false;
 		int index = 0;
 		for (T entity : _entities) {
-			if (positionEntity(entity, index, deltaTime)) {
-				entitiesMoved = true;
-			}
+		    if (entity != _selectedEntity) {
+                if (positionEntity(entity, index, deltaTime)) {
+                    entitiesMoved = true;
+                }
+            }
 			index++;
 		}
         return entitiesMoved;
