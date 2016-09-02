@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
 class Tile extends EntityCollection {
     private int _tileNumber;
@@ -19,7 +20,7 @@ class Tile extends EntityCollection {
 
     private BitmapFont _font;
 
-    private ArrayList<Token> _tokens = new ArrayList<Token>(), _newTokens = new ArrayList<Token>();
+    private Array<Token> _tokens = new Array<Token>(), _newTokens = new Array<Token>();
 
     Tile(float x, float y, Color color1, Color color2, int tileNumber, Bag bagOfTokens, BitmapFont font) {
         super(x, y, 100, 100);
@@ -85,8 +86,8 @@ class Tile extends EntityCollection {
         return true;
     }
 
-    ArrayList claimTokens() {
-        ArrayList<Token> _tokensToSend = new ArrayList<Token>();
+    Array claimTokens() {
+        Array<Token> _tokensToSend = new Array<Token>();
         _tokensToSend.addAll(_tokens);
         flipTile();
         return _tokensToSend;
@@ -161,7 +162,7 @@ class Tile extends EntityCollection {
         Token tokenPlaced = null;
 
         for (Token token : _newTokens) {
-            int tokenPostition = _tokens.indexOf(token);
+            int tokenPostition = _tokens.indexOf(token, true);
             int nextX = (int)_position.x - (int)(_width / 2) + 10 + (int)((token.getWidth() + 5) * tokenPostition);
             int nextY = (int)_position.y;
 
@@ -171,7 +172,7 @@ class Tile extends EntityCollection {
         }
 
         if (tokenPlaced != null) {
-            _newTokens.remove(tokenPlaced);
+            _newTokens.removeValue(tokenPlaced, true);
         }
     }
 
