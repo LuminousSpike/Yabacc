@@ -16,7 +16,7 @@ class Table extends EntityCollection {
     private Array<TrophyCard> _trophyCards = new Array<TrophyCard>();
     private ArrayList<Card> _discardedCards = new ArrayList<Card>();
 
-    private GenericHand _trophyHand;
+    private Hand _trophyHand;
     private Bag _bag;
     private Deck _deck;
 
@@ -116,7 +116,7 @@ class Table extends EntityCollection {
         _trophyCards.add(new TrophyCard(new Vector2(0, 0), Color.YELLOW, 6, _font));
         _trophyCards.add(new TrophyCard(new Vector2(0, 0), Color.RED, 7, _font));
 
-        _trophyHand = new GenericHand<TrophyCard>(120, height / 1.75f, 200, 200, 3);
+        _trophyHand = new Hand<TrophyCard>(120, height / 1.75f, 200, 200, 3);
         Array<TrophyCard> cards = new Array<TrophyCard>();
         cards.addAll(_trophyCards);
         _trophyHand.addAll(cards);
