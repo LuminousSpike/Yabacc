@@ -12,8 +12,6 @@ public class GenericHand extends GenericCollection<Card> {
 
     Vector2 _mousePos = new Vector2(0,0);
 
-    final int CARD_SPACING = 10;
-
     int _columns;
 
     public GenericHand (float x, float y, float width, float height, int columns) {
