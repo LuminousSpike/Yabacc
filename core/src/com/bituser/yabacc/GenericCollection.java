@@ -38,6 +38,8 @@ public GenericCollection (float x, float y, float width, float height) {
 
     protected void setColumns (int columns) { _columns = columns;}
 
+    protected void setSpacing (float spacing) { _spacing = spacing; }
+
     protected void repositionEntities() {
         _repositionEntities = true;
     }
@@ -74,6 +76,11 @@ public GenericCollection (float x, float y, float width, float height) {
 
     protected void remove (T entity) {
     	_entities.removeValue(entity, true);
+        _repositionEntities = true;
+    }
+
+    protected void removeAll (Array<T> entities) {
+        _entities.removeAll(entities, true);
         _repositionEntities = true;
     }
 
