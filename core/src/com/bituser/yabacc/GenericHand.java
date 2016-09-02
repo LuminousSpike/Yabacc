@@ -71,38 +71,6 @@ public class GenericHand extends GenericCollection<Card> {
         _mousePos.set(x, y);
      }
 
-     // TODO adapt this for use with the GenericCollection's way of repositioning entities.
-    private Vector2 calculateCardPosition (Card card, int placeInHand) {
-        int row = placeInHand / _columns;
-        float xPos = _position.x + (card.getWidth() + CARD_SPACING) * (placeInHand % _columns);
-        xPos -= _width / 2.5f;
-        float yPos = _position.y - (card.getHeight() + CARD_SPACING) * row;
-        return new Vector2(xPos, yPos);
-    }
-
-    private void positionCard (Card card, int placeInHand) {
-        card.moveToPosition(calculateCardPosition(card, placeInHand));
-    }
-
-    private boolean positionCard (Card card, int placeInHand, float deltaTime) {
-        return card.moveToPosition(calculateCardPosition(card, placeInHand), deltaTime);
-    }
-
-    // TODO remove this method after replacing functionality with the GenericCollection's.
-    private boolean repositionCards (float deltaTime) {
-        boolean cardsMoved = false;
-        int index = 0;
-        for (Card card : _entities) {
-            if (!card.equals(_selectedCard)) {
-                if (positionCard(card, index, deltaTime)) {
-                    cardsMoved = true;
-                }
-            }
-            index++;
-        }
-        return cardsMoved;
-    }
-
     private void setActiveCard (float x, float y) {
         for (Card card : _entities) {
             if (_selectedCard == null) {
