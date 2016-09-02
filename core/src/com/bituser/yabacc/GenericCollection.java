@@ -45,7 +45,7 @@ public GenericCollection (float x, float y, float width, float height) {
     }
 
     // TODO remove this method.
-    protected T get () {
+    protected T getRandom () {
         T entity = null;
 
         int entityCount = _entities.size;
