@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
 class Player extends Entity {
-    Hand _hand, _trophyHand;
+    GenericHand _hand, _trophyHand;
 
     private TokenCollection _tokens;
 
@@ -18,8 +18,8 @@ class Player extends Entity {
 
     Player(float x, float y, Color color) {
         super(new Vector2(x, y), 600, 120);
-        _hand = new Hand(x, y, _width, _height, 8);
-        _trophyHand = new Hand(x - _width / 2f, y, _width, _height, 3);
+        _hand = new GenericHand(x, y, _width, _height, 8);
+        _trophyHand = new GenericHand(x - _width / 2f, y, _width, _height, 3);
         _tokens = new TokenCollection(x + _width / 1.20f, y,  Color.GRAY);
         _color = color;
         _color.a = 0.5f;
@@ -36,11 +36,11 @@ class Player extends Entity {
     Card getSelectedCard() { return _hand.getSelectedCard(); }
 
     public void add (Card card) {
-        _hand.addCard(card);
+        _hand.add(card);
     }
 
     public void add (TrophyCard card) {
-        _trophyHand.addCard(card);
+        _trophyHand.add(card);
     }
 
     public void add (ArrayList<Token> tokens) {
