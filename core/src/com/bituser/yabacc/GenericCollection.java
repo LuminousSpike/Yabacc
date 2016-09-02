@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class GenericCollection <T extends Entity> extends Entity {
-    private Array<T> _entities;
+    private Array<T> _entities, _newEntites;
 	private int _columns;
 	private float _spacing;
 
@@ -19,6 +19,9 @@ public abstract class GenericCollection <T extends Entity> extends Entity {
         // Defaults for now
         _columns = 8;
         _spacing = 10;
+
+        _entities = new Array<T>();
+        _newEntites = new Array<T>();
     }
 
     public GenericCollection (float x, float y, float width, float height) {
