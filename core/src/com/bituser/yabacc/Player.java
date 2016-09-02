@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
 class Player extends Entity {
     Hand _hand, _trophyHand;
@@ -43,7 +44,7 @@ class Player extends Entity {
         _trophyHand.add(card);
     }
 
-    public void add (ArrayList<Token> tokens) {
+    public void add (Array<Token> tokens) {
         _tokens.addTokens(tokens);
     }
 
