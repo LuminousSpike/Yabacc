@@ -15,8 +15,8 @@ allprojects {
     version = '1.0'
     ext {
         appName = "yabacc"
-        gdxVersion = '1.9.3'
-        roboVMVersion = '2.1.0'
+        gdxVersion = '1.9.4'
+        roboVMVersion = '2.2.0'
     }
 
     repositories {
