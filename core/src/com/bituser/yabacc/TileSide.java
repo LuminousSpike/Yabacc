@@ -9,13 +9,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-class TileSide extends EntityCollection {
+class TileSide extends GenericCollection<Card> {
     private Tile _parent;
     private TileSide_Side _sideOfTile;
 
-    private List<Card> _cards = new ArrayList<Card>();
     private List<Card> _discardedCards = new ArrayList<Card>();
-    private List<Card> _movingCards = new ArrayList<Card>();
 
     enum TileSide_Side {
         Left (-1),
@@ -33,7 +31,7 @@ class TileSide extends EntityCollection {
     }
 
     TileSide(float x, float y, Color color, Tile parent, TileSide_Side sideOfTile) {
-        super(x, y, 300, 100);
+        super(new Vector2(x,y), 300, 100);
         _color = color;
         _parent = parent;
         _sideOfTile = sideOfTile;
@@ -41,7 +39,7 @@ class TileSide extends EntityCollection {
 
     int getValue() {
         int total = 0;
-        for (Card card : _cards) {
+        for (Card card : _entities) {
             total += card.getValue();
         }
         return total;
@@ -60,8 +58,7 @@ class TileSide extends EntityCollection {
 
     boolean addCard(Card card) {
         if (_parent.cardMatchesColor(card) && !haveCardsOfWantedColor(card.getColor())) {
-            _cards.add(card);
-            _movingCards.add(card);
+            add(card);
             return true;
         }
         return false;
@@ -71,7 +68,7 @@ class TileSide extends EntityCollection {
         int needed = _parent.getTotalTokensOfColor(color);
         int have = 0;
 
-        for (Card card : _cards) {
+        for (Card card : _entities) {
             if (card.getColor() == color) {
                 have++;
                 if (have == needed) {
@@ -83,21 +80,19 @@ class TileSide extends EntityCollection {
     }
 
     void discardCards() {
-        for (Card card : _cards) {
+        for (Card card : _entities) {
             card.discard();
+            _discardedCards.add(card);
         }
 
-        _discardedCards.addAll(_cards);
-        _cards.clear();
+        _entities.clear();
     }
 
     @Override
     public void update (float deltaTime) {
         super.update(deltaTime);
 
-        positionCards(deltaTime);
-
-        for (Card card : _cards) {
+        for (Card card : _entities) {
             card.update(deltaTime);
         }
     }
@@ -107,44 +102,15 @@ class TileSide extends EntityCollection {
         _color.a = 0.5f;
         shapeRenderer.setColor(_color);
         shapeRenderer.rect(_rect.x, _rect.y, _width, _height);
-        for (Card card : _cards) {
+        for (Card card : _entities) {
             card.render(shapeRenderer);
         }
     }
 
     @Override
     public void render (SpriteBatch batch) {
-        for (Card card : _cards) {
+        for (Card card : _entities) {
             card.render(batch);
         }
-    }
-
-    private void positionCards (float deltaTime) {
-        Card positionedCard = null;
-
-        for (Card card : _movingCards) {
-            if (positionCard(card, _cards.indexOf(card), deltaTime)) {
-                positionedCard = card;
-            }
-        }
-
-        if (positionedCard != null) {
-            _movingCards.remove(positionedCard);
-        }
-    }
-
-    private boolean positionCard (Card card, int cardPosition, float deltaTime) {
-        float nextX, nextY;
-        float offset = card.getWidth() - 10 + (card.getWidth() - 10) - ((10 + card.getWidth()) * cardPosition) + 10;
-
-        if (_sideOfTile == TileSide_Side.Right) {
-            nextX = _position.x - offset;
-        }
-        else {
-            nextX = _position.x + offset;
-        }
-        nextY = _position.y;
-
-        return !card.moveToPosition(new Vector2(nextX, nextY), deltaTime);
     }
 }
