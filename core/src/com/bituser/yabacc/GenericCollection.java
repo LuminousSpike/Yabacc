@@ -1,7 +1,6 @@
 package com.bituser.yabacc;
 
 import java.util.Iterator;
-import java.util.List;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,6 +11,7 @@ public abstract class GenericCollection <T extends Entity> extends Entity {
     protected Array<T> _entities;
 	private int _columns;
 	private float _spacing;
+    private float _offsetX, _offsetY;
 	private boolean _repositionEntities = false;
 	private T _selectedEntity;
 
@@ -39,6 +39,10 @@ public GenericCollection (float x, float y, float width, float height) {
     protected void setColumns (int columns) { _columns = columns;}
 
     protected void setSpacing (float spacing) { _spacing = spacing; }
+
+    protected void setOffsetX(float offsetX) { _offsetX = offsetX; }
+
+    protected void setOffsetY(float offsetY) { _offsetY = offsetY; }
 
     protected void repositionEntities() {
         _repositionEntities = true;
@@ -110,12 +114,12 @@ public GenericCollection (float x, float y, float width, float height) {
 
     private Vector2 calculateEntityPosition (T entity, int placeInHand) {
         int row = placeInHand / _columns;
-        float xPos = _position.x + (entity.getWidth() + _spacing) * (placeInHand % _columns);
+        float xPos = _position.x + _offsetX + (entity.getWidth() + _spacing) * (placeInHand % _columns);
 
         // This might need to be configurable rather than a magic number
         xPos -= _width / 2.5f;
 
-        float yPos = _position.y - (entity.getHeight() + _spacing) * row;
+        float yPos = _position.y + _offsetY - (entity.getHeight() + _spacing) * row;
         return new Vector2(xPos, yPos);
     }
 
