@@ -104,6 +104,7 @@ class Tile extends GenericCollection<Token> {
 
     @Override
     public void render (ShapeRenderer shapeRenderer) {
+        super.render(shapeRenderer);
         if (_isFlipped) {
             _color = _color2;
         }
@@ -122,7 +123,6 @@ class Tile extends GenericCollection<Token> {
         for(Token token : _entities) {
             token.render(shapeRenderer);
         }
-        super.render(shapeRenderer);
     }
 
     @Override
