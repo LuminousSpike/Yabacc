@@ -1,44 +1,42 @@
 package com.bituser.yabacc;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import java.util.Iterator;
+import java.util.Random;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import java.util.*;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
-public class Table extends EntityCollection {
-    ArrayList<Player> _players = new ArrayList<Player>();
-    ArrayList<TrophyCard> _trophyCards = new ArrayList<TrophyCard>();
-    ArrayList<Card> _discardedCards = new ArrayList<Card>();
+class Table extends GenericCollection<Entity> {
+    private final Array<Player> _players = new Array<Player>();
+    private final Array<TrophyCard> _trophyCards = new Array<TrophyCard>();
+    private final Array<Card> _discardedCards = new Array<Card>();
 
-    Hand _trophyHand;
-    Bag _bag;
-    Deck _deck;
+    private Hand _trophyHand;
+    private Bag _bag;
+    private Deck _deck;
 
-    Player _player1, _player2, _activePlayer, _winnerPlayer;
-    Random _rand = new Random();
+    private Player _player1, _player2, _activePlayer, _winnerPlayer;
+    private final Random _rand = new Random();
 
-    BitmapFont _font;
+    private BitmapFont _font;
 
     // Does this need to exist?
-    public Table (float x, float y, float width, float height) {
-        super(x, y, width, height);
+    private Table(float width, float height) {
+        super(new Vector2((float) 0, (float) 0), width, height);
     }
 
-    public Table (int tableWidth, int tableHeight, Bag bagOfTokens, Deck deckOfCards, ArrayList<Player> players, BitmapFont font) {
-        this (0, 0, tableWidth, tableHeight);
+    Table(int tableWidth, int tableHeight, Bag bagOfTokens, Deck deckOfCards, Array<Player> players, BitmapFont font) {
+        this (tableWidth, tableHeight);
         _bag = bagOfTokens;
         _deck = deckOfCards;
         _font = font;
 
-        _entities.add(_bag);
-        _entities.add(_deck);
+        add(_bag);
+        add(_deck);
 
         createTrophyCards(tableHeight);
         createTiles(tableWidth, tableHeight, bagOfTokens);
@@ -46,7 +44,12 @@ public class Table extends EntityCollection {
         _player1 = players.get(0);
         _player2 = players.get(1);
         _players.addAll(players);
-        _entities.addAll(players);
+        
+        // quick and dirty way of casting to parent class
+        Array<Entity> entities = new Array<Entity>();
+        entities.addAll(players);
+        
+        addAll(entities);
 
         if (_rand.nextInt(100) < 50) {
             _activePlayer = _player1;
@@ -59,14 +62,15 @@ public class Table extends EntityCollection {
     }
 
     // Need to refactor this out
-    public ArrayList<Player> getPlayers () { return _players; }
+    Array<Player> getPlayers() { return _players; }
 
-    public Player getWinner () { return _winnerPlayer; }
+    Player getWinner() { return _winnerPlayer; }
 
     // Need to refactor this out
-    public ArrayList<TileSide> getTileSides () {
-        ArrayList<TileSide> sides = new ArrayList<TileSide>();
-        for (Entity entity : _entities) {
+    private Array<TileSide> getTileSides() {
+        Array<TileSide> sides = new Array<TileSide>();
+        for (Iterator<Entity> it = iterator(); it.hasNext();) {
+    		Entity entity = it.next();
             if (entity instanceof Tile) {
                 Tile tile = (Tile)entity;
                 sides.add(tile.getLeftSide());
@@ -82,7 +86,7 @@ public class Table extends EntityCollection {
         deckLogic();
 
         if (tileToRemove != null) {
-            _entities.remove(tileToRemove);
+            remove(tileToRemove);
         }
 
         playerLogic();
@@ -90,14 +94,16 @@ public class Table extends EntityCollection {
 
     @Override
     public void render (ShapeRenderer shapeRenderer) {
-        for (Entity entity : _entities) {
+    	for (Iterator<Entity> it = iterator(); it.hasNext();) {
+    		Entity entity = it.next();
             entity.render(shapeRenderer);
         }
     }
 
     @Override
     public void render (SpriteBatch batch) {
-        for (Entity entity : _entities) {
+    	for (Iterator<Entity> it = iterator(); it.hasNext();) {
+    		Entity entity = it.next();
             entity.render(batch);
         }
     }
@@ -109,15 +115,17 @@ public class Table extends EntityCollection {
         _trophyCards.add(new TrophyCard(new Vector2(0, 0), Color.YELLOW, 6, _font));
         _trophyCards.add(new TrophyCard(new Vector2(0, 0), Color.RED, 7, _font));
 
-        _trophyHand = new Hand(120, height / 1.75f, 200, 200, 3);
-        ArrayList<Card> cards = new ArrayList<Card>();
+        _trophyHand = new Hand<TrophyCard>(120, height / 1.75f, 200, 200, 3);
+        Array<TrophyCard> cards = new Array<TrophyCard>();
         cards.addAll(_trophyCards);
-        _trophyHand.addCards(cards);
-        _entities.add(_trophyHand);
+        _trophyHand.addAll(cards);
+        _trophyHand.setColumns(3);
+        add(_trophyHand);
     }
 
     private void drawStartingHandForEachPlayer () {
-        for (Entity entity : _entities) {
+    	for (Iterator<Entity> it = iterator(); it.hasNext();) {
+    		Entity entity = it.next();
             if (entity instanceof Player) {
                 Player player = (Player)entity;
                 for (int i = 0; i < 8; i++) {
@@ -132,10 +140,10 @@ public class Table extends EntityCollection {
         int centre = width / 2;
         int offset = height / 14;
 
-        _entities.add(new Tile(centre, tableSixth + offset, Color.ORANGE, Color.BLUE, 1, bagOfTokens, _font));
-        _entities.add(new Tile(centre, tableSixth * 2 + offset, Color.ORANGE, Color.BLUE, 2, bagOfTokens, _font));
-        _entities.add(new Tile(centre, tableSixth * 3 + offset, Color.ORANGE, Color.BLUE, 3, bagOfTokens, _font));
-        _entities.add(new Tile(centre, tableSixth * 4 + offset, Color.ORANGE, Color.BLUE, 4, bagOfTokens, _font));
+        add(new Tile(centre, tableSixth + offset, 1, bagOfTokens, _font));
+        add(new Tile(centre, tableSixth * 2 + offset, 2, bagOfTokens, _font));
+        add(new Tile(centre, tableSixth * 3 + offset, 3, bagOfTokens, _font));
+        add(new Tile(centre, tableSixth * 4 + offset, 4, bagOfTokens, _font));
     }
 
     private void playerLogic () {
@@ -144,7 +152,7 @@ public class Table extends EntityCollection {
             checkIfPlayerWon(player);
             checkIfPlayerPicksUpCard(player);
 
-            if (_activePlayer.isCurrentTurn() == false && _activePlayer != player) {
+            if (!_activePlayer.isCurrentTurn() && _activePlayer != player) {
                 _activePlayer = player;
                 _activePlayer.startTurn();
             }
@@ -152,7 +160,7 @@ public class Table extends EntityCollection {
     }
 
     private void checkIfPlayerWon (Player player) {
-        if (player.getTropyCardCount() >= 3) {
+        if (player.getTrophyCardCount() >= 3) {
             _winnerPlayer = player;
         }
     }
@@ -167,7 +175,8 @@ public class Table extends EntityCollection {
     private Tile tileLogic (float deltaTime) {
         Tile tileToRemove = null;
 
-        for (Entity entity : _entities) {
+        for (Iterator<Entity> it = iterator(); it.hasNext();) {
+    		Entity entity = it.next();
             entity.update(deltaTime);
             if (entity instanceof Tile) {
                 Tile tile = (Tile)entity;
@@ -176,7 +185,7 @@ public class Table extends EntityCollection {
 
                 _discardedCards.addAll(tile.getDiscardedCards());
 
-                if (tile.getActive() == false) {
+                if (!tile.getActive()) {
                     tileToRemove = tile;
                 }
             }
@@ -203,7 +212,7 @@ public class Table extends EntityCollection {
         }
 
         if (cardToRemove != null) {
-            _trophyCards.remove(cardToRemove);
+            _trophyCards.removeValue(cardToRemove, true);
             _trophyHand.remove(cardToRemove);
         }
     }
@@ -234,19 +243,19 @@ public class Table extends EntityCollection {
         }
     }
 
-    public void touchDown (float x, float y, int pointer, int button, HumanPlayer player) {
+    void touchDown(float x, float y, int pointer, int button, HumanPlayer player) {
         if (player.isCurrentTurn()) {
             player.touchDown(x, y, pointer, button);
         }
     }
 
-    public void touchUp (float x, float y, int pointer, int button, HumanPlayer player) {
+    void touchUp(float x, float y, int pointer, int button, HumanPlayer player) {
         if (player.isCurrentTurn()) {
             Card card = player.getSelectedCard();
 
             // Might need refactoring to make it faster (i.e cache all sides)
             for (TileSide side : getTileSides()) {
-                if (card != null && card.overlaps(side.getRect()) && card.isPlayed() == false) {
+                if (card != null && card.overlaps(side.getRect()) && !card.isPlayed()) {
                     if (side.addCard(card)) {
                         player.playCard(_deck.getCard());
                         break;
@@ -257,13 +266,13 @@ public class Table extends EntityCollection {
         }
     }
 
-    public void touchDragged (int x, int y, int pointer, HumanPlayer player) {
+    void touchDragged(int x, int y, int pointer, HumanPlayer player) {
         if (player.isCurrentTurn()) {
             player.touchDragged(x, y, pointer);
         }
     }
 
-    public void mouseMoved (int x, int y, HumanPlayer player) {
+    void mouseMoved(int x, int y, HumanPlayer player) {
         if (player.isCurrentTurn()) {
             player.mouseMoved(x, y);
         }

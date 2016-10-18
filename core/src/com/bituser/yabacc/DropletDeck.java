@@ -1,36 +1,22 @@
 package com.bituser.yabacc;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
-import java.util.*;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class DropletDeck extends Deck {
+class DropletDeck extends Deck {
 
-    BitmapFont _font;
+    private final BitmapFont _font;
 
-    public DropletDeck (float x, float y, Color color1, Color color2, Color color3, Color color4, Color color5, BitmapFont font) {
+    DropletDeck(float x, float y, BitmapFont font) {
         super(x, y, 60, 90);
         _font = font;
 
-        createCards(13, color1);
-        createCards(11, color2);
-        createCards(9, color3);
-        createCards(7, color4);
-        createCards(5, color5);
-
-        for (Card card : _cards) {
-            System.out.println(card.toString());
-        }
+        createCards(13, Color.RED);
+        createCards(11, Color.YELLOW);
+        createCards(9, Color.GREEN);
+        createCards(7, Color.BLUE);
+        createCards(5, Color.GRAY);
     }
 
     private void createCards (int amount, Color suite) {
@@ -72,18 +58,8 @@ public class DropletDeck extends Deck {
     }
 
     @Override
-    public void update (float deltaTime) {
-        super.update(deltaTime);
-    }
-
-    @Override
-    public void render (ShapeRenderer shapeRenderer) {
-        super.render(shapeRenderer);
-    }
-
-    @Override
     public void render (SpriteBatch batch) {
         super.render(batch);
-        _font.draw(batch, String.valueOf("Cards:\n  " + _cards.size()), _position.x - (_width / 2.5f), _position.y + (_height / 4));
+        _font.draw(batch, String.valueOf("Cards:\n  " + _cards.size), _position.x - (_width / 2.5f), _position.y + (_height / 4));
     }
 }

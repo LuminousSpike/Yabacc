@@ -1,71 +1,45 @@
 package com.bituser.yabacc;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
-import java.util.*;
+import com.badlogic.gdx.math.Vector2;
 
-public class Hand extends Entity {
-    List<Card> _heldCards = new ArrayList<Card>();
+public class Hand<T extends Card> extends GenericCollection<Card> {
+    private Card _activeCard = null;
+    private Card _selectedCard = null;
 
-    Card _activeCard = null, _selectedCard = null;
+    private Vector2 _mousePos = new Vector2(0,0);
 
-    boolean _repositionCards = false;
+    private int _columns;
 
-    Vector2 _mousePos = new Vector2(0,0);
-
-    final int CARD_SPACING = 10;
-
-    int _columns;
-
-    public Hand (float x, float y, float width, float height, int columns) {
+    public Hand(float x, float y, float width, float height, int columns) {
         super(new Vector2(x, y), width, height);
         _columns = columns;
     }
 
     public int getCardCount () {
-        return _heldCards.size();
+        return _entities.size;
     }
 
     public Card getSelectedCard () { return _selectedCard; }
 
-    public void addCard (Card card) {
-        _heldCards.add(card);
-        _repositionCards = true;
-    }
-
-    public void addCards (ArrayList<Card> cards) {
-        for (Card card : cards) {
-            addCard(card);
-        }
-    }
-
+    @Override
     public void remove (Card card) {
-        _heldCards.remove(card);
+        super.remove(card);
         _selectedCard = null;
         _activeCard = null;
-        _repositionCards = true;
     }
 
     public void playCard () {
         _selectedCard.placeDown();
         remove(_selectedCard);
-        _repositionCards = true;
     }
 
     public Card touchDown (float x, float y, int pointer, int button) {
          setActiveCard(x, y);
         if (_activeCard != null) {
             _selectedCard = _activeCard;
+            setSelectedEntity(_selectedCard);
             _selectedCard.touchDown(x, y, pointer, button);
         }
         return _activeCard;
@@ -73,11 +47,12 @@ public class Hand extends Entity {
 
      public Card touchUp (float x, float y, int pointer, int button) {
          setActiveCard(x, y);
-        for (Card card : _heldCards) {
+        for (Card card : _entities) {
             card.touchUp(x, y, pointer, button);
         }
-        _repositionCards = true;
         _selectedCard = null;
+        setSelectedEntity(null);
+        repositionEntities();
         return _selectedCard;
      }
 
@@ -92,43 +67,13 @@ public class Hand extends Entity {
         _mousePos.set(x, y);
      }
 
-    private Vector2 calculateCardPosition (Card card, int placeInHand) {
-        int row = placeInHand / _columns;
-        float xPos = _position.x + (card.getWidth() + CARD_SPACING) * (placeInHand % _columns);
-        xPos -= _width / 2.5f;
-        float yPos = _position.y - (card.getHeight() + CARD_SPACING) * row;
-        return new Vector2(xPos, yPos);
-    }
-
-    private void positionCard (Card card, int placeInHand) {
-        card.moveToPosition(calculateCardPosition(card, placeInHand));
-    }
-
-    private boolean positionCard (Card card, int placeInHand, float deltaTime) {
-        return card.moveToPosition(calculateCardPosition(card, placeInHand), deltaTime);
-    }
-
-    private boolean repositionCards (float deltaTime) {
-        boolean cardsMoved = false;
-        int index = 0;
-        for (Card card : _heldCards) {
-            if (!card.equals(_selectedCard)) {
-                if (positionCard(card, index, deltaTime)) {
-                    cardsMoved = true;
-                }
-            }
-            index++;
-        }
-        return cardsMoved;
-    }
-
     private void setActiveCard (float x, float y) {
-        for (Card card : _heldCards) {
+        for (Card card : _entities) {
             if (_selectedCard == null) {
                 if (_activeCard == null && card.mouseMoved(x, y)) {
                     _activeCard = card;
                 }
-                else if (_activeCard != null && _activeCard.mouseMoved(x, y) == false) {
+                else if (_activeCard != null && !_activeCard.mouseMoved(x, y)) {
                     _activeCard = null;
                 }
             }
@@ -137,20 +82,17 @@ public class Hand extends Entity {
 
     @Override
     public void update (float deltaTime) {
-        if(_repositionCards) {
-            _repositionCards = repositionCards(deltaTime);
-        }
-
+        super.update(deltaTime);
         setActiveCard(_mousePos.x, _mousePos.y);
 
-        for (Card card : _heldCards) {
+        for (Card card : _entities) {
             card.update(deltaTime);
         }
     }
 
     @Override
     public void render (ShapeRenderer shapeRenderer) {
-        for (Card card : _heldCards) {
+        for (Card card : _entities) {
             card.render(shapeRenderer);
         }
 
@@ -161,7 +103,7 @@ public class Hand extends Entity {
 
     @Override
     public void render (SpriteBatch batch) {
-        for (Card card : _heldCards) {
+        for (Card card : _entities) {
             card.render(batch);
         }
 

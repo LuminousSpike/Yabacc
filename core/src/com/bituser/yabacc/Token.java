@@ -1,23 +1,18 @@
 package com.bituser.yabacc;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 
-public class Token extends Entity {
+class Token extends Entity {
 
-    public Token (float x, float y, Color color) {
+    private Token(float x, float y, Color color) {
         super(x, y, 15, 15);
         _color = color;
     }
 
-    public Token (Vector2 position, Color color) {
+    Token(Vector2 position, Color color) {
         this(position.x, position.y, color);
     }
 

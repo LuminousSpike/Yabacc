@@ -1,71 +1,66 @@
 package com.bituser.yabacc;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import java.util.*;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
-public class Player extends Entity {
-    protected Hand _hand, _trophyHand;
+class Player extends Entity {
+    final Hand _hand;
+    private final Hand _trophyHand;
 
-    protected TokenCollection _tokens;
+    private final TokenCollection _tokens;
 
-    boolean _isCurrentTurn = false;
+    private boolean _isCurrentTurn = false;
 
-    public boolean isCurrentTurn () { return _isCurrentTurn; }
+    boolean isCurrentTurn() { return _isCurrentTurn; }
 
-    public Player (float x, float y, Color color) {
+    Player(float x, float y, Color color) {
         super(new Vector2(x, y), 600, 120);
         _hand = new Hand(x, y, _width, _height, 8);
         _trophyHand = new Hand(x - _width / 2f, y, _width, _height, 3);
-        _tokens = new TokenCollection(x + _width / 1.20f, y,  Color.GRAY);
+        _tokens = new TokenCollection(x + _width / 1.20f, y);
         _color = color;
         _color.a = 0.5f;
     }
 
-    public boolean hasTokensOfColor (int amount, Color color) {
+    boolean hasTokensOfColor(int amount, Color color) {
         return _tokens.hasTokensOfColor(amount, color);
     }
 
-    public int getHeldCards () { return _hand.getCardCount(); }
+    int getHeldCards() { return _hand.getCardCount(); }
 
-    public int getTropyCardCount () { return _trophyHand.getCardCount(); }
+    int getTrophyCardCount() { return _trophyHand.getCardCount(); }
 
-    public Card getSelectedCard () { return _hand.getSelectedCard(); }
+    Card getSelectedCard() { return _hand.getSelectedCard(); }
 
     public void add (Card card) {
-        _hand.addCard(card);
+        _hand.add(card);
     }
 
     public void add (TrophyCard card) {
-        _trophyHand.addCard(card);
+        _trophyHand.add(card);
     }
 
-    public void add (ArrayList<Token> tokens) {
+    public void add (Array<Token> tokens) {
         _tokens.addTokens(tokens);
     }
 
-    public void removeTokens (int amount, Color color) {
+    void removeTokens(int amount, Color color) {
         _tokens.removeTokens(amount, color);
     }
 
-    public void startTurn () {
+    void startTurn() {
         _isCurrentTurn = true;
     }
 
-    public void endTurn (Card card) {
+    private void endTurn(Card card) {
         add(card);
         _isCurrentTurn = false;
     }
 
-    public void playCard (Card cardFromDeck) {
+    void playCard(Card cardFromDeck) {
         _hand.playCard();
         endTurn(cardFromDeck);
     }
@@ -77,7 +72,7 @@ public class Player extends Entity {
     }
 
     @Override
-    public void update (float deltaTime) {
+    protected void update(float deltaTime) {
         _rect.setX(_position.x - (_width / 2));
         _rect.setY(_position.y - (_height / 2));
         _tokens.update(deltaTime);
@@ -86,7 +81,7 @@ public class Player extends Entity {
     }
 
     @Override
-    public void render (ShapeRenderer shapeRenderer) {
+    protected void render(ShapeRenderer shapeRenderer) {
         if (_isCurrentTurn) {
             shapeRenderer.setColor(_color);
             shapeRenderer.rect(_rect.x, _rect.y, _width, _height);
@@ -97,7 +92,7 @@ public class Player extends Entity {
     }
 
     @Override
-    public void render (SpriteBatch batch) {
+    protected void render(SpriteBatch batch) {
         _tokens.render(batch);
         _trophyHand.render(batch);
         _hand.render(batch);

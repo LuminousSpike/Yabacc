@@ -1,33 +1,25 @@
 package com.bituser.yabacc;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 public class Card extends Entity {
-    int _value = 1;
+    private int _value = 1;
 
-    boolean _isActive = false, _isSelected = false, _isPlayed = false;
+    private boolean _isActive = false;
+    private boolean _isSelected = false;
+    private boolean _isPlayed = false;
 
-    Color _colorActive = Color.YELLOW;
+    private final Color _colorActive = Color.YELLOW;
 
-    BitmapFont _font = null;
-
-    public Card (int value, Color suite, BitmapFont font) {
-        this(new Vector2(0, 0), suite, value, font);
-    }
+    private BitmapFont _font = null;
 
     // Main constructor
-    public Card (Vector2 position, Color suite, int value, BitmapFont font) {
+    Card(Vector2 position, Color suite, int value, BitmapFont font) {
         super(position, 60, 90);
         _color = suite;
         _color.a = 0.5f;
@@ -46,11 +38,7 @@ public class Card extends Entity {
 
     public boolean isPlayed () { return _isPlayed; }
 
-    public void setFont (BitmapFont font) {
-        _font = font;
-    }
-
-   public void placeDown () {
+    public void placeDown () {
        _isSelected = false;
        _isActive = false;
        _isPlayed = true;
@@ -65,7 +53,7 @@ public class Card extends Entity {
        return _isActive;
    }
 
-   public boolean contains (float x, float y) {
+   private boolean contains(float x, float y) {
         return _rect.contains(x, y);
    }
 
