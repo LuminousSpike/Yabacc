@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-class Tile extends EntityCollection {
+class Tile extends GenericCollection<Token> {
     private int _tileNumber;
     private boolean _isFlipped, _isActive = true;
     private Color _color1, _color2;
@@ -20,10 +20,8 @@ class Tile extends EntityCollection {
 
     private BitmapFont _font;
 
-    private Array<Token> _tokens = new Array<Token>(), _newTokens = new Array<Token>();
-
     Tile(float x, float y, Color color1, Color color2, int tileNumber, Bag bagOfTokens, BitmapFont font) {
-        super(x, y, 100, 100);
+        super(new Vector2(x, y), 100, 100);
         _color1 = color1;
         _color2 = color2;
         _color = _color1;
@@ -50,7 +48,7 @@ class Tile extends EntityCollection {
     boolean getActive() { return _isActive; }
 
     boolean cardMatchesColor(Card card) {
-        for(Token token : _tokens) {
+        for(Token token : _entities) {
             if (card.getColor() == token.getColor()) {
                 return true;
             }
@@ -60,7 +58,7 @@ class Tile extends EntityCollection {
 
     int getTotalTokensOfColor(Color color) {
         int amount = 0;
-        for(Token token : _tokens) {
+        for(Token token : _entities) {
             if (token.getColor() == color) {
                 amount++;
             }
@@ -75,7 +73,7 @@ class Tile extends EntityCollection {
     }
 
     boolean isFull() {
-        for(Token token : _tokens) {
+        for(Token token : _entities) {
             if (_leftSide.haveCardsOfWantedColor(token.getColor()) && _rightSide.haveCardsOfWantedColor(token.getColor())) {
                 continue;
             }
@@ -88,7 +86,7 @@ class Tile extends EntityCollection {
 
     Array claimTokens() {
         Array<Token> _tokensToSend = new Array<Token>();
-        _tokensToSend.addAll(_tokens);
+        _tokensToSend.addAll(_entities);
         flipTile();
         return _tokensToSend;
     }
@@ -99,9 +97,8 @@ class Tile extends EntityCollection {
 
         _leftSide.update(deltaTime);
         _rightSide.update(deltaTime);
-        placeNewTokens(deltaTime);
 
-        for (Token token : _tokens) {
+        for (Token token : _entities) {
             token.update(deltaTime);
         }
     }
@@ -123,9 +120,10 @@ class Tile extends EntityCollection {
         _leftSide.render(shapeRenderer);
         _rightSide.render(shapeRenderer);
 
-        for(Token token : _tokens) {
+        for(Token token : _entities) {
             token.render(shapeRenderer);
         }
+        super.render(shapeRenderer);
     }
 
     @Override
@@ -150,34 +148,15 @@ class Tile extends EntityCollection {
         if (_bag.size() >= _tileNumber) {
             for (int i = 0; i < _tileNumber; i++) {
                 Token token = bag.get();
-                _tokens.add(token);
-                _newTokens.add(token);
+                add(token);
             }
             return true;
         }
         return false;
     }
 
-    private void placeNewTokens (float deltaTime) {
-        Token tokenPlaced = null;
-
-        for (Token token : _newTokens) {
-            int tokenPostition = _tokens.indexOf(token, true);
-            int nextX = (int)_position.x - (int)(_width / 2) + 10 + (int)((token.getWidth() + 5) * tokenPostition);
-            int nextY = (int)_position.y;
-
-            if (!token.moveToPosition(new Vector2(nextX, nextY), deltaTime)) {
-                tokenPlaced = token;
-            }
-        }
-
-        if (tokenPlaced != null) {
-            _newTokens.removeValue(tokenPlaced, true);
-        }
-    }
-
     private void flipTile () {
-        _tokens.clear();
+        _entities.clear();
         _leftSide.discardCards();
         _rightSide.discardCards();
         _isFlipped = !_isFlipped;
