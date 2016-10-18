@@ -76,11 +76,10 @@ class Tile extends GenericCollection<Token> {
     }
 
     boolean isFull() {
-        for(Token token : _entities) {
-            if (_leftSide.haveCardsOfWantedColor(token.getColor()) && _rightSide.haveCardsOfWantedColor(token.getColor())) {
-                continue;
-            }
-            else {
+        Token token;
+        for (int i = 0; i < _entities.size; i++) {
+            token = _entities.get(i);
+            if (!_leftSide.haveCardsOfWantedColor(token.getColor()) || !_rightSide.haveCardsOfWantedColor(token.getColor())) {
                 return false;
             }
         }
