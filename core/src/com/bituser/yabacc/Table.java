@@ -1,6 +1,5 @@
 package com.bituser.yabacc;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -11,10 +10,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-class Table extends EntityCollection {
-    private ArrayList<Player> _players = new ArrayList<Player>();
+class Table extends GenericCollection<Entity> {
+    private Array<Player> _players = new Array<Player>();
     private Array<TrophyCard> _trophyCards = new Array<TrophyCard>();
-    private ArrayList<Card> _discardedCards = new ArrayList<Card>();
+    private Array<Card> _discardedCards = new Array<Card>();
 
     private Hand _trophyHand;
     private Bag _bag;
@@ -27,10 +26,10 @@ class Table extends EntityCollection {
 
     // Does this need to exist?
     private Table(float x, float y, float width, float height) {
-        super(x, y, width, height);
+        super(new Vector2(x, y), width, height);
     }
 
-    Table(int tableWidth, int tableHeight, Bag bagOfTokens, Deck deckOfCards, ArrayList<Player> players, BitmapFont font) {
+    Table(int tableWidth, int tableHeight, Bag bagOfTokens, Deck deckOfCards, Array<Player> players, BitmapFont font) {
         this (0, 0, tableWidth, tableHeight);
         _bag = bagOfTokens;
         _deck = deckOfCards;
@@ -47,7 +46,7 @@ class Table extends EntityCollection {
         _players.addAll(players);
         
         // quick and dirty way of casting to parent class
-        ArrayList<Entity> entities = new ArrayList<Entity>();
+        Array<Entity> entities = new Array<Entity>();
         entities.addAll(players);
         
         addAll(entities);
@@ -63,13 +62,13 @@ class Table extends EntityCollection {
     }
 
     // Need to refactor this out
-    ArrayList<Player> getPlayers() { return _players; }
+    Array<Player> getPlayers() { return _players; }
 
     Player getWinner() { return _winnerPlayer; }
 
     // Need to refactor this out
-    private ArrayList<TileSide> getTileSides() {
-        ArrayList<TileSide> sides = new ArrayList<TileSide>();
+    private Array<TileSide> getTileSides() {
+        Array<TileSide> sides = new Array<TileSide>();
         for (Iterator<Entity> it = iterator(); it.hasNext();) {
     		Entity entity = it.next();
             if (entity instanceof Tile) {
