@@ -13,10 +13,10 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 
 public class Yabacc extends ApplicationAdapter {
-	SpriteBatch batch;
-	ShapeRenderer shapeRenderer;
-	OrthographicCamera camera;
-    DropletGame dropletGame;
+	private SpriteBatch batch;
+	private ShapeRenderer shapeRenderer;
+	private OrthographicCamera camera;
+    private DropletGame dropletGame;
 
 	@Override
 	public void create () {

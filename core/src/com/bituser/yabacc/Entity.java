@@ -8,38 +8,33 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public abstract class Entity {
+abstract class Entity {
     Vector2 _position;
     Rectangle _rect;
     Color _color = Color.BLACK;
     float _width, _height;
-    static Random _rand = new Random();
+    static final Random _rand = new Random();
 
-    public Entity () {
+    Entity() {
         _position = new Vector2(0, 0);
     }
 
-    public Entity (float x, float y) {
-        this();
-        _position.set(x, y);
-    }
-
-    public Entity (Vector2 position, float width, float height) {
+    Entity(Vector2 position, float width, float height) {
         _position = position;
         _width = width;
         _height = height;
         _rect = new Rectangle(_position.x, _position.y, _width, _height);
     }
 
-    public Entity (float x, float y, float width, float height) {
+    Entity(float x, float y, float width, float height) {
         this(new Vector2(x, y), width, height);
     }
 
-    public float getWidth () {
+    float getWidth() {
         return _width;
     }
 
-    public float getHeight () {
+    float getHeight() {
         return _height;
     }
 
@@ -47,7 +42,7 @@ public abstract class Entity {
         return _position;
     }
 
-   public Color getColor () {
+   Color getColor() {
        return _color;
    }
 
@@ -55,27 +50,24 @@ public abstract class Entity {
        return _color == color;
    }
 
-    public boolean moveToPosition (Vector2 position, float deltaTime) {
+    boolean moveToPosition(Vector2 position, float deltaTime) {
         _position.lerp(position, 8f *  deltaTime);
 
-        if (_position.equals(position)){
-            return false;
-        }
-        return true;
+        return !_position.equals(position);
     }
 
-    public void moveToPosition (float x, float y) {
+    void moveToPosition(float x, float y) {
         _position.set(x, y);
     }
 
-    public void moveToPosition (Vector2 position)
+    void moveToPosition(Vector2 position)
     {
         _position.set(position);
     }
 
-    public abstract void update (float deltaTime);
+    protected abstract void update(float deltaTime);
 
-    public abstract void render (ShapeRenderer shapeRenderer);
+    protected abstract void render(ShapeRenderer shapeRenderer);
 
-    public abstract void render (SpriteBatch batch);
+    protected abstract void render(SpriteBatch batch);
 }

@@ -8,20 +8,22 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 class Tile extends GenericCollection<Token> {
-    private int _tileNumber;
+    private final int _tileNumber;
     private boolean _isFlipped, _isActive = true;
-    private Color _color1, _color2;
+    private final Color _color1;
+    private final Color _color2;
 
-    private TileSide _leftSide, _rightSide;
+    private final TileSide _leftSide;
+    private final TileSide _rightSide;
 
-    private Bag _bag;
+    private final Bag _bag;
 
-    private BitmapFont _font;
+    private final BitmapFont _font;
 
-    Tile(float x, float y, Color color1, Color color2, int tileNumber, Bag bagOfTokens, BitmapFont font) {
+    Tile(float x, float y, int tileNumber, Bag bagOfTokens, BitmapFont font) {
         super(new Vector2(x, y), 100, 100);
-        _color1 = color1;
-        _color2 = color2;
+        _color1 = Color.ORANGE;
+        _color2 = Color.BLUE;
         _color = _color1;
 
         _tileNumber = tileNumber;
@@ -132,7 +134,7 @@ class Tile extends GenericCollection<Token> {
     public void render (SpriteBatch batch) {
         if(_font != null)
         {
-            float textPosX = 0;
+            float textPosX;
 
             if (_tileNumber % 2 == 0) {
                 textPosX = _position.x - (_width / 2) + 10;

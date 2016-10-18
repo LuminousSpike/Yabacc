@@ -7,9 +7,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 class TokenCollection extends GenericCollection<Token> {
-    TokenCollection(float x, float y, Color color) {
+    TokenCollection(float x, float y) {
         super(new Vector2(x, y), 190, 80);
-        _color = color;
+        _color = Color.GRAY;
         setColumns(5);
         setSpacing(5);
         setOffsetY(_height / 3.5f);
@@ -69,10 +69,6 @@ class TokenCollection extends GenericCollection<Token> {
         return amount == 0;
     }
 
-    public void addToken (Token token) {
-        add(token);
-    }
-
     void addTokens(Array<Token> tokens) {
         addAll(tokens);
     }
@@ -95,11 +91,6 @@ class TokenCollection extends GenericCollection<Token> {
     }
 
     @Override
-    public void update (float deltaTime) {
-        super.update(deltaTime);
-    }
-
-    @Override
     public void render (ShapeRenderer shapeRenderer) {
         super.render(shapeRenderer);
         for (Token token : _entities) {
@@ -107,8 +98,4 @@ class TokenCollection extends GenericCollection<Token> {
         }
     }
 
-    @Override
-    public void render (SpriteBatch batch) {
-
-    }
 }

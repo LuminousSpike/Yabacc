@@ -8,14 +8,14 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class GenericCollection <T extends Entity> extends Entity {
-    protected Array<T> _entities;
+    Array<T> _entities;
 	private int _columns;
 	private float _spacing;
     private float _offsetX, _offsetY;
 	private boolean _repositionEntities = false;
 	private T _selectedEntity;
 
-    public GenericCollection (Vector2 position, float width, float height) {
+    GenericCollection(Vector2 position, float width, float height) {
         super(position, width, height);
 
         // Defaults for now
@@ -28,28 +28,28 @@ public GenericCollection (float x, float y, float width, float height) {
         super(new Vector2(x, y), width, height);
     }
 
-    public int size () {
+    int size() {
         return _entities.size;
     }
 
-    public Iterator<T> iterator () { return _entities.iterator(); }
+    Iterator<T> iterator() { return _entities.iterator(); }
 
-    protected void setSelectedEntity (T selectedEntity) { _selectedEntity = selectedEntity; }
+    void setSelectedEntity(T selectedEntity) { _selectedEntity = selectedEntity; }
 
-    protected void setColumns (int columns) { _columns = columns;}
+    void setColumns(int columns) { _columns = columns;}
 
-    protected void setSpacing (float spacing) { _spacing = spacing; }
+    void setSpacing(float spacing) { _spacing = spacing; }
 
-    protected void setOffsetX(float offsetX) { _offsetX = offsetX; }
+    void setOffsetX(float offsetX) { _offsetX = offsetX; }
 
-    protected void setOffsetY(float offsetY) { _offsetY = offsetY; }
+    void setOffsetY(float offsetY) { _offsetY = offsetY; }
 
-    protected void repositionEntities() {
+    void repositionEntities() {
         _repositionEntities = true;
     }
 
     // TODO remove this method.
-    protected T getRandom () {
+    T getRandom() {
         T entity = null;
 
         int entityCount = _entities.size;
@@ -62,7 +62,7 @@ public GenericCollection (float x, float y, float width, float height) {
         return entity;
     }
 
-    protected void add (T entity) {
+    void add(T entity) {
         _entities.add(entity);
         _repositionEntities = true;
     }
@@ -73,23 +73,23 @@ public GenericCollection (float x, float y, float width, float height) {
         }
     }
 
-    protected void addAll (Array<T> entities) {
+    void addAll(Array<T> entities) {
     	_entities.addAll(entities);
         _repositionEntities = true;
     }
 
-    protected void remove (T entity) {
+    void remove(T entity) {
     	_entities.removeValue(entity, true);
         _repositionEntities = true;
     }
 
-    protected void removeAll (Array<T> entities) {
+    void removeAll(Array<T> entities) {
         _entities.removeAll(entities, true);
         _repositionEntities = true;
     }
 
     @Override
-    public void update (float deltaTime) {
+    protected void update(float deltaTime) {
         _rect.setX(_position.x - (_width / 2));
         _rect.setY(_position.y - (_height / 2));
         if (_repositionEntities) {
@@ -102,14 +102,14 @@ public GenericCollection (float x, float y, float width, float height) {
     }
 
     @Override
-    public void render (ShapeRenderer shapeRenderer) {
+    protected void render(ShapeRenderer shapeRenderer) {
         _color.a = 0.5f;
         shapeRenderer.setColor(_color);
         shapeRenderer.rect(_rect.x, _rect.y, _width, _height);
     }
 
     @Override
-    public void render (SpriteBatch batch) {
+    protected void render(SpriteBatch batch) {
     }
 
     private Vector2 calculateEntityPosition (T entity, int placeInHand) {

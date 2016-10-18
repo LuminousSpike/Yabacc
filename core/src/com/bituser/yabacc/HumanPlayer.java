@@ -1,8 +1,6 @@
 package com.bituser.yabacc;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
 class HumanPlayer extends Player {
@@ -20,17 +18,7 @@ class HumanPlayer extends Player {
         _hand.update(deltaTime);
     }
 
-    @Override
-    public void render (ShapeRenderer shapeRenderer) {
-        super.render(shapeRenderer);
-    }
-
-    @Override
-    public void render (SpriteBatch batch) {
-        super.render(batch);
-    }
-
-   void touchDown(float x, float y, int pointer, int button) {
+    void touchDown(float x, float y, int pointer, int button) {
        _selectedCard = _hand.touchDown(x, y, pointer, button);
    }
 

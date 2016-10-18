@@ -1,17 +1,14 @@
 package com.bituser.yabacc;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 
 public abstract class Deck extends Entity {
-    Array<Card> _cards = new Array<Card>();
+    final Array<Card> _cards = new Array<Card>();
 
-    public Deck (float x, float y, float width, float height) {
+    Deck(float x, float y, float width, float height) {
         super(x, y, width, height);
         _color = Color.GREEN;
     }
@@ -33,7 +30,7 @@ public abstract class Deck extends Entity {
         return card;
     }
 
-    public void addCard (Card card) {
+    private void addCard(Card card) {
         card.moveToPosition(_position.x, _position.y);
         _cards.add(card);
     }
@@ -45,19 +42,19 @@ public abstract class Deck extends Entity {
     }
 
     @Override
-    public void update (float deltaTime) {
+    protected void update(float deltaTime) {
         _rect.setX(_position.x - (_width / 2));
         _rect.setY(_position.y - (_height / 2));
     }
 
     @Override
-    public void render (ShapeRenderer shapeRenderer) {
+    protected void render(ShapeRenderer shapeRenderer) {
         _color.a = 0.5f;
         shapeRenderer.setColor(_color);
         shapeRenderer.rect(_rect.x, _rect.y, _width, _height);
     }
 
     @Override
-    public void render (SpriteBatch batch) {
+    protected void render(SpriteBatch batch) {
     }
 }

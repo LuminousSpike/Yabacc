@@ -1,16 +1,16 @@
 package com.bituser.yabacc;
 
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
 public class Hand<T extends Card> extends GenericCollection<Card> {
-    Card _activeCard = null, _selectedCard = null;
+    private Card _activeCard = null;
+    private Card _selectedCard = null;
 
-    Vector2 _mousePos = new Vector2(0,0);
+    private Vector2 _mousePos = new Vector2(0,0);
 
-    int _columns;
+    private int _columns;
 
     public Hand(float x, float y, float width, float height, int columns) {
         super(new Vector2(x, y), width, height);
@@ -51,7 +51,7 @@ public class Hand<T extends Card> extends GenericCollection<Card> {
             card.touchUp(x, y, pointer, button);
         }
         _selectedCard = null;
-        setSelectedEntity(_selectedCard);
+        setSelectedEntity(null);
         repositionEntities();
         return _selectedCard;
      }
@@ -73,7 +73,7 @@ public class Hand<T extends Card> extends GenericCollection<Card> {
                 if (_activeCard == null && card.mouseMoved(x, y)) {
                     _activeCard = card;
                 }
-                else if (_activeCard != null && _activeCard.mouseMoved(x, y) == false) {
+                else if (_activeCard != null && !_activeCard.mouseMoved(x, y)) {
                     _activeCard = null;
                 }
             }

@@ -7,32 +7,25 @@ import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.math.Vector2;
 
 public class Bag extends GenericCollection<Token> {
-    BitmapFont _font;
-    RandomXS128 _rand = new RandomXS128();
+    private final BitmapFont _font;
 
-    public Bag (float x, float y,
-            Color token1, Color token2, Color  token3, Color token4,
-            Color token5, BitmapFont font) {
+    public Bag(float x, float y,
+               BitmapFont font) {
         super(new Vector2(x, y), 80, 80);
         _font = font;
 
-        createTokens(13, token1);
-        createTokens(11, token2);
-        createTokens(9, token3);
-        createTokens(7, token4);
-        createTokens(5, token5);
+        createTokens(13, Color.RED);
+        createTokens(11, Color.YELLOW);
+        createTokens(9, Color.GREEN);
+        createTokens(7, Color.BLUE);
+        createTokens(5, Color.GRAY);
     }
 
-    public Bag (float x, float y, BitmapFont font) {
-        this(x, y, Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE,
-                Color.GRAY, font);
-    }
-
-    public void add (Token token) {
+    void add(Token token) {
         super.add(token);
     }
 
-    protected Token get () { return getRandom(); }
+    Token get() { return getRandom(); }
 
     private void createTokens (int amount, Color tokenColor) {
         for (int i = 0; i < amount; i++) {

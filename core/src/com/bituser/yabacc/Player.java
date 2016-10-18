@@ -7,9 +7,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 class Player extends Entity {
-    Hand _hand, _trophyHand;
+    final Hand _hand;
+    private final Hand _trophyHand;
 
-    private TokenCollection _tokens;
+    private final TokenCollection _tokens;
 
     private boolean _isCurrentTurn = false;
 
@@ -19,7 +20,7 @@ class Player extends Entity {
         super(new Vector2(x, y), 600, 120);
         _hand = new Hand(x, y, _width, _height, 8);
         _trophyHand = new Hand(x - _width / 2f, y, _width, _height, 3);
-        _tokens = new TokenCollection(x + _width / 1.20f, y,  Color.GRAY);
+        _tokens = new TokenCollection(x + _width / 1.20f, y);
         _color = color;
         _color.a = 0.5f;
     }
@@ -30,7 +31,7 @@ class Player extends Entity {
 
     int getHeldCards() { return _hand.getCardCount(); }
 
-    int getTropyCardCount() { return _trophyHand.getCardCount(); }
+    int getTrophyCardCount() { return _trophyHand.getCardCount(); }
 
     Card getSelectedCard() { return _hand.getSelectedCard(); }
 
@@ -54,7 +55,7 @@ class Player extends Entity {
         _isCurrentTurn = true;
     }
 
-    void endTurn(Card card) {
+    private void endTurn(Card card) {
         add(card);
         _isCurrentTurn = false;
     }
@@ -71,7 +72,7 @@ class Player extends Entity {
     }
 
     @Override
-    public void update (float deltaTime) {
+    protected void update(float deltaTime) {
         _rect.setX(_position.x - (_width / 2));
         _rect.setY(_position.y - (_height / 2));
         _tokens.update(deltaTime);
@@ -80,7 +81,7 @@ class Player extends Entity {
     }
 
     @Override
-    public void render (ShapeRenderer shapeRenderer) {
+    protected void render(ShapeRenderer shapeRenderer) {
         if (_isCurrentTurn) {
             shapeRenderer.setColor(_color);
             shapeRenderer.rect(_rect.x, _rect.y, _width, _height);
@@ -91,7 +92,7 @@ class Player extends Entity {
     }
 
     @Override
-    public void render (SpriteBatch batch) {
+    protected void render(SpriteBatch batch) {
         _tokens.render(batch);
         _trophyHand.render(batch);
         _hand.render(batch);

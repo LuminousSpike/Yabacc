@@ -3,21 +3,20 @@ package com.bituser.yabacc;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 class DropletDeck extends Deck {
 
-    private BitmapFont _font;
+    private final BitmapFont _font;
 
-    DropletDeck(float x, float y, Color color1, Color color2, Color color3, Color color4, Color color5, BitmapFont font) {
+    DropletDeck(float x, float y, BitmapFont font) {
         super(x, y, 60, 90);
         _font = font;
 
-        createCards(13, color1);
-        createCards(11, color2);
-        createCards(9, color3);
-        createCards(7, color4);
-        createCards(5, color5);
+        createCards(13, Color.RED);
+        createCards(11, Color.YELLOW);
+        createCards(9, Color.GREEN);
+        createCards(7, Color.BLUE);
+        createCards(5, Color.GRAY);
     }
 
     private void createCards (int amount, Color suite) {
@@ -56,16 +55,6 @@ class DropletDeck extends Deck {
         }
 
         return value;
-    }
-
-    @Override
-    public void update (float deltaTime) {
-        super.update(deltaTime);
-    }
-
-    @Override
-    public void render (ShapeRenderer shapeRenderer) {
-        super.render(shapeRenderer);
     }
 
     @Override

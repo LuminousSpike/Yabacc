@@ -11,26 +11,26 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 class Table extends GenericCollection<Entity> {
-    private Array<Player> _players = new Array<Player>();
-    private Array<TrophyCard> _trophyCards = new Array<TrophyCard>();
-    private Array<Card> _discardedCards = new Array<Card>();
+    private final Array<Player> _players = new Array<Player>();
+    private final Array<TrophyCard> _trophyCards = new Array<TrophyCard>();
+    private final Array<Card> _discardedCards = new Array<Card>();
 
     private Hand _trophyHand;
     private Bag _bag;
     private Deck _deck;
 
     private Player _player1, _player2, _activePlayer, _winnerPlayer;
-    private Random _rand = new Random();
+    private final Random _rand = new Random();
 
     private BitmapFont _font;
 
     // Does this need to exist?
-    private Table(float x, float y, float width, float height) {
-        super(new Vector2(x, y), width, height);
+    private Table(float width, float height) {
+        super(new Vector2((float) 0, (float) 0), width, height);
     }
 
     Table(int tableWidth, int tableHeight, Bag bagOfTokens, Deck deckOfCards, Array<Player> players, BitmapFont font) {
-        this (0, 0, tableWidth, tableHeight);
+        this (tableWidth, tableHeight);
         _bag = bagOfTokens;
         _deck = deckOfCards;
         _font = font;
@@ -140,10 +140,10 @@ class Table extends GenericCollection<Entity> {
         int centre = width / 2;
         int offset = height / 14;
 
-        add(new Tile(centre, tableSixth + offset, Color.ORANGE, Color.BLUE, 1, bagOfTokens, _font));
-        add(new Tile(centre, tableSixth * 2 + offset, Color.ORANGE, Color.BLUE, 2, bagOfTokens, _font));
-        add(new Tile(centre, tableSixth * 3 + offset, Color.ORANGE, Color.BLUE, 3, bagOfTokens, _font));
-        add(new Tile(centre, tableSixth * 4 + offset, Color.ORANGE, Color.BLUE, 4, bagOfTokens, _font));
+        add(new Tile(centre, tableSixth + offset, 1, bagOfTokens, _font));
+        add(new Tile(centre, tableSixth * 2 + offset, 2, bagOfTokens, _font));
+        add(new Tile(centre, tableSixth * 3 + offset, 3, bagOfTokens, _font));
+        add(new Tile(centre, tableSixth * 4 + offset, 4, bagOfTokens, _font));
     }
 
     private void playerLogic () {
@@ -152,7 +152,7 @@ class Table extends GenericCollection<Entity> {
             checkIfPlayerWon(player);
             checkIfPlayerPicksUpCard(player);
 
-            if (_activePlayer.isCurrentTurn() == false && _activePlayer != player) {
+            if (!_activePlayer.isCurrentTurn() && _activePlayer != player) {
                 _activePlayer = player;
                 _activePlayer.startTurn();
             }
@@ -160,7 +160,7 @@ class Table extends GenericCollection<Entity> {
     }
 
     private void checkIfPlayerWon (Player player) {
-        if (player.getTropyCardCount() >= 3) {
+        if (player.getTrophyCardCount() >= 3) {
             _winnerPlayer = player;
         }
     }
@@ -185,7 +185,7 @@ class Table extends GenericCollection<Entity> {
 
                 _discardedCards.addAll(tile.getDiscardedCards());
 
-                if (tile.getActive() == false) {
+                if (!tile.getActive()) {
                     tileToRemove = tile;
                 }
             }
@@ -255,7 +255,7 @@ class Table extends GenericCollection<Entity> {
 
             // Might need refactoring to make it faster (i.e cache all sides)
             for (TileSide side : getTileSides()) {
-                if (card != null && card.overlaps(side.getRect()) && card.isPlayed() == false) {
+                if (card != null && card.overlaps(side.getRect()) && !card.isPlayed()) {
                     if (side.addCard(card)) {
                         player.playCard(_deck.getCard());
                         break;

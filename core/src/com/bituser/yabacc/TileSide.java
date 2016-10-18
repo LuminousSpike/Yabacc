@@ -8,22 +8,21 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 class TileSide extends GenericCollection<Card> {
-    private Tile _parent;
-    private TileSide_Side _sideOfTile;
+    private final Tile _parent;
 
-    private Array<Card> _discardedCards = new Array<Card>();
+    private final Array<Card> _discardedCards = new Array<Card>();
 
     enum TileSide_Side {
         Left (-1),
         Right (1);
 
-        private int index;
+        private final int index;
 
         public int getIndex () {
             return index;
         }
 
-        private TileSide_Side (int index) {
+        TileSide_Side(int index) {
             this.index = index;
         }
     }
@@ -32,7 +31,6 @@ class TileSide extends GenericCollection<Card> {
         super(new Vector2(x,y), 300, 100);
         _color = color;
         _parent = parent;
-        _sideOfTile = sideOfTile;
         setOffsetX(10);
     }
 
@@ -43,8 +41,6 @@ class TileSide extends GenericCollection<Card> {
         }
         return total;
     }
-
-    public Tile getParent () { return _parent; }
 
     Array getDiscardedCards() {
         Array<Card> cards = new Array<Card>();

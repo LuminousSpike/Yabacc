@@ -8,17 +8,17 @@ import com.badlogic.gdx.utils.Array;
 
 class DropletGame {
     private int _screenWidth, _screenHeight;
-    private Table _table;
+    private final Table _table;
 
     DropletGame(int screenWidth, int screenHeight, BitmapFont font) {
         _screenWidth = screenWidth;
         _screenHeight = screenHeight;
 
-        DropletDeck deck = new DropletDeck(screenWidth - 40, screenHeight / 2, Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE, Color.GRAY, font);
-        Bag bag = new Bag(screenWidth - 120, screenHeight / 2, Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE, Color.GRAY, font);
+        DropletDeck deck = new DropletDeck(screenWidth - 40, screenHeight / 2, font);
+        Bag bag = new Bag(screenWidth - 120, screenHeight / 2, font);
         Array<Player> players = new Array<Player>();
-        players.add(new HumanPlayer((int)(screenWidth / 2), screenHeight - 50, Color.FOREST));
-        players.add(new HumanPlayer((int)(screenWidth / 2), 50, Color.MAROON));
+        players.add(new HumanPlayer(screenWidth / 2, screenHeight - 50, Color.FOREST));
+        players.add(new HumanPlayer(screenWidth / 2, 50, Color.MAROON));
         _table = new Table(screenWidth, screenHeight, bag, deck, players, font);
     }
 
