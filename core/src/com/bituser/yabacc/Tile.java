@@ -1,7 +1,5 @@
 package com.bituser.yabacc;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -66,8 +64,9 @@ class Tile extends GenericCollection<Token> {
         return amount;
     }
 
-    ArrayList getDiscardedCards() {
-        ArrayList<Card> _discardedCards = new ArrayList<Card>(); _discardedCards.addAll(_leftSide.getDiscardedCards());
+    Array getDiscardedCards() {
+        Array<Card> _discardedCards = new Array<Card>();
+        _discardedCards.addAll(_leftSide.getDiscardedCards());
         _discardedCards.addAll(_rightSide.getDiscardedCards());
         return _discardedCards;
     }

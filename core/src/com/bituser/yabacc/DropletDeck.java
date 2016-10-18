@@ -71,6 +71,6 @@ class DropletDeck extends Deck {
     @Override
     public void render (SpriteBatch batch) {
         super.render(batch);
-        _font.draw(batch, String.valueOf("Cards:\n  " + _cards.size()), _position.x - (_width / 2.5f), _position.y + (_height / 4));
+        _font.draw(batch, String.valueOf("Cards:\n  " + _cards.size), _position.x - (_width / 2.5f), _position.y + (_height / 4));
     }
 }

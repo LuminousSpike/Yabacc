@@ -1,11 +1,10 @@
 package com.bituser.yabacc;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.Array;
 
 class DropletGame {
     private int _screenWidth, _screenHeight;
@@ -17,7 +16,7 @@ class DropletGame {
 
         DropletDeck deck = new DropletDeck(screenWidth - 40, screenHeight / 2, Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE, Color.GRAY, font);
         Bag bag = new Bag(screenWidth - 120, screenHeight / 2, Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE, Color.GRAY, font);
-        ArrayList<Player> players = new ArrayList<Player>();
+        Array<Player> players = new Array<Player>();
         players.add(new HumanPlayer((int)(screenWidth / 2), screenHeight - 50, Color.FOREST));
         players.add(new HumanPlayer((int)(screenWidth / 2), 50, Color.MAROON));
         _table = new Table(screenWidth, screenHeight, bag, deck, players, font);

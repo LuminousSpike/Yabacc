@@ -20,7 +20,7 @@ class TokenCollection extends GenericCollection<Token> {
 
     boolean hasTokensOfColor(int amount, Color color) {
         int have = amount;
-        ArrayList<Token> tokens = new ArrayList<Token>();
+        Array<Token> tokens = new Array<Token>();
 
         for (Token token : _entities) {
             if (token.getColor() == color) {
@@ -40,25 +40,25 @@ class TokenCollection extends GenericCollection<Token> {
         return false;
     }
 
-    private boolean threeForOneTokens(int amount, Color excludedColor, ArrayList<Token> tokens) {
-        ArrayList<Color> colors = new ArrayList<Color>();
+    private boolean threeForOneTokens(int amount, Color excludedColor, Array<Token> tokens) {
+        Array<Color> colors = new Array<Color>();
 
         for (Token token : _entities) {
             Color tokenColor = token.getColor();
-            if (tokenColor != excludedColor && !colors.contains(tokenColor)) {
+            if (tokenColor != excludedColor && !colors.contains(tokenColor, true)) {
                 colors.add(tokenColor);
             }
         }
 
         for (Color color : colors) {
-            ArrayList<Token> tokenSet = new ArrayList<Token>();
+            Array<Token> tokenSet = new Array<Token>();
             if (amount > 0) {
                 for (Token token : _entities) {
                     if (token.getColor() == color) {
-                        if (tokenSet.size() < 3) {
+                        if (tokenSet.size < 3) {
                             tokenSet.add(token);
                         }
-                        if (tokenSet.size() == 3) {
+                        if (tokenSet.size == 3) {
                             amount--;
                             tokens.addAll(tokenSet);
                             tokenSet.clear();

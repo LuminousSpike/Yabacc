@@ -6,9 +6,10 @@ import java.util.List;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.Array;
 
 public abstract class Deck extends Entity {
-    List<Card> _cards = new ArrayList<Card>();
+    Array<Card> _cards = new Array<Card>();
 
     public Deck (float x, float y, float width, float height) {
         super(x, y, width, height);
@@ -16,17 +17,17 @@ public abstract class Deck extends Entity {
     }
 
     public int size () {
-        return _cards.size();
+        return _cards.size;
     }
 
     public Card getCard () {
         Card card = null;
 
-        int cardCount = _cards.size();
+        int cardCount = _cards.size;
 
         if (cardCount > 0) {
             card = _cards.get(_rand.nextInt(cardCount));
-            _cards.remove(card);
+            _cards.removeValue(card, true);
         }
 
         return card;
@@ -37,7 +38,7 @@ public abstract class Deck extends Entity {
         _cards.add(card);
     }
 
-    public void addCards (ArrayList<Card> cards) {
+    public void addCards (Array<Card> cards) {
         for(Card card : cards) {
             addCard(card);
         }

@@ -1,19 +1,17 @@
 package com.bituser.yabacc;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
 class TileSide extends GenericCollection<Card> {
     private Tile _parent;
     private TileSide_Side _sideOfTile;
 
-    private List<Card> _discardedCards = new ArrayList<Card>();
+    private Array<Card> _discardedCards = new Array<Card>();
 
     enum TileSide_Side {
         Left (-1),
@@ -47,8 +45,8 @@ class TileSide extends GenericCollection<Card> {
 
     public Tile getParent () { return _parent; }
 
-    ArrayList getDiscardedCards() {
-        ArrayList<Card> cards = new ArrayList<Card>();
+    Array getDiscardedCards() {
+        Array<Card> cards = new Array<Card>();
         cards.addAll(_discardedCards);
         _discardedCards.clear();
         return cards;
