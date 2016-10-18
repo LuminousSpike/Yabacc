@@ -33,6 +33,7 @@ class TileSide extends GenericCollection<Card> {
         _color = color;
         _parent = parent;
         _sideOfTile = sideOfTile;
+        setOffsetX(10);
     }
 
     int getValue() {

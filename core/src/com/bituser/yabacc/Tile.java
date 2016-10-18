@@ -34,6 +34,10 @@ class Tile extends GenericCollection<Token> {
 
         _font = font;
 
+        setOffsetY(_height / 3);
+        setOffsetX(5);
+        setSpacing(5);
+
         getTokensFromBag(_bag);
     }
 
