@@ -1,7 +1,5 @@
 package com.bituser.yabacc;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -14,6 +12,7 @@ class TokenCollection extends GenericCollection<Token> {
         _color = color;
         setColumns(5);
         setSpacing(5);
+        setOffsetY(_height / 3.5f);
     }
 
     public int getTokenCount () { return _entities.size; }
