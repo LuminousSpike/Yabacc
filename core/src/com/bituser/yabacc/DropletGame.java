@@ -17,7 +17,7 @@ class DropletGame extends GameScene {
         DropletDeck deck = new DropletDeck(screenWidth - 40, screenHeight / 2, font);
         Bag bag = new Bag(screenWidth - 120, screenHeight / 2, font);
         Array<Player> players = new Array<Player>();
-        players.add(new HumanPlayer(screenWidth / 2, screenHeight - 50, Color.FOREST));
+        players.add(new ComputerPlayer(screenWidth / 2, screenHeight - 50, Color.FOREST));
         players.add(new HumanPlayer(screenWidth / 2, 50, Color.MAROON));
         _table = new Table(screenWidth, screenHeight, bag, deck, players, font);
     }
