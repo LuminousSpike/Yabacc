@@ -78,6 +78,7 @@ class Player extends Entity {
         _tokens.update(deltaTime);
         _trophyHand.update(deltaTime);
         _tokens.update(deltaTime);
+        _hand.update(deltaTime);
     }
 
     @Override
