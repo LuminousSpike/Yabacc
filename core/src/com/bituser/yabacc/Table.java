@@ -42,13 +42,14 @@ class Table extends GenericCollection<Entity> {
         createTiles(tableWidth, tableHeight, bagOfTokens);
 
         _player1 = players.get(0);
+        ((ComputerPlayer) _player1).setTable(this);
         _player2 = players.get(1);
         _players.addAll(players);
-        
+
         // quick and dirty way of casting to parent class
         Array<Entity> entities = new Array<Entity>();
         entities.addAll(players);
-        
+
         addAll(entities);
 
         if (_rand.nextInt(100) < 50) {
@@ -61,12 +62,26 @@ class Table extends GenericCollection<Entity> {
         drawStartingHandForEachPlayer();
     }
 
-    // Need to refactor this out
+    // TODO: Need to refactor this out
     Array<Player> getPlayers() { return _players; }
 
     Player getWinner() { return _winnerPlayer; }
 
-    // Need to refactor this out
+    // TODO: Need to refactor this out
+    Array<Tile> getTiles () {
+        Array<Tile> tiles = new Array<Tile>();
+        for(Iterator<Entity> it = iterator(); it.hasNext();) {
+            Entity entity = it.next();
+            // Nasty reflection based method of detection
+            if (entity instanceof Tile) {
+                Tile tile = (Tile)entity;
+                tiles.add(tile);
+            }
+        }
+        return tiles;
+    }
+
+    // TODO: Need to refactor this out
     private Array<TileSide> getTileSides() {
         Array<TileSide> sides = new Array<TileSide>();
         for (Iterator<Entity> it = iterator(); it.hasNext();) {
