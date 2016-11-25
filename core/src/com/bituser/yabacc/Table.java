@@ -42,9 +42,10 @@ class Table extends GenericCollection<Entity> {
         createTiles(tableWidth, tableHeight, bagOfTokens);
 
         _player1 = players.get(0);
-        ((ComputerPlayer) _player1).setTable(this);
-        ((ComputerPlayer) _player1).setDeck(_deck);
         _player2 = players.get(1);
+        // TODO: Get rid of this casting
+        ((ComputerPlayer) _player2).setTable(this);
+        ((ComputerPlayer) _player2).setDeck(_deck);
         _players.addAll(players);
 
         // quick and dirty way of casting to parent class

@@ -41,8 +41,8 @@ class ComputerPlayer extends Player {
         _opponentTileSides = new Array<TileSide>();
 
         for (Tile tile : _tiles) {
-            _myTileSides.add(tile.getLeftSide());
-            _opponentTileSides.add(tile.getRightSide());
+            _opponentTileSides.add(tile.getLeftSide());
+            _myTileSides.add(tile.getRightSide());
         }
     }
 
