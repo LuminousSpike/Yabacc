@@ -43,6 +43,7 @@ class Table extends GenericCollection<Entity> {
 
         _player1 = players.get(0);
         ((ComputerPlayer) _player1).setTable(this);
+        ((ComputerPlayer) _player1).setDeck(_deck);
         _player2 = players.get(1);
         _players.addAll(players);
 

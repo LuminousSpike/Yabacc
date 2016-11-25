@@ -23,6 +23,8 @@ public class Hand<T extends Card> extends GenericCollection<Card> {
 
     public Card getSelectedCard () { return _selectedCard; }
 
+    public void setSelectedCard (Card card) { _selectedCard = card; }
+
     @Override
     public void remove (Card card) {
         super.remove(card);
