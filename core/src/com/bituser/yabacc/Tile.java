@@ -27,7 +27,7 @@ class Tile extends GenericCollection<Token> {
         _color = _color1;
 
         _tileNumber = tileNumber;
-        _isFlipped = (tileNumber % 2) != 0;
+        _isFlipped = (tileNumber % 2) != 1;
 
         _leftSide = new TileSide(_position.x - (_width / 2 + 150), _position.y, Color.GREEN, this, TileSide.TileSide_Side.Left);
         _rightSide = new TileSide(_position.x + (_width / 2 + 150), _position.y, Color.RED, this, TileSide.TileSide_Side.Right);
