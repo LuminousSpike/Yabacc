@@ -14,6 +14,7 @@ class Table extends GenericCollection<Entity> {
     private final Array<Player> _players = new Array<Player>();
     private final Array<TrophyCard> _trophyCards = new Array<TrophyCard>();
     private final Array<Card> _discardedCards = new Array<Card>();
+    private final Array<Tile> _tiles = new Array<Tile>();
 
     private Hand _trophyHand;
     private Bag _bag;
@@ -48,11 +49,7 @@ class Table extends GenericCollection<Entity> {
         ((ComputerPlayer) _player2).setDeck(_deck);
         _players.addAll(players);
 
-        // quick and dirty way of casting to parent class
-        Array<Entity> entities = new Array<Entity>();
-        entities.addAll(players);
-
-        addAll(entities);
+        addAll(players);
 
         if (_rand.nextInt(100) < 50) {
             _activePlayer = _player1;
@@ -72,13 +69,8 @@ class Table extends GenericCollection<Entity> {
     // TODO: Need to refactor this out
     Array<Tile> getTiles () {
         Array<Tile> tiles = new Array<Tile>();
-        for(Iterator<Entity> it = iterator(); it.hasNext();) {
-            Entity entity = it.next();
-            // Nasty reflection based method of detection
-            if (entity instanceof Tile) {
-                Tile tile = (Tile)entity;
-                tiles.add(tile);
-            }
+        for(Iterator<Tile> it = _tiles.iterator(); it.hasNext();) {
+            tiles.add(it.next());
         }
         return tiles;
     }
@@ -86,19 +78,19 @@ class Table extends GenericCollection<Entity> {
     // TODO: Need to refactor this out
     private Array<TileSide> getTileSides() {
         Array<TileSide> sides = new Array<TileSide>();
-        for (Iterator<Entity> it = iterator(); it.hasNext();) {
-    		Entity entity = it.next();
-            if (entity instanceof Tile) {
-                Tile tile = (Tile)entity;
-                sides.add(tile.getLeftSide());
-                sides.add(tile.getRightSide());
-            }
+        for (Iterator<Tile> it = _tiles.iterator(); it.hasNext();) {
+            Tile tile = it.next();
+            sides.add(tile.getLeftSide());
+            sides.add(tile.getRightSide());
         }
         return sides;
     }
 
     @Override
     public void update (float deltaTime) {
+        for (Iterator<Entity> it = iterator(); it.hasNext();) {
+            (it.next()).update(deltaTime);
+        }
         Tile tileToRemove = tileLogic(deltaTime);
         deckLogic();
 
@@ -141,13 +133,10 @@ class Table extends GenericCollection<Entity> {
     }
 
     private void drawStartingHandForEachPlayer () {
-    	for (Iterator<Entity> it = iterator(); it.hasNext();) {
-    		Entity entity = it.next();
-            if (entity instanceof Player) {
-                Player player = (Player)entity;
-                for (int i = 0; i < 8; i++) {
-                    player.add(_deck.getCard());
-                }
+        for (Iterator<Player> it = _players.iterator(); it.hasNext();) {
+            Player player = it.next();
+            for (int i = 0; i < 8; i++) {
+                player.add(_deck.getCard());
             }
         }
     }
@@ -157,10 +146,11 @@ class Table extends GenericCollection<Entity> {
         int centre = width / 2;
         int offset = height / 14;
 
-        add(new Tile(centre, tableSixth + offset, 1, bagOfTokens, _font));
-        add(new Tile(centre, tableSixth * 2 + offset, 2, bagOfTokens, _font));
-        add(new Tile(centre, tableSixth * 3 + offset, 3, bagOfTokens, _font));
-        add(new Tile(centre, tableSixth * 4 + offset, 4, bagOfTokens, _font));
+        _tiles.add(new Tile(centre, tableSixth + offset, 1, bagOfTokens, _font));
+        _tiles.add(new Tile(centre, tableSixth * 2 + offset, 2, bagOfTokens, _font));
+        _tiles.add(new Tile(centre, tableSixth * 3 + offset, 3, bagOfTokens, _font));
+        _tiles.add(new Tile(centre, tableSixth * 4 + offset, 4, bagOfTokens, _font));
+        addAll(_tiles);
     }
 
     private void playerLogic () {
@@ -192,19 +182,15 @@ class Table extends GenericCollection<Entity> {
     private Tile tileLogic (float deltaTime) {
         Tile tileToRemove = null;
 
-        for (Iterator<Entity> it = iterator(); it.hasNext();) {
-    		Entity entity = it.next();
-            entity.update(deltaTime);
-            if (entity instanceof Tile) {
-                Tile tile = (Tile)entity;
+        for (Iterator<Tile> it = _tiles.iterator(); it.hasNext();) {
+            Tile tile = it.next();
+            checkIfTileIsFull(tile);
 
-                checkIfTileIsFull(tile);
+            _discardedCards.addAll(tile.getDiscardedCards());
 
-                _discardedCards.addAll(tile.getDiscardedCards());
-
-                if (!tile.getActive()) {
-                    tileToRemove = tile;
-                }
+            if (!tile.getActive()) {
+                // TODO: Fix bug where 2nd tile does not get removed
+                tileToRemove = tile;
             }
         }
         return tileToRemove;
