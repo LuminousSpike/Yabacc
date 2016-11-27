@@ -96,6 +96,7 @@ class Table extends GenericCollection<Entity> {
 
         if (tileToRemove != null) {
             remove(tileToRemove);
+            _tiles.removeValue(tileToRemove, true);
         }
 
         playerLogic();
@@ -189,7 +190,6 @@ class Table extends GenericCollection<Entity> {
             _discardedCards.addAll(tile.getDiscardedCards());
 
             if (!tile.getActive()) {
-                // TODO: Fix bug where 2nd tile does not get removed
                 tileToRemove = tile;
             }
         }
