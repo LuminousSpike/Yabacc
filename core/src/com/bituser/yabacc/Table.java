@@ -45,8 +45,7 @@ class Table extends GenericCollection<Entity> {
         _player1 = players.get(0);
         _player2 = players.get(1);
         // TODO: Get rid of this casting
-        ((ComputerPlayer) _player2).setTable(this);
-        ((ComputerPlayer) _player2).setDeck(_deck);
+        ((ComputerPlayer) _player2).setTiles(_tiles);
         _players.addAll(players);
 
         addAll(players);
@@ -65,15 +64,6 @@ class Table extends GenericCollection<Entity> {
     Array<Player> getPlayers() { return _players; }
 
     Player getWinner() { return _winnerPlayer; }
-
-    // TODO: Need to refactor this out
-    Array<Tile> getTiles () {
-        Array<Tile> tiles = new Array<Tile>();
-        for(Iterator<Tile> it = _tiles.iterator(); it.hasNext();) {
-            tiles.add(it.next());
-        }
-        return tiles;
-    }
 
     // TODO: Need to refactor this out
     private Array<TileSide> getTileSides() {
@@ -161,6 +151,12 @@ class Table extends GenericCollection<Entity> {
             checkIfPlayerPicksUpCard(player);
 
             if (!_activePlayer.isCurrentTurn() && _activePlayer != player) {
+                // Player that has just had their turn will pick up a card
+                if (_activePlayer.getHeldCards() < 8) {
+                    _activePlayer.add(_deck.getCard());
+                }
+
+                // Swap active players
                 _activePlayer = player;
                 _activePlayer.startTurn();
             }
@@ -252,6 +248,7 @@ class Table extends GenericCollection<Entity> {
         }
     }
 
+    // Human player logic
     void touchUp(float x, float y, int pointer, int button, HumanPlayer player) {
         if (player.isCurrentTurn()) {
             Card card = player.getSelectedCard();
@@ -260,7 +257,7 @@ class Table extends GenericCollection<Entity> {
             for (TileSide side : getTileSides()) {
                 if (card != null && card.overlaps(side.getRect()) && !card.isPlayed()) {
                     if (side.addCard(card)) {
-                        player.playCard(_deck.getCard());
+                        player.playCard();
                         break;
                     }
                 }

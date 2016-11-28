@@ -55,14 +55,13 @@ class Player extends Entity {
         _isCurrentTurn = true;
     }
 
-    private void endTurn(Card card) {
-        add(card);
+    private void endTurn() {
         _isCurrentTurn = false;
     }
 
-    void playCard(Card cardFromDeck) {
+    void playCard() {
         _hand.playCard();
-        endTurn(cardFromDeck);
+        endTurn();
     }
 
     @Override
