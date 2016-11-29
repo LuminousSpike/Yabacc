@@ -73,7 +73,7 @@ public GenericCollection (float x, float y, float width, float height) {
         }
     }
 
-    void addAll(Array<T> entities) {
+    void addAll(Array<? extends T> entities) {
     	_entities.addAll(entities);
         _repositionEntities = true;
     }

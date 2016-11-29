@@ -27,7 +27,7 @@ class Tile extends GenericCollection<Token> {
         _color = _color1;
 
         _tileNumber = tileNumber;
-        _isFlipped = (tileNumber % 2) != 0;
+        _isFlipped = (tileNumber % 2) != 1;
 
         _leftSide = new TileSide(_position.x - (_width / 2 + 150), _position.y, Color.GREEN, this, TileSide.TileSide_Side.Left);
         _rightSide = new TileSide(_position.x + (_width / 2 + 150), _position.y, Color.RED, this, TileSide.TileSide_Side.Right);
@@ -144,7 +144,7 @@ class Tile extends GenericCollection<Token> {
             }
             _leftSide.render(batch);
             _rightSide.render(batch);
-            _font.draw(batch, String.valueOf(_tileNumber), textPosX - 5, _position.y - 25);
+            _font.draw(batch, String.valueOf(_tileNumber + " " + _isFlipped), textPosX - 5, _position.y - 25);
         }
     }
 

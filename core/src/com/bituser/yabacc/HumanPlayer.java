@@ -15,7 +15,6 @@ class HumanPlayer extends Player {
     @Override
     public void update (float deltaTime) {
         super.update(deltaTime);
-        _hand.update(deltaTime);
     }
 
     void touchDown(float x, float y, int pointer, int button) {

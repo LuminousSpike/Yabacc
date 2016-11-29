@@ -16,14 +16,14 @@ public class Yabacc extends ApplicationAdapter {
 	private SpriteBatch batch;
 	private ShapeRenderer shapeRenderer;
 	private OrthographicCamera camera;
-    private DropletGame dropletGame;
+    private GameScene currentGame;
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
 		camera= new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		
+
 		// font
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Folks-Normal.ttf"));
 
@@ -37,14 +37,14 @@ public class Yabacc extends ApplicationAdapter {
 		float width = Gdx.graphics.getWidth();
 		float height = Gdx.graphics.getHeight();
 
-        dropletGame = new DropletGame ((int)width, (int)height, cyrillicFont);
+        currentGame = new DropletGame ((int)width, (int)height, cyrillicFont);
 
 		Gdx.input.setInputProcessor(new InputAdapter () {
 		    @Override
 		    public boolean touchDown (int x, int y, int pointer, int button) {
 		        Vector3 input = new Vector3(x, y, 0);
 		        camera.unproject(input);
-		        dropletGame.touchDown((int)input.x, (int)input.y, pointer, button);
+		        currentGame.touchDown((int)input.x, (int)input.y, pointer, button);
 		        return true;
             }
 
@@ -52,14 +52,14 @@ public class Yabacc extends ApplicationAdapter {
             public boolean touchUp (int x, int y, int pointer, int button) {
 		        Vector3 input = new Vector3(x, y, 0);
 		        camera.unproject(input);
-		        dropletGame.touchUp((int)input.x, (int)input.y, pointer, button);
+		        currentGame.touchUp((int)input.x, (int)input.y, pointer, button);
 		        return true;
             }
             @Override
             public boolean touchDragged (int x, int y, int pointer) {
 		        Vector3 input = new Vector3(x, y, 0);
 		        camera.unproject(input);
-                dropletGame.touchDragged((int)input.x, (int)input.y, pointer);
+                currentGame.touchDragged((int)input.x, (int)input.y, pointer);
                 return true;
             }
 
@@ -67,7 +67,7 @@ public class Yabacc extends ApplicationAdapter {
 		    public boolean mouseMoved (int x, int y) {
 		        Vector3 input = new Vector3(x, y, 0);
 		        camera.unproject(input);
-		        dropletGame.mouseMoved((int)input.x, (int)input.y);
+		        currentGame.mouseMoved((int)input.x, (int)input.y);
 		        return true;
             }
     	} );
@@ -75,7 +75,7 @@ public class Yabacc extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-	    dropletGame.update(Gdx.graphics.getDeltaTime());
+	    currentGame.update(Gdx.graphics.getDeltaTime());
 	    camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		// Fills the screen with corn flour blue
 		Gdx.gl.glClearColor(0.392156863f, 0.584313725f, 0.929411765f, 1f);
@@ -84,11 +84,11 @@ public class Yabacc extends ApplicationAdapter {
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-		dropletGame.render(shapeRenderer);
+		currentGame.render(shapeRenderer);
 		shapeRenderer.end();
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		dropletGame.render(batch);
+		currentGame.render(batch);
 		batch.end();
 	}
 }

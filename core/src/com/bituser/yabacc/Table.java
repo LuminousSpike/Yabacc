@@ -14,6 +14,7 @@ class Table extends GenericCollection<Entity> {
     private final Array<Player> _players = new Array<Player>();
     private final Array<TrophyCard> _trophyCards = new Array<TrophyCard>();
     private final Array<Card> _discardedCards = new Array<Card>();
+    private final Array<Tile> _tiles = new Array<Tile>();
 
     private Hand _trophyHand;
     private Bag _bag;
@@ -43,13 +44,11 @@ class Table extends GenericCollection<Entity> {
 
         _player1 = players.get(0);
         _player2 = players.get(1);
+        // TODO: Get rid of this casting
+        ((ComputerPlayer) _player2).setTiles(_tiles);
         _players.addAll(players);
-        
-        // quick and dirty way of casting to parent class
-        Array<Entity> entities = new Array<Entity>();
-        entities.addAll(players);
-        
-        addAll(entities);
+
+        addAll(players);
 
         if (_rand.nextInt(100) < 50) {
             _activePlayer = _player1;
@@ -61,32 +60,33 @@ class Table extends GenericCollection<Entity> {
         drawStartingHandForEachPlayer();
     }
 
-    // Need to refactor this out
+    // TODO: Need to refactor this out
     Array<Player> getPlayers() { return _players; }
 
     Player getWinner() { return _winnerPlayer; }
 
-    // Need to refactor this out
+    // TODO: Need to refactor this out
     private Array<TileSide> getTileSides() {
         Array<TileSide> sides = new Array<TileSide>();
-        for (Iterator<Entity> it = iterator(); it.hasNext();) {
-    		Entity entity = it.next();
-            if (entity instanceof Tile) {
-                Tile tile = (Tile)entity;
-                sides.add(tile.getLeftSide());
-                sides.add(tile.getRightSide());
-            }
+        for (Iterator<Tile> it = _tiles.iterator(); it.hasNext();) {
+            Tile tile = it.next();
+            sides.add(tile.getLeftSide());
+            sides.add(tile.getRightSide());
         }
         return sides;
     }
 
     @Override
     public void update (float deltaTime) {
+        for (Iterator<Entity> it = iterator(); it.hasNext();) {
+            (it.next()).update(deltaTime);
+        }
         Tile tileToRemove = tileLogic(deltaTime);
         deckLogic();
 
         if (tileToRemove != null) {
             remove(tileToRemove);
+            _tiles.removeValue(tileToRemove, true);
         }
 
         playerLogic();
@@ -124,13 +124,10 @@ class Table extends GenericCollection<Entity> {
     }
 
     private void drawStartingHandForEachPlayer () {
-    	for (Iterator<Entity> it = iterator(); it.hasNext();) {
-    		Entity entity = it.next();
-            if (entity instanceof Player) {
-                Player player = (Player)entity;
-                for (int i = 0; i < 8; i++) {
-                    player.add(_deck.getCard());
-                }
+        for (Iterator<Player> it = _players.iterator(); it.hasNext();) {
+            Player player = it.next();
+            for (int i = 0; i < 8; i++) {
+                player.add(_deck.getCard());
             }
         }
     }
@@ -140,10 +137,11 @@ class Table extends GenericCollection<Entity> {
         int centre = width / 2;
         int offset = height / 14;
 
-        add(new Tile(centre, tableSixth + offset, 1, bagOfTokens, _font));
-        add(new Tile(centre, tableSixth * 2 + offset, 2, bagOfTokens, _font));
-        add(new Tile(centre, tableSixth * 3 + offset, 3, bagOfTokens, _font));
-        add(new Tile(centre, tableSixth * 4 + offset, 4, bagOfTokens, _font));
+        _tiles.add(new Tile(centre, tableSixth + offset, 1, bagOfTokens, _font));
+        _tiles.add(new Tile(centre, tableSixth * 2 + offset, 2, bagOfTokens, _font));
+        _tiles.add(new Tile(centre, tableSixth * 3 + offset, 3, bagOfTokens, _font));
+        _tiles.add(new Tile(centre, tableSixth * 4 + offset, 4, bagOfTokens, _font));
+        addAll(_tiles);
     }
 
     private void playerLogic () {
@@ -153,6 +151,12 @@ class Table extends GenericCollection<Entity> {
             checkIfPlayerPicksUpCard(player);
 
             if (!_activePlayer.isCurrentTurn() && _activePlayer != player) {
+                // Player that has just had their turn will pick up a card
+                if (_activePlayer.getHeldCards() < 8) {
+                    _activePlayer.add(_deck.getCard());
+                }
+
+                // Swap active players
                 _activePlayer = player;
                 _activePlayer.startTurn();
             }
@@ -175,19 +179,14 @@ class Table extends GenericCollection<Entity> {
     private Tile tileLogic (float deltaTime) {
         Tile tileToRemove = null;
 
-        for (Iterator<Entity> it = iterator(); it.hasNext();) {
-    		Entity entity = it.next();
-            entity.update(deltaTime);
-            if (entity instanceof Tile) {
-                Tile tile = (Tile)entity;
+        for (Iterator<Tile> it = _tiles.iterator(); it.hasNext();) {
+            Tile tile = it.next();
+            checkIfTileIsFull(tile);
 
-                checkIfTileIsFull(tile);
+            _discardedCards.addAll(tile.getDiscardedCards());
 
-                _discardedCards.addAll(tile.getDiscardedCards());
-
-                if (!tile.getActive()) {
-                    tileToRemove = tile;
-                }
+            if (!tile.getActive()) {
+                tileToRemove = tile;
             }
         }
         return tileToRemove;
@@ -249,6 +248,7 @@ class Table extends GenericCollection<Entity> {
         }
     }
 
+    // Human player logic
     void touchUp(float x, float y, int pointer, int button, HumanPlayer player) {
         if (player.isCurrentTurn()) {
             Card card = player.getSelectedCard();
@@ -257,7 +257,7 @@ class Table extends GenericCollection<Entity> {
             for (TileSide side : getTileSides()) {
                 if (card != null && card.overlaps(side.getRect()) && !card.isPlayed()) {
                     if (side.addCard(card)) {
-                        player.playCard(_deck.getCard());
+                        player.playCard();
                         break;
                     }
                 }
