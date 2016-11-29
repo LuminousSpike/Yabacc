@@ -51,6 +51,25 @@ class TileSide extends GenericCollection<Card> {
 
     Rectangle getRect() { return _rect; }
 
+    int getBestCardValueToPlay () {
+        if (_parent == null) { return -1; }
+
+        // If we are flipped, then it's a large value we want
+        if (_parent.getFlipped()) {
+            return 13;
+        }
+        return 1;
+    }
+    int getWorstCardValueToPlay () {
+        if (_parent == null) { return -1; }
+
+        // If we are flipped, then it's a large value we want
+        if (_parent.getFlipped()) {
+            return 1;
+        }
+        return 13;
+    }
+
     boolean addCard(Card card) {
         if (_parent.cardMatchesColor(card) && !haveCardsOfWantedColor(card.getColor())) {
             add(card);

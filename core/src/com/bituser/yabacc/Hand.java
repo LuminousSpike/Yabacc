@@ -3,6 +3,7 @@ package com.bituser.yabacc;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
 public class Hand<T extends Card> extends GenericCollection<Card> {
     private Card _activeCard = null;
@@ -20,6 +21,8 @@ public class Hand<T extends Card> extends GenericCollection<Card> {
     public int getCardCount () {
         return _entities.size;
     }
+
+    Array<Card> getCards () { return _entities; }
 
     public Card getSelectedCard () { return _selectedCard; }
 
