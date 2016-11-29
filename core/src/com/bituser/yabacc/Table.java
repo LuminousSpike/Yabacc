@@ -159,8 +159,17 @@ class Table extends GenericCollection<Entity> {
                 // Swap active players
                 _activePlayer = player;
                 _activePlayer.startTurn();
+
+                // check if player can actually make a move
+                if (!checkIfPlayerCanMakeAMove(_activePlayer)) {
+                    System.out.println("Player cannot make a move!");
+                }
             }
         }
+    }
+
+    private boolean checkIfPlayerCanMakeAMove(Player activePlayer) {
+        return activePlayer.hasPlayableHand(getTileSides());
     }
 
     private void checkIfPlayerWon (Player player) {

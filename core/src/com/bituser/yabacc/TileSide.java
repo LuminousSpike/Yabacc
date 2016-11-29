@@ -70,8 +70,12 @@ class TileSide extends GenericCollection<Card> {
         return 13;
     }
 
+    boolean canAdd (Card card) {
+        return _parent.cardMatchesColor(card) && !haveCardsOfWantedColor(card.getColor());
+    }
+
     boolean addCard(Card card) {
-        if (_parent.cardMatchesColor(card) && !haveCardsOfWantedColor(card.getColor())) {
+        if (canAdd(card)) {
             add(card);
             return true;
         }

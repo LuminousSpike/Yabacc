@@ -7,19 +7,21 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 class Player extends Entity {
-    final Hand _hand;
-    private final Hand _trophyHand;
+    final Hand<Card> _hand;
+    private final Hand<TrophyCard> _trophyHand;
 
     private final TokenCollection _tokens;
 
-    private boolean _isCurrentTurn = false;
+    private boolean _isCurrentTurn = false, _isUnableToPlay = false;
 
     boolean isCurrentTurn() { return _isCurrentTurn; }
 
+    boolean isUnableToPlay () { return _isUnableToPlay; }
+
     Player(float x, float y, Color color) {
         super(new Vector2(x, y), 600, 120);
-        _hand = new Hand(x, y, _width, _height, 8);
-        _trophyHand = new Hand(x - _width / 2f, y, _width, _height, 3);
+        _hand = new Hand<Card>(x, y, _width, _height, 8);
+        _trophyHand = new Hand<TrophyCard>(x - _width / 2f, y, _width, _height, 3);
         _tokens = new TokenCollection(x + _width / 1.20f, y);
         _color = color;
         _color.a = 0.5f;
@@ -57,6 +59,15 @@ class Player extends Entity {
 
     private void endTurn() {
         _isCurrentTurn = false;
+    }
+
+    boolean hasPlayableHand (Array<TileSide> sides){
+        for (TileSide side : sides) {
+            for (Card card : (Array<Card>)_hand.getCards()) {
+                if (side.canAdd(card)) return true;
+            }
+        }
+        return false;
     }
 
     void playCard() {
