@@ -63,7 +63,7 @@ class TileSide extends GenericCollection<Card> {
     int getWorstCardValueToPlay () {
         if (_parent == null) { return -1; }
 
-        // If we are flipped, then it's a large value we want
+        // If we are flipped, then it's a low value we want
         if (_parent.getFlipped()) {
             return 1;
         }
