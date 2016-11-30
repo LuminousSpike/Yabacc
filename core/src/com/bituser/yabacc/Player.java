@@ -12,11 +12,11 @@ class Player extends Entity {
 
     private final TokenCollection _tokens;
 
-    private boolean _isCurrentTurn = false, _isUnableToPlay = false;
+    private boolean _isCurrentTurn = false, _isAbleToPlay = true;
 
     boolean isCurrentTurn() { return _isCurrentTurn; }
 
-    boolean isUnableToPlay () { return _isUnableToPlay; }
+    boolean isAbleToPlay () { return _isAbleToPlay; }
 
     Player(float x, float y, Color color) {
         super(new Vector2(x, y), 600, 120);
@@ -62,12 +62,13 @@ class Player extends Entity {
     }
 
     boolean hasPlayableHand (Array<TileSide> sides){
+        _isAbleToPlay = false;
         for (TileSide side : sides) {
             for (Card card : (Array<Card>)_hand.getCards()) {
-                if (side.canAdd(card)) return true;
+                if (side.canAdd(card)) _isAbleToPlay = true;
             }
         }
-        return false;
+        return _isAbleToPlay;
     }
 
     void playCard() {
