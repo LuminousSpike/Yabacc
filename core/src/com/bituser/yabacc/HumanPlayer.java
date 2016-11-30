@@ -18,16 +18,25 @@ class HumanPlayer extends Player {
     }
 
     void touchDown(float x, float y, int pointer, int button) {
-       _selectedCard = _hand.touchDown(x, y, pointer, button);
+        if (isAbleToPlay()) {
+            _selectedCard = _hand.touchDown(x, y, pointer, button);
+        }
    }
 
    void touchUp(float x, float y, int pointer, int button) {
-       _selectedCard = _hand.touchUp(x, y, pointer, button);
+       if (isAbleToPlay()) {
+           _selectedCard = _hand.touchUp(x, y, pointer, button);
+       }
+       else {
+           _hand.toggleDiscard(x, y, pointer, button);
+       }
    }
 
    void mouseMoved(float x, float y) {
-        _mousePos.set(x, y);
-        _hand.mouseMoved(x, y);
+       if (isAbleToPlay()) {
+           _mousePos.set(x, y);
+           _hand.mouseMoved(x, y);
+       }
      }
     void touchDragged(int x, int y, int pointer) {
         _hand.touchDragged(x, y, pointer);

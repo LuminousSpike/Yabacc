@@ -148,6 +148,7 @@ class Table extends GenericCollection<Entity> {
         for (Player player : _players) {
             checkIfTrophyCardWon(player);
             checkIfPlayerWon(player);
+            checkIfPlayerHasCardsToDiscard(player);
             checkIfPlayerPicksUpCard(player);
 
             if (!_activePlayer.isCurrentTurn() && _activePlayer != player) {
@@ -165,6 +166,12 @@ class Table extends GenericCollection<Entity> {
                     System.out.println("Player cannot make a move!");
                 }
             }
+        }
+    }
+
+    private void checkIfPlayerHasCardsToDiscard(Player player) {
+        if (player.isReadyToDiscardCards()) {
+            _discardedCards.addAll(player.getDiscardedCards());
         }
     }
 

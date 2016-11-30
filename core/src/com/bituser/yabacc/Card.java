@@ -13,8 +13,10 @@ public class Card extends Entity {
     private boolean _isActive = false;
     private boolean _isSelected = false;
     private boolean _isPlayed = false;
+    private boolean _isMarkedForDiscard = false;
 
     private final Color _colorActive = Color.YELLOW;
+    private final Color _colorDiscarded = Color.BLACK;
 
     private BitmapFont _font = null;
 
@@ -37,6 +39,8 @@ public class Card extends Entity {
     }
 
     public boolean isPlayed () { return _isPlayed; }
+
+    public boolean isMarkedForDiscard () { return _isMarkedForDiscard; }
 
     public void placeDown () {
        _isSelected = false;
@@ -103,14 +107,20 @@ public class Card extends Entity {
             _color.a = 0.5f;
         }
 
-        shapeRenderer.setColor(_color);
-        shapeRenderer.rect(_rect.x, _rect.y, _width, _height);
+        drawCardRect(shapeRenderer, _color);
 
         if(_isActive || _isSelected) {
-            shapeRenderer.setColor(_colorActive);
-            shapeRenderer.rect(_rect.x, _rect.y, _width, _height);
+            drawCardRect(shapeRenderer, _colorActive);
+        }
+        if (_isMarkedForDiscard) {
+            drawCardRect(shapeRenderer, _colorDiscarded);
         }
 
+    }
+
+    private void drawCardRect(ShapeRenderer shapeRenderer, Color color) {
+        shapeRenderer.setColor(color);
+        shapeRenderer.rect(_rect.x, _rect.y, _width, _height);
     }
 
     @Override
@@ -119,5 +129,16 @@ public class Card extends Entity {
         {
             _font.draw(batch, String.valueOf(_value), _position.x - 6, _position.y + 9);
         }
+    }
+
+    void toggleDiscard(float x, float y, int pointer, int button) {
+        if (contains(x, y) && button == 0) {
+            toggleDiscard();
+        }
+    }
+
+    void toggleDiscard() {
+        _isMarkedForDiscard = !_isMarkedForDiscard;
+        System.out.println("Marked card (" + _color.toString() + ": " + _value + ") as discarded (" + _isMarkedForDiscard + ")");
     }
 }

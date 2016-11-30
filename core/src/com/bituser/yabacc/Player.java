@@ -18,6 +18,8 @@ class Player extends Entity {
 
     boolean isAbleToPlay () { return _isAbleToPlay; }
 
+    boolean isReadyToDiscardCards () { return _hand.isReadyToDiscardCards(); }
+
     Player(float x, float y, Color color) {
         super(new Vector2(x, y), 600, 120);
         _hand = new Hand<Card>(x, y, _width, _height, 8);
@@ -34,6 +36,10 @@ class Player extends Entity {
     int getHeldCards() { return _hand.getCardCount(); }
 
     int getTrophyCardCount() { return _trophyHand.getCardCount(); }
+
+    public Array<Card> getDiscardedCards() {
+        return _hand.getDiscardedCards();
+    }
 
     Card getSelectedCard() { return _hand.getSelectedCard(); }
 

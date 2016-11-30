@@ -23,6 +23,17 @@ class ComputerPlayer extends Player {
     void computerLogic() {
         Array<Card> cards = _hand.getCards();
         //Array<Tile> orderedTiles = getTileOrder();
+        if (!isAbleToPlay()) {
+            for (int fuzz = 0; fuzz < 12; fuzz++) {
+                for (Card card : cards) {
+                    if (fuzzyCardMatch(card, 6, fuzz)) {
+                        card.toggleDiscard();
+                        _hand.setReadyToDiscardCards(true);
+                        return;
+                    }
+                }
+            }
+        }
         for (int fuzz = 0; fuzz < 12; fuzz++) {
             for (Tile tile : _tiles) {
                 TileSide mySide = tile.getRightSide();
@@ -37,16 +48,23 @@ class ComputerPlayer extends Player {
     }
 
     private boolean fuzzyCardMatch(Card card, TileSide side, int valueToMatch, int fuzz) {
-        int fuzzyValue;
-        if (valueToMatch > 1) fuzzyValue = -fuzz;
-        else fuzzyValue = fuzz;
-
-        if (valueToMatch + fuzzyValue == card.getValue()) {
+        if (fuzzyCardMatch(card, valueToMatch, fuzz)) {
             if (side.addCard(card)) {
                 _hand.setSelectedCard(card);
                 playCard();
                 return true;
             }
+        }
+        return false;
+    }
+
+    private boolean fuzzyCardMatch (Card card, int valueToMatch, int fuzz) {
+        int fuzzyValue;
+        if (valueToMatch > 1) fuzzyValue = -fuzz;
+        else fuzzyValue = fuzz;
+
+        if (valueToMatch + fuzzyValue == card.getValue()) {
+            return true;
         }
         return false;
     }

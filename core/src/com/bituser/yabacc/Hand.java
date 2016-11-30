@@ -12,6 +12,9 @@ public class Hand<T extends Card> extends GenericCollection<Card> {
     private Vector2 _mousePos = new Vector2(0,0);
 
     private int _columns;
+    private int _cardsToDiscard = 0;
+
+    private boolean _isReadyToDiscardCards = false;
 
     public Hand(float x, float y, float width, float height, int columns) {
         super(new Vector2(x, y), width, height);
@@ -24,9 +27,25 @@ public class Hand<T extends Card> extends GenericCollection<Card> {
 
     Array<Card> getCards () { return _entities; }
 
+    Array<Card> getDiscardedCards () {
+        Array<Card> discardedCards = new Array<Card>();
+        for (Card card : getCards()) {
+            if (card.isMarkedForDiscard()) {
+                discardedCards.add(card);
+            }
+        }
+        removeAll(discardedCards);
+        setReadyToDiscardCards(false);
+        return discardedCards;
+    }
+
     public Card getSelectedCard () { return _selectedCard; }
 
     public void setSelectedCard (Card card) { _selectedCard = card; }
+
+    public boolean isReadyToDiscardCards () { return _isReadyToDiscardCards; }
+
+    public void setReadyToDiscardCards (boolean value) { _isReadyToDiscardCards = value; }
 
     @Override
     public void remove (Card card) {
@@ -114,6 +133,24 @@ public class Hand<T extends Card> extends GenericCollection<Card> {
 
         if (_selectedCard != null) {
             _selectedCard.render(batch);
+        }
+    }
+
+    void toggleDiscard(float x, float y, int pointer, int button) {
+        for (Card card : _entities) {
+            if (_cardsToDiscard < 3) {
+                card.toggleDiscard(x, y, pointer, button);
+                if (card.isMarkedForDiscard()) {
+                    _cardsToDiscard++;
+                }
+                else {
+                    _cardsToDiscard--;
+                }
+            }
+            else if (card.isMarkedForDiscard()) {
+                card.toggleDiscard(x, y, pointer, button);
+                _cardsToDiscard--;
+            }
         }
     }
 }
