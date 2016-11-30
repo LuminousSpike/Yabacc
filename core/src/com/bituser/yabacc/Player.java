@@ -20,6 +20,10 @@ class Player extends Entity {
 
     boolean isReadyToDiscardCards () { return _hand.isReadyToDiscardCards(); }
 
+    void setReadyToDiscardCards (boolean value) { _hand.setReadyToDiscardCards(value); }
+
+    void setAbleToPlay (boolean value) { _isAbleToPlay = value; }
+
     Player(float x, float y, Color color) {
         super(new Vector2(x, y), 600, 120);
         _hand = new Hand<Card>(x, y, _width, _height, 8);

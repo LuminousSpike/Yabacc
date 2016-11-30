@@ -12,6 +12,10 @@ class HumanPlayer extends Player {
         super(x, y, color);
     }
 
+    void setReadyToDiscardCards (boolean value) {
+        _hand.setReadyToDiscardCards(value);
+    }
+
     @Override
     public void update (float deltaTime) {
         super.update(deltaTime);

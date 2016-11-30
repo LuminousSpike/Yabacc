@@ -19,6 +19,7 @@ class Table extends GenericCollection<Entity> {
     private Hand _trophyHand;
     private Bag _bag;
     private Deck _deck;
+    private DiscardButton _discardButton;
 
     private Player _player1, _player2, _activePlayer, _winnerPlayer;
     private final Random _rand = new Random();
@@ -35,6 +36,8 @@ class Table extends GenericCollection<Entity> {
         _bag = bagOfTokens;
         _deck = deckOfCards;
         _font = font;
+
+        _discardButton = new DiscardButton(new Vector2(950, 10), 80, 80, _font);
 
         add(_bag);
         add(_deck);
@@ -98,6 +101,9 @@ class Table extends GenericCollection<Entity> {
     		Entity entity = it.next();
             entity.render(shapeRenderer);
         }
+        if (!_player1.isAbleToPlay()) {
+            _discardButton.render(shapeRenderer);
+        }
     }
 
     @Override
@@ -105,6 +111,9 @@ class Table extends GenericCollection<Entity> {
     	for (Iterator<Entity> it = iterator(); it.hasNext();) {
     		Entity entity = it.next();
             entity.render(batch);
+        }
+        if (!_player1.isAbleToPlay()) {
+            _discardButton.render(batch);
         }
     }
 
@@ -172,6 +181,7 @@ class Table extends GenericCollection<Entity> {
     private void checkIfPlayerHasCardsToDiscard(Player player) {
         if (player.isReadyToDiscardCards()) {
             _discardedCards.addAll(player.getDiscardedCards());
+            player.setAbleToPlay(checkIfPlayerCanMakeAMove(player));
         }
     }
 
@@ -279,6 +289,10 @@ class Table extends GenericCollection<Entity> {
                 }
             }
             player.touchUp(x, y, pointer, button);
+
+            if (!player.isAbleToPlay()) {
+                _discardButton.touchUp(x, y, pointer, button, player);
+            }
         }
     }
 
@@ -291,6 +305,9 @@ class Table extends GenericCollection<Entity> {
     void mouseMoved(int x, int y, HumanPlayer player) {
         if (player.isCurrentTurn()) {
             player.mouseMoved(x, y);
+            if (!player.isAbleToPlay()) {
+                _discardButton.mouseMoved(x, y);
+            }
         }
     }
 }

@@ -31,6 +31,8 @@ public class Hand<T extends Card> extends GenericCollection<Card> {
         Array<Card> discardedCards = new Array<Card>();
         for (Card card : getCards()) {
             if (card.isMarkedForDiscard()) {
+                card.toggleDiscard();
+                _cardsToDiscard = 0;
                 discardedCards.add(card);
             }
         }
@@ -60,17 +62,17 @@ public class Hand<T extends Card> extends GenericCollection<Card> {
     }
 
     public Card touchDown (float x, float y, int pointer, int button) {
-         setActiveCard(x, y);
+        setActiveCard(x, y);
         if (_activeCard != null) {
             _selectedCard = _activeCard;
             setSelectedEntity(_selectedCard);
             _selectedCard.touchDown(x, y, pointer, button);
         }
         return _activeCard;
-   }
+    }
 
-     public Card touchUp (float x, float y, int pointer, int button) {
-         setActiveCard(x, y);
+    public Card touchUp (float x, float y, int pointer, int button) {
+        setActiveCard(x, y);
         for (Card card : _entities) {
             card.touchUp(x, y, pointer, button);
         }
@@ -78,18 +80,18 @@ public class Hand<T extends Card> extends GenericCollection<Card> {
         setSelectedEntity(null);
         repositionEntities();
         return _selectedCard;
-     }
+    }
 
-     public void touchDragged (float x, float y, int pointer) {
+    public void touchDragged (float x, float y, int pointer) {
         _mousePos.set(x, y);
         if (_selectedCard != null) {
             _selectedCard.touchDragged(x, y, pointer);
         }
-     }
+    }
 
-     public void mouseMoved (float x, float y) {
+    public void mouseMoved (float x, float y) {
         _mousePos.set(x, y);
-     }
+    }
 
     private void setActiveCard (float x, float y) {
         for (Card card : _entities) {
@@ -138,18 +140,13 @@ public class Hand<T extends Card> extends GenericCollection<Card> {
 
     void toggleDiscard(float x, float y, int pointer, int button) {
         for (Card card : _entities) {
-            if (_cardsToDiscard < 3) {
-                card.toggleDiscard(x, y, pointer, button);
-                if (card.isMarkedForDiscard()) {
+            if (card.toggleDiscard(x, y, pointer, button)) {
+                if (_cardsToDiscard < 3) {
                     _cardsToDiscard++;
                 }
                 else {
                     _cardsToDiscard--;
                 }
-            }
-            else if (card.isMarkedForDiscard()) {
-                card.toggleDiscard(x, y, pointer, button);
-                _cardsToDiscard--;
             }
         }
     }

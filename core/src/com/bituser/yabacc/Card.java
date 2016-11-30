@@ -131,10 +131,12 @@ public class Card extends Entity {
         }
     }
 
-    void toggleDiscard(float x, float y, int pointer, int button) {
+    boolean toggleDiscard(float x, float y, int pointer, int button) {
         if (contains(x, y) && button == 0) {
             toggleDiscard();
+            return true;
         }
+        return false;
     }
 
     void toggleDiscard() {
