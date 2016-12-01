@@ -24,7 +24,7 @@ class ComputerPlayer extends Player {
         Array<Card> cards = _hand.getCards();
         //Array<Tile> orderedTiles = getTileOrder();
         if (!isAbleToPlay()) {
-            for (int fuzz = 0; fuzz < 12; fuzz++) {
+            for (int fuzz = 0; fuzz < 13; fuzz++) {
                 for (Card card : cards) {
                     if (fuzzyCardMatch(card, 6, fuzz)) {
                         card.toggleDiscard();
