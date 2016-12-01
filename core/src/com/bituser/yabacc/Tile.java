@@ -144,7 +144,7 @@ class Tile extends GenericCollection<Token> {
             }
             _leftSide.render(batch);
             _rightSide.render(batch);
-            _font.draw(batch, String.valueOf(_tileNumber + " " + _isFlipped), textPosX - 5, _position.y - 25);
+            _font.draw(batch, String.valueOf(_tileNumber), textPosX - 5, _position.y - 25);
         }
     }
 
