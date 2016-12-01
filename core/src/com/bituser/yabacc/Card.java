@@ -118,6 +118,12 @@ public class Card extends Entity {
 
     }
 
+    public void hiddenRender (ShapeRenderer shapeRenderer) {
+        Color color = Color.WHITE;
+        color.a = 0.75f;
+        drawCardRect(shapeRenderer, color);
+    }
+
     private void drawCardRect(ShapeRenderer shapeRenderer, Color color) {
         shapeRenderer.setColor(color);
         shapeRenderer.rect(_rect.x, _rect.y, _width, _height);

@@ -9,6 +9,7 @@ class ComputerPlayer extends Player {
 
     ComputerPlayer (float x, float y, Color color) {
         super(x, y, color);
+        _hand.setCardsHidden(true);
     }
 
     @Override

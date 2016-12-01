@@ -15,6 +15,7 @@ public class Hand<T extends Card> extends GenericCollection<Card> {
     private int _cardsToDiscard = 0;
 
     private boolean _isReadyToDiscardCards = false;
+    private boolean _cardsHidden = false;
 
     public Hand(float x, float y, float width, float height, int columns) {
         super(new Vector2(x, y), width, height);
@@ -48,6 +49,8 @@ public class Hand<T extends Card> extends GenericCollection<Card> {
     public boolean isReadyToDiscardCards () { return _isReadyToDiscardCards; }
 
     public void setReadyToDiscardCards (boolean value) { _isReadyToDiscardCards = value; }
+
+    public void setCardsHidden (boolean value) { _cardsHidden = value; }
 
     @Override
     public void remove (Card card) {
@@ -118,6 +121,13 @@ public class Hand<T extends Card> extends GenericCollection<Card> {
 
     @Override
     public void render (ShapeRenderer shapeRenderer) {
+        if (_cardsHidden) {
+            for (Card card : _entities ) {
+                card.hiddenRender(shapeRenderer);
+            }
+            return;
+        }
+
         for (Card card : _entities) {
             card.render(shapeRenderer);
         }
@@ -129,6 +139,9 @@ public class Hand<T extends Card> extends GenericCollection<Card> {
 
     @Override
     public void render (SpriteBatch batch) {
+        if (_cardsHidden) {
+            return;
+        }
         for (Card card : _entities) {
             card.render(batch);
         }
