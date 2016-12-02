@@ -10,7 +10,7 @@ public class DropletGame extends GameScene {
     private int _screenWidth, _screenHeight;
     private final Table _table;
 
-    DropletGame(int screenWidth, int screenHeight, BitmapFont font) {
+    public DropletGame(int screenWidth, int screenHeight, BitmapFont font) {
         _screenWidth = screenWidth;
         _screenHeight = screenHeight;
 
