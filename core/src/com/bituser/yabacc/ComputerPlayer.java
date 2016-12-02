@@ -35,7 +35,7 @@ class ComputerPlayer extends Player {
                 }
             }
         }
-        for (int fuzz = 0; fuzz < 12; fuzz++) {
+        for (int fuzz = 0; fuzz < 13; fuzz++) {
             for (Tile tile : _tiles) {
                 TileSide mySide = tile.getRightSide();
                 TileSide opponentSide = tile.getLeftSide();
