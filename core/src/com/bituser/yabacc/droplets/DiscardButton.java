@@ -49,7 +49,7 @@ public class DiscardButton extends Entity {
     }
 
     void touchUp(float x, float y, int pointer, int button, HumanPlayer player) {
-        if (_active) {
+        if (contains(x, y)) {
             player.setReadyToDiscardCards(true);
         }
     }

@@ -85,7 +85,6 @@ class Table extends GenericCollection<Entity> {
             (it.next()).update(deltaTime);
         }
         com.bituser.yabacc.droplets.Tile tileToRemove = tileLogic(deltaTime);
-        deckLogic();
 
         if (tileToRemove != null) {
             remove(tileToRemove);
@@ -136,7 +135,7 @@ class Table extends GenericCollection<Entity> {
         for (Iterator<Player> it = _players.iterator(); it.hasNext();) {
             Player player = it.next();
             for (int i = 0; i < 8; i++) {
-                player.add(_deck.getCard());
+                player.add(getCardFromDeck());
             }
         }
     }
@@ -163,7 +162,7 @@ class Table extends GenericCollection<Entity> {
             if (!_activePlayer.isCurrentTurn() && _activePlayer != player) {
                 // Player that has just had their turn will pick up a card
                 if (_activePlayer.getHeldCards() < 8) {
-                    _activePlayer.add(_deck.getCard());
+                    _activePlayer.add(getCardFromDeck());
                 }
 
                 // Swap active players
@@ -183,7 +182,7 @@ class Table extends GenericCollection<Entity> {
             Array<Card> cardsToDiscard = player.getDiscardedCards();
             _discardedCards.addAll(cardsToDiscard);
             for (int i = 0; i < cardsToDiscard.size; i++) {
-                player.add(_deck.getCard());
+                player.add(getCardFromDeck());
             }
             player.setAbleToPlay(checkIfPlayerCanMakeAMove(player));
         }
@@ -199,11 +198,12 @@ class Table extends GenericCollection<Entity> {
         }
     }
 
-    private void deckLogic () {
+    private Card getCardFromDeck() {
         if (_deck.size() == 0) {
             _deck.addCards(_discardedCards);
             _discardedCards.clear();
         }
+        return _deck.getCard();
     }
 
     private com.bituser.yabacc.droplets.Tile tileLogic (float deltaTime) {
@@ -224,7 +224,7 @@ class Table extends GenericCollection<Entity> {
 
     private void checkIfPlayerPicksUpCard (Player player) {
         if (player.getHeldCards() < 8 && player.isCurrentTurn()) {
-            player.add(_deck.getCard());
+            player.add(getCardFromDeck());
         }
     }
 
