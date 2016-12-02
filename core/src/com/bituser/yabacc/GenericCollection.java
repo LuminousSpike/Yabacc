@@ -1,11 +1,11 @@
 package com.bituser.yabacc;
 
-import java.util.Iterator;
-
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+
+import java.util.Iterator;
 
 public abstract class GenericCollection <T extends Entity> extends Entity {
     Array<T> _entities;

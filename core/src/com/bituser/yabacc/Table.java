@@ -1,14 +1,14 @@
 package com.bituser.yabacc;
 
-import java.util.Iterator;
-import java.util.Random;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+
+import java.util.Iterator;
+import java.util.Random;
 
 class Table extends GenericCollection<Entity> {
     private final Array<Player> _players = new Array<Player>();
