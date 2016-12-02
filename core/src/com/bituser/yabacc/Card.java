@@ -137,16 +137,14 @@ public class Card extends Entity {
         }
     }
 
-    boolean toggleDiscard(float x, float y, int pointer, int button) {
-        if (contains(x, y) && button == 0) {
-            toggleDiscard();
-            return true;
-        }
-        return false;
+    boolean hasBeenClicked(float x, float y, int pointer, int button) {
+        return contains(x, y) && button == 0;
     }
 
     void toggleDiscard() {
         _isMarkedForDiscard = !_isMarkedForDiscard;
+        _isActive = false;
+        _isSelected = false;
         System.out.println("Marked card (" + _color.toString() + ": " + _value + ") as discarded (" + _isMarkedForDiscard + ")");
     }
 }

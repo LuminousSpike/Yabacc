@@ -153,12 +153,15 @@ public class Hand<T extends Card> extends GenericCollection<Card> {
 
     void toggleDiscard(float x, float y, int pointer, int button) {
         for (Card card : _entities) {
-            if (card.toggleDiscard(x, y, pointer, button)) {
-                if (_cardsToDiscard < 3) {
-                    _cardsToDiscard++;
-                }
-                else {
+            if (card.hasBeenClicked(x, y, pointer, button)) {
+                if (card.isMarkedForDiscard()){
                     _cardsToDiscard--;
+                    card.toggleDiscard();
+                    return;
+                }
+                else if (_cardsToDiscard < 3) {
+                    _cardsToDiscard++;
+                    card.toggleDiscard();
                 }
             }
         }

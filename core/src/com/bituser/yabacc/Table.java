@@ -180,7 +180,11 @@ class Table extends GenericCollection<Entity> {
 
     private void checkIfPlayerHasCardsToDiscard(Player player) {
         if (player.isReadyToDiscardCards()) {
-            _discardedCards.addAll(player.getDiscardedCards());
+            Array<Card> cardsToDiscard = player.getDiscardedCards();
+            _discardedCards.addAll(cardsToDiscard);
+            for (int i = 0; i < cardsToDiscard.size; i++) {
+                player.add(_deck.getCard());
+            }
             player.setAbleToPlay(checkIfPlayerCanMakeAMove(player));
         }
     }
