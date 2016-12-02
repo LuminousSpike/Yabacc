@@ -1,4 +1,4 @@
-package com.bituser.yabacc.Droplets;
+package com.bituser.yabacc.droplets;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -11,17 +11,17 @@ import java.util.Iterator;
 import java.util.Random;
 
 class Table extends GenericCollection<Entity> {
-    private final Array<com.bituser.yabacc.Droplets.Player> _players = new Array<com.bituser.yabacc.Droplets.Player>();
-    private final Array<TrophyCard> _trophyCards = new Array<TrophyCard>();
-    private final Array<com.bituser.yabacc.Droplets.Card> _discardedCards = new Array<com.bituser.yabacc.Droplets.Card>();
-    private final Array<Tile> _tiles = new Array<Tile>();
+    private final Array<Player> _players = new Array<Player>();
+    private final Array<com.bituser.yabacc.droplets.TrophyCard> _trophyCards = new Array<com.bituser.yabacc.droplets.TrophyCard>();
+    private final Array<Card> _discardedCards = new Array<Card>();
+    private final Array<com.bituser.yabacc.droplets.Tile> _tiles = new Array<com.bituser.yabacc.droplets.Tile>();
 
-    private com.bituser.yabacc.Droplets.Hand _trophyHand;
-    private com.bituser.yabacc.Droplets.Bag _bag;
-    private com.bituser.yabacc.Droplets.Deck _deck;
-    private com.bituser.yabacc.Droplets.DiscardButton _discardButton;
+    private Hand _trophyHand;
+    private Bag _bag;
+    private Deck _deck;
+    private DiscardButton _discardButton;
 
-    private com.bituser.yabacc.Droplets.Player _player1, _player2, _activePlayer, _winnerPlayer;
+    private Player _player1, _player2, _activePlayer, _winnerPlayer;
     private final Random _rand = new Random();
 
     private BitmapFont _font;
@@ -31,13 +31,13 @@ class Table extends GenericCollection<Entity> {
         super(new Vector2((float) 0, (float) 0), width, height);
     }
 
-    Table(int tableWidth, int tableHeight, com.bituser.yabacc.Droplets.Bag bagOfTokens, com.bituser.yabacc.Droplets.Deck deckOfCards, Array<com.bituser.yabacc.Droplets.Player> players, BitmapFont font) {
+    Table(int tableWidth, int tableHeight, Bag bagOfTokens, Deck deckOfCards, Array<Player> players, BitmapFont font) {
         this (tableWidth, tableHeight);
         _bag = bagOfTokens;
         _deck = deckOfCards;
         _font = font;
 
-        _discardButton = new com.bituser.yabacc.Droplets.DiscardButton(new Vector2(950, 10), 80, 80, _font);
+        _discardButton = new DiscardButton(new Vector2(950, 10), 80, 80, _font);
 
         add(_bag);
         add(_deck);
@@ -48,7 +48,7 @@ class Table extends GenericCollection<Entity> {
         _player1 = players.get(0);
         _player2 = players.get(1);
         // TODO: Get rid of this casting
-        ((com.bituser.yabacc.Droplets.ComputerPlayer) _player2).setTiles(_tiles);
+        ((ComputerPlayer) _player2).setTiles(_tiles);
         _players.addAll(players);
 
         addAll(players);
@@ -64,15 +64,15 @@ class Table extends GenericCollection<Entity> {
     }
 
     // TODO: Need to refactor this out
-    Array<com.bituser.yabacc.Droplets.Player> getPlayers() { return _players; }
+    Array<Player> getPlayers() { return _players; }
 
-    com.bituser.yabacc.Droplets.Player getWinner() { return _winnerPlayer; }
+    Player getWinner() { return _winnerPlayer; }
 
     // TODO: Need to refactor this out
-    private Array<TileSide> getTileSides() {
-        Array<TileSide> sides = new Array<TileSide>();
-        for (Iterator<Tile> it = _tiles.iterator(); it.hasNext();) {
-            Tile tile = it.next();
+    private Array<com.bituser.yabacc.droplets.TileSide> getTileSides() {
+        Array<com.bituser.yabacc.droplets.TileSide> sides = new Array<com.bituser.yabacc.droplets.TileSide>();
+        for (Iterator<com.bituser.yabacc.droplets.Tile> it = _tiles.iterator(); it.hasNext();) {
+            com.bituser.yabacc.droplets.Tile tile = it.next();
             sides.add(tile.getLeftSide());
             sides.add(tile.getRightSide());
         }
@@ -84,7 +84,7 @@ class Table extends GenericCollection<Entity> {
         for (Iterator<Entity> it = iterator(); it.hasNext();) {
             (it.next()).update(deltaTime);
         }
-        Tile tileToRemove = tileLogic(deltaTime);
+        com.bituser.yabacc.droplets.Tile tileToRemove = tileLogic(deltaTime);
         deckLogic();
 
         if (tileToRemove != null) {
@@ -118,14 +118,14 @@ class Table extends GenericCollection<Entity> {
     }
 
     private void createTrophyCards (int height) {
-        _trophyCards.add(new TrophyCard(new Vector2(0, 0), Color.GRAY, 3, _font));
-        _trophyCards.add(new TrophyCard(new Vector2(0, 0), Color.BLUE, 4, _font));
-        _trophyCards.add(new TrophyCard(new Vector2(0, 0), Color.GREEN, 5, _font));
-        _trophyCards.add(new TrophyCard(new Vector2(0, 0), Color.YELLOW, 6, _font));
-        _trophyCards.add(new TrophyCard(new Vector2(0, 0), Color.RED, 7, _font));
+        _trophyCards.add(new com.bituser.yabacc.droplets.TrophyCard(new Vector2(0, 0), Color.GRAY, 3, _font));
+        _trophyCards.add(new com.bituser.yabacc.droplets.TrophyCard(new Vector2(0, 0), Color.BLUE, 4, _font));
+        _trophyCards.add(new com.bituser.yabacc.droplets.TrophyCard(new Vector2(0, 0), Color.GREEN, 5, _font));
+        _trophyCards.add(new com.bituser.yabacc.droplets.TrophyCard(new Vector2(0, 0), Color.YELLOW, 6, _font));
+        _trophyCards.add(new com.bituser.yabacc.droplets.TrophyCard(new Vector2(0, 0), Color.RED, 7, _font));
 
-        _trophyHand = new com.bituser.yabacc.Droplets.Hand<TrophyCard>(120, height / 1.75f, 200, 200, 3);
-        Array<TrophyCard> cards = new Array<TrophyCard>();
+        _trophyHand = new Hand<com.bituser.yabacc.droplets.TrophyCard>(120, height / 1.75f, 200, 200, 3);
+        Array<com.bituser.yabacc.droplets.TrophyCard> cards = new Array<com.bituser.yabacc.droplets.TrophyCard>();
         cards.addAll(_trophyCards);
         _trophyHand.addAll(cards);
         _trophyHand.setColumns(3);
@@ -133,28 +133,28 @@ class Table extends GenericCollection<Entity> {
     }
 
     private void drawStartingHandForEachPlayer () {
-        for (Iterator<com.bituser.yabacc.Droplets.Player> it = _players.iterator(); it.hasNext();) {
-            com.bituser.yabacc.Droplets.Player player = it.next();
+        for (Iterator<Player> it = _players.iterator(); it.hasNext();) {
+            Player player = it.next();
             for (int i = 0; i < 8; i++) {
                 player.add(_deck.getCard());
             }
         }
     }
 
-    private void createTiles (int width, int height, com.bituser.yabacc.Droplets.Bag bagOfTokens) {
+    private void createTiles (int width, int height, Bag bagOfTokens) {
         int tableSixth = height / 6 + 4;
         int centre = width / 2;
         int offset = height / 14;
 
-        _tiles.add(new Tile(centre, tableSixth + offset, 1, bagOfTokens, _font));
-        _tiles.add(new Tile(centre, tableSixth * 2 + offset, 2, bagOfTokens, _font));
-        _tiles.add(new Tile(centre, tableSixth * 3 + offset, 3, bagOfTokens, _font));
-        _tiles.add(new Tile(centre, tableSixth * 4 + offset, 4, bagOfTokens, _font));
+        _tiles.add(new com.bituser.yabacc.droplets.Tile(centre, tableSixth + offset, 1, bagOfTokens, _font));
+        _tiles.add(new com.bituser.yabacc.droplets.Tile(centre, tableSixth * 2 + offset, 2, bagOfTokens, _font));
+        _tiles.add(new com.bituser.yabacc.droplets.Tile(centre, tableSixth * 3 + offset, 3, bagOfTokens, _font));
+        _tiles.add(new com.bituser.yabacc.droplets.Tile(centre, tableSixth * 4 + offset, 4, bagOfTokens, _font));
         addAll(_tiles);
     }
 
     private void playerLogic () {
-        for (com.bituser.yabacc.Droplets.Player player : _players) {
+        for (Player player : _players) {
             checkIfTrophyCardWon(player);
             checkIfPlayerWon(player);
             checkIfPlayerHasCardsToDiscard(player);
@@ -178,9 +178,9 @@ class Table extends GenericCollection<Entity> {
         }
     }
 
-    private void checkIfPlayerHasCardsToDiscard(com.bituser.yabacc.Droplets.Player player) {
+    private void checkIfPlayerHasCardsToDiscard(Player player) {
         if (player.isReadyToDiscardCards()) {
-            Array<com.bituser.yabacc.Droplets.Card> cardsToDiscard = player.getDiscardedCards();
+            Array<Card> cardsToDiscard = player.getDiscardedCards();
             _discardedCards.addAll(cardsToDiscard);
             for (int i = 0; i < cardsToDiscard.size; i++) {
                 player.add(_deck.getCard());
@@ -189,11 +189,11 @@ class Table extends GenericCollection<Entity> {
         }
     }
 
-    private boolean checkIfPlayerCanMakeAMove(com.bituser.yabacc.Droplets.Player activePlayer) {
+    private boolean checkIfPlayerCanMakeAMove(Player activePlayer) {
         return activePlayer.hasPlayableHand(getTileSides());
     }
 
-    private void checkIfPlayerWon (com.bituser.yabacc.Droplets.Player player) {
+    private void checkIfPlayerWon (Player player) {
         if (player.getTrophyCardCount() >= 3) {
             _winnerPlayer = player;
         }
@@ -206,11 +206,11 @@ class Table extends GenericCollection<Entity> {
         }
     }
 
-    private Tile tileLogic (float deltaTime) {
-        Tile tileToRemove = null;
+    private com.bituser.yabacc.droplets.Tile tileLogic (float deltaTime) {
+        com.bituser.yabacc.droplets.Tile tileToRemove = null;
 
-        for (Iterator<Tile> it = _tiles.iterator(); it.hasNext();) {
-            Tile tile = it.next();
+        for (Iterator<com.bituser.yabacc.droplets.Tile> it = _tiles.iterator(); it.hasNext();) {
+            com.bituser.yabacc.droplets.Tile tile = it.next();
             checkIfTileIsFull(tile);
 
             _discardedCards.addAll(tile.getDiscardedCards());
@@ -222,16 +222,16 @@ class Table extends GenericCollection<Entity> {
         return tileToRemove;
     }
 
-    private void checkIfPlayerPicksUpCard (com.bituser.yabacc.Droplets.Player player) {
+    private void checkIfPlayerPicksUpCard (Player player) {
         if (player.getHeldCards() < 8 && player.isCurrentTurn()) {
             player.add(_deck.getCard());
         }
     }
 
-    private void checkIfTrophyCardWon (com.bituser.yabacc.Droplets.Player player) {
-        TrophyCard cardToRemove = null;
+    private void checkIfTrophyCardWon (Player player) {
+        com.bituser.yabacc.droplets.TrophyCard cardToRemove = null;
 
-        for (TrophyCard card : _trophyCards) {
+        for (com.bituser.yabacc.droplets.TrophyCard card : _trophyCards) {
             if (player.hasTokensOfColor(card.getValue(), card.getColor())) {
                 cardToRemove = card;
                 player.removeTokens(card.getValue(), card.getColor());
@@ -246,7 +246,7 @@ class Table extends GenericCollection<Entity> {
         }
     }
 
-    private void checkIfTileIsFull (Tile tile) {
+    private void checkIfTileIsFull (com.bituser.yabacc.droplets.Tile tile) {
         if (tile.isFull()) {
             if (tile.getLeftSide().getValue() == tile.getRightSide().getValue()) {
                 _activePlayer.add(tile.claimTokens());
@@ -272,19 +272,19 @@ class Table extends GenericCollection<Entity> {
         }
     }
 
-    void touchDown(float x, float y, int pointer, int button, com.bituser.yabacc.Droplets.HumanPlayer player) {
+    void touchDown(float x, float y, int pointer, int button, HumanPlayer player) {
         if (player.isCurrentTurn()) {
             player.touchDown(x, y, pointer, button);
         }
     }
 
     // Human player logic
-    void touchUp(float x, float y, int pointer, int button, com.bituser.yabacc.Droplets.HumanPlayer player) {
+    void touchUp(float x, float y, int pointer, int button, HumanPlayer player) {
         if (player.isCurrentTurn()) {
-            com.bituser.yabacc.Droplets.Card card = player.getSelectedCard();
+            Card card = player.getSelectedCard();
 
             // Might need refactoring to make it faster (i.e cache all sides)
-            for (TileSide side : getTileSides()) {
+            for (com.bituser.yabacc.droplets.TileSide side : getTileSides()) {
                 if (card != null && card.overlaps(side.getRect()) && !card.isPlayed()) {
                     if (side.addCard(card)) {
                         player.playCard();
@@ -300,13 +300,13 @@ class Table extends GenericCollection<Entity> {
         }
     }
 
-    void touchDragged(int x, int y, int pointer, com.bituser.yabacc.Droplets.HumanPlayer player) {
+    void touchDragged(int x, int y, int pointer, HumanPlayer player) {
         if (player.isCurrentTurn()) {
             player.touchDragged(x, y, pointer);
         }
     }
 
-    void mouseMoved(int x, int y, com.bituser.yabacc.Droplets.HumanPlayer player) {
+    void mouseMoved(int x, int y, HumanPlayer player) {
         if (player.isCurrentTurn()) {
             player.mouseMoved(x, y);
             if (!player.isAbleToPlay()) {

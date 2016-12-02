@@ -1,4 +1,4 @@
-package com.bituser.yabacc.Droplets;
+package com.bituser.yabacc.droplets;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -7,8 +7,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 class Player extends Entity {
-    final com.bituser.yabacc.Droplets.Hand<Card> _hand;
-    private final com.bituser.yabacc.Droplets.Hand<TrophyCard> _trophyHand;
+    final Hand<Card> _hand;
+    private final Hand<com.bituser.yabacc.droplets.TrophyCard> _trophyHand;
 
     private final TokenCollection _tokens;
 
@@ -26,8 +26,8 @@ class Player extends Entity {
 
     Player(float x, float y, Color color) {
         super(new Vector2(x, y), 600, 120);
-        _hand = new com.bituser.yabacc.Droplets.Hand<Card>(x, y, _width, _height, 8);
-        _trophyHand = new com.bituser.yabacc.Droplets.Hand<TrophyCard>(x - _width / 2f, y, _width, _height, 3);
+        _hand = new Hand<Card>(x, y, _width, _height, 8);
+        _trophyHand = new Hand<com.bituser.yabacc.droplets.TrophyCard>(x - _width / 2f, y, _width, _height, 3);
         _tokens = new TokenCollection(x + _width / 1.20f, y);
         _color = color;
         _color.a = 0.5f;
@@ -51,11 +51,11 @@ class Player extends Entity {
         _hand.add(card);
     }
 
-    public void add (TrophyCard card) {
+    public void add (com.bituser.yabacc.droplets.TrophyCard card) {
         _trophyHand.add(card);
     }
 
-    public void add (Array<Token> tokens) {
+    public void add (Array<com.bituser.yabacc.droplets.Token> tokens) {
         _tokens.addTokens(tokens);
     }
 
@@ -71,9 +71,9 @@ class Player extends Entity {
         _isCurrentTurn = false;
     }
 
-    boolean hasPlayableHand (Array<TileSide> sides){
+    boolean hasPlayableHand (Array<com.bituser.yabacc.droplets.TileSide> sides){
         _isAbleToPlay = false;
-        for (TileSide side : sides) {
+        for (com.bituser.yabacc.droplets.TileSide side : sides) {
             for (Card card : (Array<Card>)_hand.getCards()) {
                 if (side.canAdd(card)) _isAbleToPlay = true;
             }

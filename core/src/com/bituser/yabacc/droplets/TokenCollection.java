@@ -1,4 +1,4 @@
-package com.bituser.yabacc.Droplets;
+package com.bituser.yabacc.droplets;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;

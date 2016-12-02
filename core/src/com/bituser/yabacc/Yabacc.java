@@ -11,7 +11,8 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
-import com.bituser.yabacc.Droplets.GameScene;
+import com.bituser.yabacc.droplets.DropletGame;
+import com.bituser.yabacc.droplets.GameScene;
 
 public class Yabacc extends ApplicationAdapter {
 	private SpriteBatch batch;
@@ -38,7 +39,7 @@ public class Yabacc extends ApplicationAdapter {
 		float width = Gdx.graphics.getWidth();
 		float height = Gdx.graphics.getHeight();
 
-        currentGame = new com.bituser.yabacc.Droplets.DropletGame((int)width, (int)height, cyrillicFont);
+        currentGame = new DropletGame((int)width, (int)height, cyrillicFont);
 
 		Gdx.input.setInputProcessor(new InputAdapter () {
 		    @Override
