@@ -1,4 +1,4 @@
-package com.bituser.yabacc;
+package com.bituser.yabacc.Droplets;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -7,8 +7,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 class Player extends Entity {
-    final Hand<Card> _hand;
-    private final Hand<TrophyCard> _trophyHand;
+    final com.bituser.yabacc.Droplets.Hand<Card> _hand;
+    private final com.bituser.yabacc.Droplets.Hand<TrophyCard> _trophyHand;
 
     private final TokenCollection _tokens;
 
@@ -26,8 +26,8 @@ class Player extends Entity {
 
     Player(float x, float y, Color color) {
         super(new Vector2(x, y), 600, 120);
-        _hand = new Hand<Card>(x, y, _width, _height, 8);
-        _trophyHand = new Hand<TrophyCard>(x - _width / 2f, y, _width, _height, 3);
+        _hand = new com.bituser.yabacc.Droplets.Hand<Card>(x, y, _width, _height, 8);
+        _trophyHand = new com.bituser.yabacc.Droplets.Hand<TrophyCard>(x - _width / 2f, y, _width, _height, 3);
         _tokens = new TokenCollection(x + _width / 1.20f, y);
         _color = color;
         _color.a = 0.5f;

@@ -1,4 +1,4 @@
-package com.bituser.yabacc;
+package com.bituser.yabacc.Droplets;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;

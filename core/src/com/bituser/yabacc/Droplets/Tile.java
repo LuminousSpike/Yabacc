@@ -1,4 +1,4 @@
-package com.bituser.yabacc;
+package com.bituser.yabacc.Droplets;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -16,11 +16,11 @@ class Tile extends GenericCollection<Token> {
     private final TileSide _leftSide;
     private final TileSide _rightSide;
 
-    private final Bag _bag;
+    private final com.bituser.yabacc.Droplets.Bag _bag;
 
     private final BitmapFont _font;
 
-    Tile(float x, float y, int tileNumber, Bag bagOfTokens, BitmapFont font) {
+    Tile(float x, float y, int tileNumber, com.bituser.yabacc.Droplets.Bag bagOfTokens, BitmapFont font) {
         super(new Vector2(x, y), 100, 100);
         _color1 = Color.ORANGE;
         _color2 = Color.BLUE;
@@ -51,7 +51,7 @@ class Tile extends GenericCollection<Token> {
 
     boolean getActive() { return _isActive; }
 
-    boolean cardMatchesColor(Card card) {
+    boolean cardMatchesColor(com.bituser.yabacc.Droplets.Card card) {
         for(Token token : _entities) {
             if (card.getColor() == token.getColor()) {
                 return true;
@@ -71,7 +71,7 @@ class Tile extends GenericCollection<Token> {
     }
 
     Array getDiscardedCards() {
-        Array<Card> _discardedCards = new Array<Card>();
+        Array<com.bituser.yabacc.Droplets.Card> _discardedCards = new Array<com.bituser.yabacc.Droplets.Card>();
         _discardedCards.addAll(_leftSide.getDiscardedCards());
         _discardedCards.addAll(_rightSide.getDiscardedCards());
         return _discardedCards;
@@ -148,7 +148,7 @@ class Tile extends GenericCollection<Token> {
         }
     }
 
-    private boolean getTokensFromBag(Bag bag) {
+    private boolean getTokensFromBag(com.bituser.yabacc.Droplets.Bag bag) {
         if (_bag.size() >= _tileNumber) {
             for (int i = 0; i < _tileNumber; i++) {
                 Token token = bag.get();

@@ -1,4 +1,4 @@
-package com.bituser.yabacc;
+package com.bituser.yabacc.Droplets;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -22,7 +22,7 @@ class DropletDeck extends Deck {
     private void createCards (int amount, Color suite) {
         for (int i = 1; i <= amount; i++)
         {
-            _cards.add(new Card(_position.x, _position.y, suite, valueOfCard(i, amount), _font));
+            _cards.add(new com.bituser.yabacc.Droplets.Card(_position.x, _position.y, suite, valueOfCard(i, amount), _font));
         }
     }
 
