@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
-class Token extends Entity {
+class Token extends com.bituser.yabacc.util.Entity {
 
     private Token(float x, float y, Color color) {
         super(x, y, 15, 15);

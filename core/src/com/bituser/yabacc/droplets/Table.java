@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import java.util.Iterator;
 import java.util.Random;
 
-class Table extends GenericCollection<Entity> {
+class Table extends GenericCollection<com.bituser.yabacc.util.Entity> {
     private final Array<Player> _players = new Array<Player>();
     private final Array<com.bituser.yabacc.droplets.TrophyCard> _trophyCards = new Array<com.bituser.yabacc.droplets.TrophyCard>();
     private final Array<Card> _discardedCards = new Array<Card>();
@@ -81,7 +81,12 @@ class Table extends GenericCollection<Entity> {
 
     @Override
     public void update (float deltaTime) {
-        for (Iterator<Entity> it = iterator(); it.hasNext();) {
+        if (_winnerPlayer != null) {
+            // Display game overview
+            // Toggle game over
+            return;
+        }
+        for (Iterator<com.bituser.yabacc.util.Entity> it = iterator(); it.hasNext();) {
             (it.next()).update(deltaTime);
         }
         com.bituser.yabacc.droplets.Tile tileToRemove = tileLogic(deltaTime);
@@ -96,8 +101,8 @@ class Table extends GenericCollection<Entity> {
 
     @Override
     public void render (ShapeRenderer shapeRenderer) {
-    	for (Iterator<Entity> it = iterator(); it.hasNext();) {
-    		Entity entity = it.next();
+    	for (Iterator<com.bituser.yabacc.util.Entity> it = iterator(); it.hasNext();) {
+    		com.bituser.yabacc.util.Entity entity = it.next();
             entity.render(shapeRenderer);
         }
         if (!_player1.isAbleToPlay()) {
@@ -107,8 +112,8 @@ class Table extends GenericCollection<Entity> {
 
     @Override
     public void render (SpriteBatch batch) {
-    	for (Iterator<Entity> it = iterator(); it.hasNext();) {
-    		Entity entity = it.next();
+    	for (Iterator<com.bituser.yabacc.util.Entity> it = iterator(); it.hasNext();) {
+    		com.bituser.yabacc.util.Entity entity = it.next();
             entity.render(batch);
         }
         if (!_player1.isAbleToPlay()) {

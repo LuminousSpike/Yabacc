@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 
-public abstract class Deck extends Entity {
+public abstract class Deck extends com.bituser.yabacc.util.Entity {
     final Array<Card> _cards = new Array<Card>();
 
     Deck(float x, float y, float width, float height) {
@@ -42,19 +42,19 @@ public abstract class Deck extends Entity {
     }
 
     @Override
-    protected void update(float deltaTime) {
+    public void update(float deltaTime) {
         _rect.setX(_position.x - (_width / 2));
         _rect.setY(_position.y - (_height / 2));
     }
 
     @Override
-    protected void render(ShapeRenderer shapeRenderer) {
+    public void render(ShapeRenderer shapeRenderer) {
         _color.a = 0.5f;
         shapeRenderer.setColor(_color);
         shapeRenderer.rect(_rect.x, _rect.y, _width, _height);
     }
 
     @Override
-    protected void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch) {
     }
 }

@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-class Player extends Entity {
+class Player extends com.bituser.yabacc.util.Entity {
     final Hand<Card> _hand;
     private final Hand<com.bituser.yabacc.droplets.TrophyCard> _trophyHand;
 
@@ -93,7 +93,7 @@ class Player extends Entity {
     }
 
     @Override
-    protected void update(float deltaTime) {
+    public void update(float deltaTime) {
         _rect.setX(_position.x - (_width / 2));
         _rect.setY(_position.y - (_height / 2));
         _tokens.update(deltaTime);
@@ -103,7 +103,7 @@ class Player extends Entity {
     }
 
     @Override
-    protected void render(ShapeRenderer shapeRenderer) {
+    public void render(ShapeRenderer shapeRenderer) {
         if (_isCurrentTurn) {
             shapeRenderer.setColor(_color);
             shapeRenderer.rect(_rect.x, _rect.y, _width, _height);
@@ -114,7 +114,7 @@ class Player extends Entity {
     }
 
     @Override
-    protected void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch) {
         _tokens.render(batch);
         _trophyHand.render(batch);
         _hand.render(batch);

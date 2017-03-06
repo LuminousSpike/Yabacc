@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class Card extends Entity {
+public class Card extends com.bituser.yabacc.util.Entity {
     private int _value = 1;
 
     private boolean _isActive = false;

@@ -22,6 +22,9 @@ public class DropletGame extends GameScene {
         _table = new com.bituser.yabacc.droplets.Table(screenWidth, screenHeight, bag, deck, players, font);
     }
 
+    // TODO method stub
+    public boolean isGameOver () { return false; }
+
     public Player getWinner () { return _table.getWinner(); }
 
     @Override

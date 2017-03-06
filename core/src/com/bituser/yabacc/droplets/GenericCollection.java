@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Array;
 
 import java.util.Iterator;
 
-public abstract class GenericCollection <T extends Entity> extends Entity {
+public abstract class GenericCollection <T extends com.bituser.yabacc.util.Entity> extends com.bituser.yabacc.util.Entity {
     Array<T> _entities;
 	private int _columns;
 	private float _spacing;
@@ -89,7 +89,7 @@ public GenericCollection (float x, float y, float width, float height) {
     }
 
     @Override
-    protected void update(float deltaTime) {
+    public void update(float deltaTime) {
         _rect.setX(_position.x - (_width / 2));
         _rect.setY(_position.y - (_height / 2));
         if (_repositionEntities) {
@@ -102,14 +102,14 @@ public GenericCollection (float x, float y, float width, float height) {
     }
 
     @Override
-    protected void render(ShapeRenderer shapeRenderer) {
+    public void render(ShapeRenderer shapeRenderer) {
         _color.a = 0.5f;
         shapeRenderer.setColor(_color);
         shapeRenderer.rect(_rect.x, _rect.y, _width, _height);
     }
 
     @Override
-    protected void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch) {
     }
 
     private Vector2 calculateEntityPosition (T entity, int placeInHand) {

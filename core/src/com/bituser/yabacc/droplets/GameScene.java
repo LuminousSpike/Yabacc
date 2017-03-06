@@ -10,6 +10,7 @@ abstract public class GameScene {
     // Required methods
     abstract public void update (float deltaTime);
     abstract public void render (SpriteBatch batch);
+    abstract public boolean isGameOver ();
 
     // Useful but not requried
     public void render (ShapeRenderer ShapeRenderer) { }

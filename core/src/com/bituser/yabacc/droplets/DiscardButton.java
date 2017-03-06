@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
-public class DiscardButton extends Entity {
+public class DiscardButton extends com.bituser.yabacc.util.Entity {
 
     private BitmapFont _font;
     private boolean _active = false;
@@ -21,12 +21,12 @@ public class DiscardButton extends Entity {
     }
 
     @Override
-    protected void update(float deltaTime) {
+    public void update(float deltaTime) {
 
     }
 
     @Override
-    protected void render(ShapeRenderer shapeRenderer) {
+    public void render(ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(Color.BLACK);
         shapeRenderer.rect(_rect.x, _rect.y, _width, _height);
 
@@ -37,7 +37,7 @@ public class DiscardButton extends Entity {
     }
 
     @Override
-    protected void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch) {
         if (_font != null) {
             _font.draw(batch, "Discard\n Cards", _position.x + 10, _position.y + (_height / 1.25f));
         }
