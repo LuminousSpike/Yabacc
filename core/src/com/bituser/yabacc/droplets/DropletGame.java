@@ -6,13 +6,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 
-public class DropletGame extends GameScene {
-    private int _screenWidth, _screenHeight;
+public class DropletGame extends com.bituser.yabacc.util.GameScene {
     private final com.bituser.yabacc.droplets.Table _table;
 
     public DropletGame(int screenWidth, int screenHeight, BitmapFont font) {
-        _screenWidth = screenWidth;
-        _screenHeight = screenHeight;
+        super(screenWidth, screenHeight, font);
 
         com.bituser.yabacc.droplets.DropletDeck deck = new com.bituser.yabacc.droplets.DropletDeck(screenWidth - 40, screenHeight / 2, font);
         Bag bag = new Bag(screenWidth - 120, screenHeight / 2, font);

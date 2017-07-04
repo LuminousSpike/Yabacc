@@ -6,11 +6,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.bituser.yabacc.util.*;
 
 import java.util.Iterator;
 import java.util.Random;
 
-class Table extends GenericCollection<com.bituser.yabacc.util.Entity> {
+class Table extends com.bituser.yabacc.util.GenericCollection<Entity> {
     private final Array<Player> _players = new Array<Player>();
     private final Array<com.bituser.yabacc.droplets.TrophyCard> _trophyCards = new Array<com.bituser.yabacc.droplets.TrophyCard>();
     private final Array<Card> _discardedCards = new Array<Card>();

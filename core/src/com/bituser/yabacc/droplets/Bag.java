@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-public class Bag extends GenericCollection<Token> {
+public class Bag extends com.bituser.yabacc.util.GenericCollection<Token> {
     private final BitmapFont _font;
 
     public Bag(float x, float y,
@@ -20,7 +20,7 @@ public class Bag extends GenericCollection<Token> {
         createTokens(5, Color.GRAY);
     }
 
-    void add(Token token) {
+    public void add(Token token) {
         super.add(token);
     }
 

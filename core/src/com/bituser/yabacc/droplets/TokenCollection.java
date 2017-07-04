@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-class TokenCollection extends GenericCollection<Token> {
+class TokenCollection extends com.bituser.yabacc.util.GenericCollection<Token> {
     TokenCollection(float x, float y) {
         super(new Vector2(x, y), 190, 80);
         _color = Color.GRAY;

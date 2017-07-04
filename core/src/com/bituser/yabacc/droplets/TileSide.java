@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-class TileSide extends GenericCollection<Card> {
+class TileSide extends com.bituser.yabacc.util.GenericCollection<Card> {
     private final Tile _parent;
 
     private final Array<Card> _discardedCards = new Array<Card>();

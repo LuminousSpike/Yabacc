@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-class Tile extends GenericCollection<Token> {
+class Tile extends com.bituser.yabacc.util.GenericCollection<Token> {
     private final int _tileNumber;
     private boolean _isFlipped, _isActive = true;
     private final Color _color1;

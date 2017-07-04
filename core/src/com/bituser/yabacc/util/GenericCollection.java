@@ -1,4 +1,4 @@
-package com.bituser.yabacc.droplets;
+package com.bituser.yabacc.util;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -8,14 +8,16 @@ import com.badlogic.gdx.utils.Array;
 import java.util.Iterator;
 
 public abstract class GenericCollection <T extends com.bituser.yabacc.util.Entity> extends com.bituser.yabacc.util.Entity {
-    Array<T> _entities;
+    // TODO: This doesn't look nice, so it needs to be refactored
+    public Array<T> _entities;
+
 	private int _columns;
 	private float _spacing;
     private float _offsetX, _offsetY;
 	private boolean _repositionEntities = false;
 	private T _selectedEntity;
 
-    GenericCollection(Vector2 position, float width, float height) {
+    public GenericCollection(Vector2 position, float width, float height) {
         super(position, width, height);
 
         // Defaults for now
@@ -24,32 +26,32 @@ public abstract class GenericCollection <T extends com.bituser.yabacc.util.Entit
 
         _entities = new Array<T>();
     }
-public GenericCollection (float x, float y, float width, float height) {
+    public GenericCollection (float x, float y, float width, float height) {
         super(new Vector2(x, y), width, height);
     }
 
-    int size() {
+    public int size() {
         return _entities.size;
     }
 
-    Iterator<T> iterator() { return _entities.iterator(); }
+    public Iterator<T> iterator() { return _entities.iterator(); }
 
-    void setSelectedEntity(T selectedEntity) { _selectedEntity = selectedEntity; }
+    public void setSelectedEntity(T selectedEntity) { _selectedEntity = selectedEntity; }
 
-    void setColumns(int columns) { _columns = columns;}
+    public void setColumns(int columns) { _columns = columns;}
 
-    void setSpacing(float spacing) { _spacing = spacing; }
+    public void setSpacing(float spacing) { _spacing = spacing; }
 
-    void setOffsetX(float offsetX) { _offsetX = offsetX; }
+    public void setOffsetX(float offsetX) { _offsetX = offsetX; }
 
-    void setOffsetY(float offsetY) { _offsetY = offsetY; }
+    public void setOffsetY(float offsetY) { _offsetY = offsetY; }
 
-    void repositionEntities() {
+    public void repositionEntities() {
         _repositionEntities = true;
     }
 
     // TODO remove this method.
-    T getRandom() {
+    public T getRandom() {
         T entity = null;
 
         int entityCount = _entities.size;
@@ -62,7 +64,7 @@ public GenericCollection (float x, float y, float width, float height) {
         return entity;
     }
 
-    void add(T entity) {
+    public void add(T entity) {
         _entities.add(entity);
         _repositionEntities = true;
     }
@@ -73,17 +75,17 @@ public GenericCollection (float x, float y, float width, float height) {
         }
     }
 
-    void addAll(Array<? extends T> entities) {
+    public void addAll(Array<? extends T> entities) {
     	_entities.addAll(entities);
         _repositionEntities = true;
     }
 
-    void remove(T entity) {
+    public void remove(T entity) {
     	_entities.removeValue(entity, true);
         _repositionEntities = true;
     }
 
-    void removeAll(Array<T> entities) {
+    public void removeAll(Array<T> entities) {
         _entities.removeAll(entities, true);
         _repositionEntities = true;
     }
